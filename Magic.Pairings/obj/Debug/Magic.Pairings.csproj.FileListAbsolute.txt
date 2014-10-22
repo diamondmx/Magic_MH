@@ -1,0 +1,6 @@
+c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\bin\Debug\Magic.Pairings.exe.config
+c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\obj\Debug\Magic.Pairings.csprojResolveAssemblyReference.cache
+c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\bin\Debug\Magic.Pairings.exe
+c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\bin\Debug\Magic.Pairings.pdb
+c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\obj\Debug\Magic.Pairings.exe
+c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\obj\Debug\Magic.Pairings.pdb

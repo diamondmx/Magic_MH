@@ -1,0 +1,17 @@
+Mark H: Pete, John, Michael, Alex
+Pete: Mark H, Aaron, Mark R, Charlie
+Elise: John, Jeffrey, Alex, Aaron
+Aaron: Pete, Jeffrey, Mark R, Elise
+John: Elise, Mark H, Alex, Jeffrey
+Jeffrey: John, Adam, Elise, Aaron
+Adam: Jeffrey, Mark R, Michael, Charlie
+Alex: Mark H, John, Michael, Elise
+Charlie: Michael, Mark R, Adam, Pete
+Michael: Charlie, Adam, Mark H, Alex
+Mark R: Charlie, Adam, Pete, Aaron
+
+
+
+
+
+
