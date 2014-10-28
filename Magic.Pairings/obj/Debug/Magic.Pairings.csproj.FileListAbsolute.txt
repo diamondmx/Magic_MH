@@ -4,9 +4,9 @@ c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\bin\Debug\Ma
 c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\bin\Debug\Magic.Pairings.pdb
 c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\obj\Debug\Magic.Pairings.exe
 c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\obj\Debug\Magic.Pairings.pdb
-C:\Users\Mark\Documents\GitHub\MagicPairings\Magic.Pairings\bin\Debug\Magic.Pairings.exe.config
-C:\Users\Mark\Documents\GitHub\MagicPairings\Magic.Pairings\obj\Debug\Magic.Pairings.exe
-C:\Users\Mark\Documents\GitHub\MagicPairings\Magic.Pairings\obj\Debug\Magic.Pairings.pdb
-C:\Users\Mark\Documents\GitHub\MagicPairings\Magic.Pairings\bin\Debug\Magic.Pairings.exe
-C:\Users\Mark\Documents\GitHub\MagicPairings\Magic.Pairings\bin\Debug\Magic.Pairings.pdb
-C:\Users\Mark\Documents\GitHub\MagicPairings\Magic.Pairings\obj\Debug\Magic.Pairings.csprojResolveAssemblyReference.cache
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\Magic.Pairings\bin\Debug\Magic.Pairings.exe.config
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\Magic.Pairings\obj\Debug\Magic.Pairings.exe
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\Magic.Pairings\obj\Debug\Magic.Pairings.pdb
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\Magic.Pairings\bin\Debug\Magic.Pairings.exe
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\Magic.Pairings\bin\Debug\Magic.Pairings.pdb
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\Magic.Pairings\obj\Debug\Magic.Pairings.csprojResolveAssemblyReference.cache

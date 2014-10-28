@@ -10,3 +10,6 @@ C:\Users\Mark\Documents\GitHub\MagicManager\MagicConsole\obj\Debug\MagicConsole.
 C:\Users\Mark\Documents\GitHub\MagicManager\MagicConsole\bin\Debug\MagicConsole.exe
 C:\Users\Mark\Documents\GitHub\MagicManager\MagicConsole\bin\Debug\MagicConsole.pdb
 C:\Users\Mark\Documents\GitHub\MagicManager\MagicConsole\obj\Debug\MagicConsole.csprojResolveAssemblyReference.cache
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\MagicManager\MagicConsole\bin\Debug\MagicConsole.exe.config
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\MagicManager\MagicConsole\obj\Debug\MagicConsole.exe
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\MagicManager\MagicConsole\obj\Debug\MagicConsole.pdb
