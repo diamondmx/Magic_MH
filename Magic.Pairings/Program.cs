@@ -28,6 +28,19 @@ namespace Magic.Pairings
 
 	class Program
 	{
+		static List<Player> Load(string filename)
+		{
+			var outputPlayers = new List<Player>();
+			using (var file = File.Open("magicLoadFile.txt", FileMode.Open))
+			{
+				byte[] fileBytes = null;
+				file.Read(fileBytes, 0, 1024*1024);
+				string fileString = fileBytes.ToString();
+				fileString.Split(new string[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+			}
+			return outputPlayers;
+		}
+
 		static void Main(string[] args)
 		{
 			var playerList = GetPlayerList();
