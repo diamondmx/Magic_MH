@@ -1,0 +1,9 @@
+c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\bin\Debug\MagicManager.exe.config
+c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\bin\Debug\MagicManager.exe
+c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\bin\Debug\MagicManager.pdb
+c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\obj\Debug\MagicManager.Form1.resources
+c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\obj\Debug\MagicManager.Properties.Resources.resources
+c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\obj\Debug\MagicManager.csproj.GenerateResource.Cache
+c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\obj\Debug\MagicManager.exe
+c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\obj\Debug\MagicManager.pdb
+c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\obj\Debug\MagicManager.csprojResolveAssemblyReference.cache

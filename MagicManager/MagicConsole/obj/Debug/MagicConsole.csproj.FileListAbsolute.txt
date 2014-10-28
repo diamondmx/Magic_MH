@@ -1,0 +1,12 @@
+C:\Users\Mark\documents\visual studio 2013\Projects\MagicManager\MagicConsole\bin\Debug\MagicConsole.exe.config
+C:\Users\Mark\documents\visual studio 2013\Projects\MagicManager\MagicConsole\bin\Debug\MagicConsole.exe
+C:\Users\Mark\documents\visual studio 2013\Projects\MagicManager\MagicConsole\bin\Debug\MagicConsole.pdb
+C:\Users\Mark\documents\visual studio 2013\Projects\MagicManager\MagicConsole\obj\Debug\MagicConsole.csprojResolveAssemblyReference.cache
+C:\Users\Mark\documents\visual studio 2013\Projects\MagicManager\MagicConsole\obj\Debug\MagicConsole.exe
+C:\Users\Mark\documents\visual studio 2013\Projects\MagicManager\MagicConsole\obj\Debug\MagicConsole.pdb
+C:\Users\Mark\Documents\GitHub\MagicManager\MagicConsole\bin\Debug\MagicConsole.exe.config
+C:\Users\Mark\Documents\GitHub\MagicManager\MagicConsole\obj\Debug\MagicConsole.exe
+C:\Users\Mark\Documents\GitHub\MagicManager\MagicConsole\obj\Debug\MagicConsole.pdb
+C:\Users\Mark\Documents\GitHub\MagicManager\MagicConsole\bin\Debug\MagicConsole.exe
+C:\Users\Mark\Documents\GitHub\MagicManager\MagicConsole\bin\Debug\MagicConsole.pdb
+C:\Users\Mark\Documents\GitHub\MagicManager\MagicConsole\obj\Debug\MagicConsole.csprojResolveAssemblyReference.cache
