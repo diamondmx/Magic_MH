@@ -7,3 +7,6 @@ c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\ob
 c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\obj\Debug\MagicManager.exe
 c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\obj\Debug\MagicManager.pdb
 c:\users\mark\documents\visual studio 2013\Projects\MagicManager\MagicManager\obj\Debug\MagicManager.csprojResolveAssemblyReference.cache
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\MagicManager\MagicManager\bin\Debug\MagicManager.exe.config
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\MagicManager\MagicManager\obj\Debug\MagicManager.exe
+\\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\MagicManager\MagicManager\obj\Debug\MagicManager.pdb
