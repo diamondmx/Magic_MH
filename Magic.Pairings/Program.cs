@@ -8,77 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Magic.Core; 
 
 namespace Magic.Pairings
 {
-	[Table(Name = "Players")]
-	public class dbPlayer
-	{
-		[Column(IsPrimaryKey = true)]
-		public string Name;
-	}
-
-	[Table(Name = "Matches")]
-	public class dbMatch
-	{
-		[Column()]
-		public string Player1;
-		[Column()]
-		public string Player2;
-		[Column()]
-		public int Round;
-		[Column()]
-		public string Event;
-		[Column()]
-		public int Player1Wins;
-		[Column()]
-		public int Player2Wins;
-		[Column()]
-		public int Draws;
-		[Column()]
-		public bool InProgress;
-	}
-
-
-	class Player
-	{
-		public string name;
-		public List<Player> round1Players;
-		public List<Player> round2Players; 
-		public List<Player> CurrentPlayers;
-		public int Score;
-
-		public Player(string newName, int newScore)
-		{
-			name = newName;
-			Score = newScore;
-			round1Players = new List<Player>();
-			round2Players = new List<Player>();
-			CurrentPlayers = new List<Player>();
-		}
-
-		public Player(string inputDataString, bool secondPlayer)
-		{
-			var inputList = inputDataString.Split(new char[] {','}, StringSplitOptions.None);
-			var p1Name = inputList[0].Trim(new char[] { '\'', '(', ')', ' ' });
-			var p2Name = inputList[1].Trim(new char[]{'\'','(',')', ' '});
-			var round = Convert.ToInt32(inputList[2]);
-			var eventName = inputList[3].Trim(new char[] { '\'', '(', ')', ' ' });
-			var p1score = Convert.ToInt32(inputList[4]);
-			var p2score = Convert.ToInt32(inputList[5]);
-			var draws = inputList[6];
-
-			name = secondPlayer ? p2Name : p1Name;
-			Score = 0;
-			;
-
-			round1Players = new List<Player>();
-			round2Players = new List<Player>();
-			CurrentPlayers = new List<Player>();
-		}
-
-	}
-
 	class Program
 	{
 		public static List<Player> LoadFile(string fileName)
@@ -91,10 +24,19 @@ namespace Magic.Pairings
 				var bytesRead = file.Read(buffer, 0, 1024*1024);
 				var readData = System.Text.Encoding.UTF8.GetString(buffer,0,bytesRead);
 				var readDataLines = readData.Split(new string[]{Environment.NewLine},1024, StringSplitOptions.RemoveEmptyEntries);
+				
+				var matches = new List<Magic.Core.Match>();
 				foreach (string dataLine in readDataLines)
 				{
-					var foundPlayer = new Player(dataLine, false);
-					var foundPlayer2 = new Player(dataLine, true);
+					var foundMatch = Magic.Core.Match.ReadFromSQLInsertString(dataLine);
+					if(foundMatch.Player1.Length>=1)
+						matches.Add(foundMatch);
+				}
+
+				foreach(Magic.Core.Match m in matches)
+				{
+					var foundPlayer = new Player(m.Player1, 0);
+					var foundPlayer2 = new Player(m.Player2, 0);
 					if(list.Count(p => p.name==foundPlayer.name)<=0)
 						list.Add(foundPlayer);
 
@@ -118,13 +60,30 @@ namespace Magic.Pairings
 			var db = new DataContext("Magic");
 			var playersTable = db.GetTable<dbPlayer>();
 
+			var matches = new List<Magic.Core.Match>();
+			var players = new List<Magic.Core.Player>();
 
-			foreach (var p in playersTable)
-				System.Console.Write(p.Name + Environment.NewLine);
+			foreach (Magic.Core.Match m in matches)
+			{
+				var foundPlayer = new Player(m.Player1, 0);
+				var foundPlayer2 = new Player(m.Player2, 0);
+				if (players.Count(p => p.name == foundPlayer.name) <= 0)
+					players.Add(foundPlayer);
+
+				if (players.Count(p => p.name == foundPlayer2.name) <= 0)
+					players.Add(foundPlayer2);
+			}
+
+			foreach (string dataLine in readDataLines)
+			{
+				AddMatch(list, dataLine);
+			}
+
+						
 
 			var ignore = System.Console.ReadKey();
 
-			return outputPlayers;
+			return null;
 		}
 
 		static void AddMatch(List<Player> playerList, string matchInput)

@@ -10,3 +10,11 @@ c:\users\mhill\documents\visual studio 2013\Projects\Magic.Pairings\obj\Debug\Ma
 \\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\Magic.Pairings\bin\Debug\Magic.Pairings.exe
 \\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\Magic.Pairings\bin\Debug\Magic.Pairings.pdb
 \\kcura\kusers$\Product Development\Engineering\mhill\GitHub\Magic_MH\Magic.Pairings\obj\Debug\Magic.Pairings.csprojResolveAssemblyReference.cache
+C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Pairings\bin\Debug\Magic.Pairings.exe.config
+C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Pairings\obj\Debug\Magic.Pairings.exe
+C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Pairings\obj\Debug\Magic.Pairings.pdb
+C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Pairings\obj\Debug\Magic.Pairings.csprojResolveAssemblyReference.cache
+C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Pairings\bin\Debug\Magic.Pairings.exe
+C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Pairings\bin\Debug\Magic.Pairings.pdb
+C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Pairings\bin\Debug\Magic.Core.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Pairings\bin\Debug\Magic.Core.pdb
