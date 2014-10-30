@@ -1,0 +1,3 @@
+.\Magic.Core\bin
+.\Magic.Pairings\bin
+.\MagicManager\bin
