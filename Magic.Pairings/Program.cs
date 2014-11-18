@@ -55,7 +55,7 @@ namespace Magic.Pairings
 
 		public static List<Player> LoadDBPlayers(string eventName)
 		{
-			var db = new DataContext(@"Data Source=localhost\sqlexpress12;Initial Catalog=Magic;Integrated Security=True");
+			var db = new DataContext(@"Data Source=P-DV-DSK-MHIL;Initial Catalog=Magic;User ID=mhMagic;Password=mtgMagic");
 			var matchesTable = db.GetTable<dbMatch>();
 
 			var matches = new List<Core.Match>();
@@ -67,7 +67,7 @@ namespace Magic.Pairings
 					matches.Add(new Core.Match(m));
 			}
 
-			players = Player.FromMatchList(matches, eventName);
+			 players = Player.FromMatchList(matches, eventName);
 
 			return players;
 		}
@@ -106,15 +106,13 @@ namespace Magic.Pairings
 			List<Player> players = LoadDBPlayers(eventName);
 			var currentRound = 3;//GetPlayedRounds(eventName);
 
-			var ignore = System.Console.ReadKey();
-
 			return players;
 		}
 		
 		static void Main(string[] args)
 		{
 			//var playerList = LoadFile("playerInputFile.txt");
-			var playerList = LoadDatabase("MTK");
+			var playerList = LoadDatabase("KTK");
 			//var playerList = GetPlayerList();
 
 			var playerListString = "";
@@ -179,6 +177,26 @@ namespace Magic.Pairings
 					output += ", ";
 			}
 
+			if(p.round2Players.Count>0)
+				output += ", ";
+
+			for (int i = 0; i < p.round2Players.Count; i++)
+			{
+				output += p.round2Players[i].name;
+				if (i + 1 < p.round2Players.Count)
+					output += ", ";
+			}
+
+			if (p.round3Players.Count > 0)
+				output += ", ";
+
+			for (int i = 0; i < p.round3Players.Count; i++)
+			{
+				output += p.round3Players[i].name;
+				if (i + 1 < p.round3Players.Count)
+					output += ", ";
+			}
+
 			output += String.Format(" ({0})", p.Score);
 
 
@@ -225,7 +243,6 @@ namespace Magic.Pairings
 
 				// Modify player pairings
 
-				//var player = FindPlayerWithHighestScoreFewestOpponents(inputPlayers, rounds);
 				var player = FindRandomPlayerWithFewestOpponents(inputPlayers, rounds);
 
 				if (player == null)
