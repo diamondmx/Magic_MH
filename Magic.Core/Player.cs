@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Magic.Core
 		public string name;
 		public List<Player> round1Players;
 		public List<Player> round2Players;
+		public List<Player> round3Players;
 		public List<Player> CurrentPlayers;
 		public List<Match> matches;
 		public int Score;
@@ -22,6 +24,7 @@ namespace Magic.Core
 			Score = newScore;
 			round1Players = new List<Player>();
 			round2Players = new List<Player>();
+			round3Players = new List<Player>();
 			CurrentPlayers = new List<Player>();
 		}
 
@@ -53,8 +56,22 @@ namespace Magic.Core
 			var player1 = playerList.First(player => player.name == m.Player1);
 			var player2 = playerList.First(player => player.name == m.Player2);
 
-			player1.round1Players.Add(player2);
-			player2.round1Players.Add(player1);
+			switch (m.Round)
+			{
+				case 1:
+					player1.round1Players.Add(player2);
+					player2.round1Players.Add(player1);
+					break;
+				case 2:
+					player1.round2Players.Add(player2);
+					player2.round2Players.Add(player1);
+					break;
+				case 3:
+					player1.round3Players.Add(player2);
+					player2.round3Players.Add(player1);
+					break;
+			}
+
 			if (m.Player1Wins > m.Player2Wins)
 				player1.Score++;
 			else if (m.Player2Wins > m.Player1Wins)
