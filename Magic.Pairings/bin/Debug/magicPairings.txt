@@ -1,0 +1,18 @@
+Aaron: Alex, John, Michael, Nicholas
+Artem: Charlie, Michael, Erik, Nicholas
+Charlie: Artem, Michael, Nicholas, Erik
+Jeffrey: Mark R, CB Ladd, Elise, John
+Sean: Adam, Pete, Mark H, Nikita
+Adam: Sean, David, Mark H, Pete
+Alex: Nicholas, Aaron, John, Erik
+CB Ladd: Elise, Jeffrey, Mark R, Mark H
+Nikita: Mark H, Pete, Sean, David
+Mark R: Jeffrey, John, CB Ladd, Elise
+John: Alex, Aaron, Mark R, Jeffrey
+Erik: Alex, Charlie, Artem, Elise
+David: Pete, Adam, Nikita, Michael
+Mark H: Nikita, Sean, Adam, CB Ladd
+Nicholas: Alex, Charlie, Aaron, Artem
+Elise: CB Ladd, Jeffrey, Mark R, Erik
+Michael: Charlie, Artem, Aaron, David
+Pete: David, Nikita, Sean, Adam

@@ -34,4 +34,35 @@ namespace Magic.Core
 		[System.Data.Linq.Mapping.Column()]
 		public bool InProgress;
 	}
+
+	[System.Data.Linq.Mapping.Table(Name = "Events")]
+	public class dbEvent
+	{
+		[System.Data.Linq.Mapping.Column()]
+		public string Name;
+
+		[System.Data.Linq.Mapping.Column()]
+		public Int32 matchesInRound;
+
+		[System.Data.Linq.Mapping.Column()]
+		public Int32 rounds;
+
+		[System.Data.Linq.Mapping.Column()]
+		public bool complete;
+
+
+	}
+
+	[System.Data.Linq.Mapping.Table(Name = "EventPlayers")]
+	public class dbEventPlayers
+	{
+		[System.Data.Linq.Mapping.Column()]
+		public string EventName;
+
+		[System.Data.Linq.Mapping.Column()]
+		public string PlayerName;
+
+		[System.Data.Linq.Mapping.Column()]
+		bool Dropped;
+	}
 }
