@@ -32,5 +32,37 @@ namespace Magic.Core
 
 			return outputMatch;
 		}
+
+		public Match()
+		{ }
+
+		public Match(string p1, string p2, string eventName, int round, int p1wins, int p2wins, int draws, bool inpr)
+		{
+			Player1 = p1;
+			Player2 = p2;
+			Event = eventName;
+			Round = round;
+			Player1Wins = p1wins;
+			Player2Wins = p2wins;
+			Draws = draws;
+			InProgress = inpr;
+		}
+
+		public Match(dbMatch m)
+		{
+			Player1 = m.Player1;
+			Player2 = m.Player2;
+			Event = m.Event;
+			Round = m.Round;
+			Player1Wins = m.Player1Wins;
+			Player2Wins = m.Player2Wins;
+			Draws = m.Draws;
+			InProgress = m.InProgress;
+		}
+
+		public Match Flipped()
+		{
+			return new Match(p1: Player2, p2: Player1, p1wins: Player2Wins, p2wins: Player1Wins, eventName: Event, round: Round, draws: Draws, inpr: InProgress);
+		}
 	}
 }

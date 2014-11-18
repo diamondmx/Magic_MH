@@ -53,64 +53,68 @@ namespace Magic.Pairings
 			return list;
 		}
 
-		public static List<Player> LoadDatabase()
+		public static List<Player> LoadDBPlayers(string eventName)
 		{
-			var outputPlayers = new List<Player>();
-			
-			var db = new DataContext("Magic");
-			var playersTable = db.GetTable<dbPlayer>();
+			var db = new DataContext(@"Data Source=localhost\sqlexpress12;Initial Catalog=Magic;Integrated Security=True");
+			var matchesTable = db.GetTable<dbMatch>();
 
-			var matches = new List<Magic.Core.Match>();
-			var players = new List<Magic.Core.Player>();
+			var matches = new List<Core.Match>();
+			var players = new List<Core.Player>();
 
-			foreach (Magic.Core.Match m in matches)
+			foreach (dbMatch m in matchesTable)
 			{
-				var foundPlayer = new Player(m.Player1, 0);
-				var foundPlayer2 = new Player(m.Player2, 0);
-				if (players.Count(p => p.name == foundPlayer.name) <= 0)
-					players.Add(foundPlayer);
-
-				if (players.Count(p => p.name == foundPlayer2.name) <= 0)
-					players.Add(foundPlayer2);
+				if (m.Event == eventName)
+					matches.Add(new Core.Match(m));
 			}
 
-			foreach (string dataLine in readDataLines)
-			{
-				AddMatch(list, dataLine);
-			}
+			players = Player.FromMatchList(matches, eventName);
 
-						
-
-			var ignore = System.Console.ReadKey();
-
-			return null;
+			return players;
 		}
 
 		static void AddMatch(List<Player> playerList, string matchInput)
 		{
-			var inputList = matchInput.Split(new char[] { ',' }, StringSplitOptions.None);
-			var p1Name = inputList[0].Trim(new char[] { '\'', '(', ')', ' ' });
-			var p2Name = inputList[1].Trim(new char[] { '\'', '(', ')', ' ' });
-			var round = Convert.ToInt32(inputList[2]);
-			var eventName = inputList[3].Trim(new char[] { '\'', '(', ')', ' ' });
-			var p1score = Convert.ToInt32(inputList[4]);
-			var p2score = Convert.ToInt32(inputList[5]);
-			var draws = inputList[6];
+			Core.Match m = new Core.Match();
 
-			var player1 = playerList.First(player => player.name == p1Name);
-			var player2 = playerList.First(player => player.name == p2Name);
+			var inputList = matchInput.Split(new char[] { ',' }, StringSplitOptions.None);
+			m.Player1 = inputList[0].Trim(new char[] { '\'', '(', ')', ' ' });
+			m.Player2 = inputList[1].Trim(new char[] { '\'', '(', ')', ' ' });
+			m.Round = Convert.ToInt32(inputList[2]);
+			m.Event = inputList[3].Trim(new char[] { '\'', '(', ')', ' ' });
+			m.Player1Wins = Convert.ToInt32(inputList[4]);
+			m.Player2Wins = Convert.ToInt32(inputList[5]);
+			m.Draws = Convert.ToInt32(inputList[6]);
+
+			AddMatch(playerList, m);
+		}
+
+		static void AddMatch(List<Player> playerList, Magic.Core.Match m)
+		{
+			var player1 = playerList.First(player => player.name == m.Player1);
+			var player2 = playerList.First(player => player.name == m.Player2);
 
 			player1.round1Players.Add(player2);
 			player2.round1Players.Add(player1);
-			if (p1score > p2score)
+			if (m.Player1Wins > m.Player2Wins)
 				player1.Score++;
-			else if (p2score > p1score)
+			else if (m.Player2Wins > m.Player1Wins)
 				player2.Score++;
 		}
 
+		public static List<Player> LoadDatabase(string eventName)
+		{
+			List<Player> players = LoadDBPlayers(eventName);
+			var currentRound = 3;//GetPlayedRounds(eventName);
+
+			var ignore = System.Console.ReadKey();
+
+			return players;
+		}
+		
 		static void Main(string[] args)
 		{
-			var playerList = LoadFile("playerInputFile.txt");
+			//var playerList = LoadFile("playerInputFile.txt");
+			var playerList = LoadDatabase("MTK");
 			//var playerList = GetPlayerList();
 
 			var playerListString = "";
