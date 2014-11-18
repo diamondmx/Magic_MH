@@ -1,5 +1,0 @@
-C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Core\obj\Debug\Magic.Core.csprojResolveAssemblyReference.cache
-C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Core\bin\Debug\Magic.Core.dll
-C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Core\bin\Debug\Magic.Core.pdb
-C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Core\obj\Debug\Magic.Core.dll
-C:\Users\Mark\Documents\GitHub\Magic_MH\Magic.Core\obj\Debug\Magic.Core.pdb
