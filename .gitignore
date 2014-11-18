@@ -1,8 +1,7 @@
 *.suo
-Magic.Pairings/bin/Debug/outputtest.txt
-Magic.Pairings/obj/Debug/Magic.Pairings.pdb
 *.manifest
 *.config
 *.pdb
 *.exe
-Magic.Pairings/bin/Debug/Magic.Core.dll
+*/bin/*
+*/obj/*
