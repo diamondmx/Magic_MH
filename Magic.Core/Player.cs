@@ -16,8 +16,13 @@ namespace Magic.Core
 		public List<Player> CurrentPlayers;
 		public List<Match> matches;
 		public int Score;
-		public bool dropped;
+		public int? droppedInRound;
 
+        /*public List<Player> roundPlayers(int round)
+        {
+            var roundMatches = matches.Where(m => m.Round == round);
+            return roundMatches.Select(m => m.WithPlayerOneAs(name).Player2).ToList();
+        }*/
 		public Player(string newName, int newScore)
 		{
 			name = newName;
@@ -26,7 +31,13 @@ namespace Magic.Core
 			round2Players = new List<Player>();
 			round3Players = new List<Player>();
 			CurrentPlayers = new List<Player>();
+            matches = new List<Match>();
 		}
+
+        public Player(dbPlayer p)
+        :this(p.Name, 0)
+        {            
+        }
 
 		public static List<Player> FromMatchList(List<Match> matches, string eventName)
 		{
@@ -34,8 +45,8 @@ namespace Magic.Core
 
 			foreach (Magic.Core.Match m in matches)
 			{
-				var foundPlayer = new Player(m.Player1, 0);
-				var foundPlayer2 = new Player(m.Player2, 0);
+				var foundPlayer = new Player(m.Player1.name, 0);
+				var foundPlayer2 = new Player(m.Player2.name, 0);
 				if (players.Count(p => p.name == foundPlayer.name) <= 0)
 					players.Add(foundPlayer);
 
@@ -55,6 +66,8 @@ namespace Magic.Core
 		{
 			var player1 = playerList.First(player => player.name == m.Player1);
 			var player2 = playerList.First(player => player.name == m.Player2);
+            player1.matches.Add(m);
+            player2.matches.Add(m);
 
 			switch (m.Round)
 			{

@@ -7,11 +7,30 @@ using System.Threading.Tasks;
 
 namespace Magic.Core
 {
+	public class Constants
+	{
+		public const string connectionStringkCura = @"Data Source=P-DV-DSK-MHIL;Initial Catalog=Magic;User ID=mhMagic;Password=mtgMagic";
+		public const string connectionStringSekhmet = @"Data Source=SEKHMET\SQLEXPRESS12;Initial Catalog=Magic;User ID=magicData;Password=mtgMagic";
+        public const string currentConnectionString = connectionStringSekhmet;
+	}
+
 	[System.Data.Linq.Mapping.Table(Name = "Players")]
 	public class dbPlayer
 	{
 		[System.Data.Linq.Mapping.Column(IsPrimaryKey = true)]
 		public string Name;
+
+        [System.Data.Linq.Mapping.Column()]
+        public bool Active;
+
+
+		public static List<dbPlayer> LoadDBPlayers()
+		{
+            var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+
+			var playersTable = db.GetTable<dbPlayer>().ToList();
+			return playersTable;
+		}
 	}
 
 	[System.Data.Linq.Mapping.Table(Name = "Matches")]
@@ -33,6 +52,13 @@ namespace Magic.Core
 		public int Draws;
 		[System.Data.Linq.Mapping.Column()]
 		public bool InProgress;
+
+		public static List<dbMatch> LoadDBMatches(string mtgEvent)
+		{
+            var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+			var matchesTable = db.GetTable<dbMatch>().Where(m => m.Event == mtgEvent).ToList();
+			return matchesTable;
+		}
 	}
 
 	[System.Data.Linq.Mapping.Table(Name = "Events")]
@@ -49,8 +75,6 @@ namespace Magic.Core
 
 		[System.Data.Linq.Mapping.Column()]
 		public bool complete;
-
-
 	}
 
 	[System.Data.Linq.Mapping.Table(Name = "EventPlayers")]

@@ -111,9 +111,7 @@ namespace Magic.Pairings
 		
 		static void Main(string[] args)
 		{
-			//var playerList = LoadFile("playerInputFile.txt");
 			var playerList = LoadDatabase("KTK");
-			//var playerList = GetPlayerList();
 
 			var playerListString = "";
 			foreach (Player p in playerList)

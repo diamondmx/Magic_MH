@@ -8,8 +8,8 @@ namespace Magic.Core
 {
 	public class Match
 	{
-		public string Player1;
-		public string Player2;
+        public Player Player1;
+        public Player Player2;
 		public int Round;
 		public string Event;
 		public int Player1Wins;
@@ -17,7 +17,7 @@ namespace Magic.Core
 		public int Draws;
 		public bool InProgress;
 
-		public static Match ReadFromSQLInsertString(string inputString)
+		/*public static Match ReadFromSQLInsertString(string inputString)
 		{
 			var outputMatch = new Match();
 
@@ -31,12 +31,12 @@ namespace Magic.Core
 			outputMatch.Draws = Convert.ToInt32(inputList[6]);
 
 			return outputMatch;
-		}
+		}*/
 
 		public Match()
 		{ }
 
-		public Match(string p1, string p2, string eventName, int round, int p1wins, int p2wins, int draws, bool inpr)
+		public Match(List<Player> players, string p1, string p2, string eventName, int round, int p1wins, int p2wins, int draws, bool inpr)
 		{
 			Player1 = p1;
 			Player2 = p2;
@@ -48,9 +48,10 @@ namespace Magic.Core
 			InProgress = inpr;
 		}
 
-		public Match(dbMatch m)
+		public Match(List<Player> players, dbMatch m)
 		{
 			Player1 = m.Player1;
+
 			Player2 = m.Player2;
 			Event = m.Event;
 			Round = m.Round;
@@ -64,5 +65,15 @@ namespace Magic.Core
 		{
 			return new Match(p1: Player2, p2: Player1, p1wins: Player2Wins, p2wins: Player1Wins, eventName: Event, round: Round, draws: Draws, inpr: InProgress);
 		}
+
+        public Match WithPlayerOneAs(string name)
+        {
+            if (Player1.ToLower() == name.ToLower())
+                return this;
+            else if (Player2.ToLower() == name.ToLower())
+                return this.Flipped();
+            else
+                throw new InvalidOperationException("Bad Parameter");
+        }
 	}
 }
