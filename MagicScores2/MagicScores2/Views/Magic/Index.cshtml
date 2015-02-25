@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int round = ViewBag.Round;
+    List<Magic.Core.Player> players = ViewBag.Players;
+    string eventName = ViewBag.eventName;
+}
+
+<h2>Players - @eventName - Round @round</h2>
+
+<ul>
+    @foreach (Magic.Core.Player p in players.Where(p => p.Active == true)
+    {
+    <table border="1" class="matchTable">
+        <tr class="keyplayer">
+            <td>@string.Format("{0}", p.name)</td>
+                  @foreach (Magic.Core.Match m in p.matches.Where(m => m.Round == round)
+{
+    var normalizedMatch = m.WithPlayerOneAs(p.name);
+    var matchWin = m.Player1Wins > m.Player2Wins ? "Win" : "Loss";
+    <a href="/Magic/ViewScore?event=@ViewBag.EventName&round=@ViewBag.Round&p1=@m.Player1&p2=@m.Player2">
+        <td class="opponentplayer">@m.Player2</td><td>@m.Player1Wins</td><td>@m.Player2Wins</td><td>@matchWin</td>
+    </a>
+}
+    </tr>
+    </table>
+    }
+</ul>

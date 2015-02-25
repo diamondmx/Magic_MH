@@ -1,0 +1,56 @@
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\MagicScores2.dll.config
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\MagicScores2.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\MagicScores2.pdb
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\Antlr3.Runtime.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\Microsoft.Web.Infrastructure.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\Newtonsoft.Json.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.Helpers.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.Mvc.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.Optimization.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.Razor.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.WebPages.Deployment.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.WebPages.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.WebPages.Razor.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\WebGrease.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.Helpers.xml
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.Mvc.xml
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.Optimization.xml
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.Razor.xml
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.WebPages.xml
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.WebPages.Deployment.xml
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\System.Web.WebPages.Razor.xml
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\Newtonsoft.Json.xml
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\Antlr3.Runtime.pdb
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\obj\Debug\MagicScores2.csprojResolveAssemblyReference.cache
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\obj\Debug\MagicScores2.dll
+c:\users\mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\obj\Debug\MagicScores2.pdb
+C:\Users\Mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\Magic.Core.dll
+C:\Users\Mark\documents\visual studio 2013\Projects\MagicScores2\MagicScores2\bin\Magic.Core.pdb
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\MagicScores2.dll.config
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\MagicScores2.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\MagicScores2.pdb
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\Antlr3.Runtime.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\Magic.Core.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\Newtonsoft.Json.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.Helpers.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.Mvc.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.Optimization.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.Razor.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.WebPages.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.WebPages.Razor.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\WebGrease.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\Magic.Core.pdb
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.Helpers.xml
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.Mvc.xml
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.Optimization.xml
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.Razor.xml
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.WebPages.xml
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.WebPages.Razor.xml
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\Newtonsoft.Json.xml
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\Antlr3.Runtime.pdb
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\obj\Debug\MagicScores2.csprojResolveAssemblyReference.cache
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\obj\Debug\MagicScores2.dll
+C:\Users\Mark\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\obj\Debug\MagicScores2.pdb

@@ -38,8 +38,8 @@ namespace Magic.Core
 
 		public Match(List<Player> players, string p1, string p2, string eventName, int round, int p1wins, int p2wins, int draws, bool inpr)
 		{
-			Player1 = p1;
-			Player2 = p2;
+            Player1 = players.Where(p => p.name == p1).FirstOrDefault();
+            Player2 = players.Where(p => p.name == p2).FirstOrDefault();
 			Event = eventName;
 			Round = round;
 			Player1Wins = p1wins;
