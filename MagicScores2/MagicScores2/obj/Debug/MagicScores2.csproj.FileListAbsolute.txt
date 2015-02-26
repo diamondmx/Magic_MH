@@ -80,3 +80,6 @@ C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.W
 C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\System.Web.WebPages.Razor.xml
 C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\Newtonsoft.Json.xml
 C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\obj\Debug\MagicScores2.pdb
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\MagicScores2.dll.config
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\nunit.framework.dll
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\nunit.framework.xml

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicScores2", "MagicScores2\MagicScores2.csproj", "{B3275A0B-5A1A-4607-92E5-1EBC91F677A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Magic.Core", "..\..\..\GitHub\Magic_MH\Magic.Core\Magic.Core.csproj", "{628E54CF-9A31-4D4D-9B17-5F4A0C13A434}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Magic.Core", "..\Magic.Core\Magic.Core.csproj", "{628E54CF-9A31-4D4D-9B17-5F4A0C13A434}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BA622432-88A1-4A49-9CAE-63CED7DC2AEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

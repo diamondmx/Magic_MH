@@ -11,6 +11,7 @@ namespace Magic.Core
 	{
 		public const string connectionStringkCura = @"Data Source=P-DV-DSK-MHIL;Initial Catalog=Magic;User ID=mhMagic;Password=mtgMagic";
 		public const string connectionStringSekhmet = @"Data Source=SEKHMET\SQLEXPRESS12;Initial Catalog=Magic;User ID=magicData;Password=mtgMagic";
+        public const string connectionStringSekhmet2 = @"Data Source=SEKHMET\SQLSEKHMET;Initial Catalog=Magic;User ID=mhMagic;Password=mtgMagic";
         public const string currentConnectionString = connectionStringSekhmet;
 	}
 
