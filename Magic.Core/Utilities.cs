@@ -16,5 +16,16 @@ namespace Magic.Core
 			var players = Magic.Core.Player.FromMatchList(matches, mtgEvent);
 			return players;
 		}
+
+        public static void LoadEvent(List<Core.Player> plist, List<Core.Match> mlist, string mtgEvent)
+        {
+            var players = new List<Player>;
+            dbPlayer.LoadDBPlayers().Where(p => p.Active).ToList().ForEach(p => players.Add(new Player(p)));
+            
+            var matches = new List<Match>();
+			dbMatch.LoadDBMatches(mtgEvent).ForEach(m=>matches.Add(new Match(m)));
+
+
+        }
 	}
 }

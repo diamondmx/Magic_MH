@@ -64,8 +64,8 @@ namespace Magic.Core
 
 		private	static void AddMatch(List<Player> playerList, Magic.Core.Match m)
 		{
-			var player1 = playerList.First(player => player.name == m.Player1);
-			var player2 = playerList.First(player => player.name == m.Player2);
+			var player1 = playerList.First(player => player.name == m.Player1.name);
+			var player2 = playerList.First(player => player.name == m.Player2.name);
             player1.matches.Add(m);
             player2.matches.Add(m);
 

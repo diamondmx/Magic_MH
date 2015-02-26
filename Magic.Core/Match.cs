@@ -9,7 +9,9 @@ namespace Magic.Core
 	public class Match
 	{
         public Player Player1;
+        public string Player1Name;
         public Player Player2;
+        public string Player2Name;
 		public int Round;
 		public string Event;
 		public int Player1Wins;
@@ -36,10 +38,10 @@ namespace Magic.Core
 		public Match()
 		{ }
 
-		public Match(List<Player> players, string p1, string p2, string eventName, int round, int p1wins, int p2wins, int draws, bool inpr)
+		public Match(string p1, string p2, string eventName, int round, int p1wins, int p2wins, int draws, bool inpr)
 		{
-            Player1 = players.Where(p => p.name == p1).FirstOrDefault();
-            Player2 = players.Where(p => p.name == p2).FirstOrDefault();
+            Player1Name = p1;
+            Player2Name = p2;
 			Event = eventName;
 			Round = round;
 			Player1Wins = p1wins;
@@ -48,17 +50,23 @@ namespace Magic.Core
 			InProgress = inpr;
 		}
 
-		public Match(List<Player> players, dbMatch m)
-		{
-			Player1 = m.Player1;
+        public Match(Player p1, Player p2, string eventName, int round, int p1wins, int p2wins, int draws, bool inpr)
+        {
+            Player1 = p1;
+            Player1Name = p1.name;
+            Player2 = p2;
+            Player2Name = p2.name;
+            Event = eventName;
+            Round = round;
+            Player1Wins = p1wins;
+            Player2Wins = p2wins;
+            Draws = draws;
+            InProgress = inpr;
+        }
 
-			Player2 = m.Player2;
-			Event = m.Event;
-			Round = m.Round;
-			Player1Wins = m.Player1Wins;
-			Player2Wins = m.Player2Wins;
-			Draws = m.Draws;
-			InProgress = m.InProgress;
+		public Match(dbMatch m)
+            :this(m.Player1, m.Player2, m.Event, m.Round, m.Player1Wins, m.Player2Wins, m.Draws, m.InProgress)
+        {
 		}
 
 		public Match Flipped()
@@ -68,9 +76,9 @@ namespace Magic.Core
 
         public Match WithPlayerOneAs(string name)
         {
-            if (Player1.ToLower() == name.ToLower())
+            if (Player1.name.ToLower() == name.ToLower())
                 return this;
-            else if (Player2.ToLower() == name.ToLower())
+            else if (Player2.name.ToLower() == name.ToLower())
                 return this.Flipped();
             else
                 throw new InvalidOperationException("Bad Parameter");
