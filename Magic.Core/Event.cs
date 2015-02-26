@@ -42,12 +42,19 @@ namespace Magic.Core
                 foreach(var m in Matches)
                 {
                     if (m.Player1Name == p.name)
+                    {
                         m.Player1 = p;
+                        p.matches.Add(m);
+                    }
 
                     else if (m.Player2Name == p.name)
+                    {
                         m.Player2 = p;
+                        p.matches.Add(m);
+                    }
+                        
 
-                    p.matches.Add(m);
+                    
                 }
             }
         }
