@@ -15,7 +15,7 @@ namespace Magic.Core
         public void TestEventLoad()
         {
             var _sut = new Magic.Core.Event();
-            _sut.LoadEvent("FRF");
+            _sut.LoadEvent("FRF Sealed");
         }
     }
 
@@ -30,10 +30,13 @@ namespace Magic.Core
         public void LoadEvent(string eventName)
         {
             name = eventName;
-            
+
+            var loadedEvent = dbEvent.LoadDBEvent(eventName);
+            rounds = loadedEvent.rounds;
+
             Players = new List<Player>();
             dbPlayer.LoadDBPlayers().Where(p => p.Active).ToList().ForEach(p => Players.Add(new Player(p)));
-            
+
             Matches = new List<Match>();
             dbMatch.LoadDBMatches(name).Where(m=>m.Event==eventName).ToList().ForEach(m => Matches.Add(new Match(m)));
 
@@ -52,9 +55,6 @@ namespace Magic.Core
                         m.Player2 = p;
                         p.matches.Add(m);
                     }
-                        
-
-                    
                 }
             }
         }

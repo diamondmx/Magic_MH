@@ -68,14 +68,17 @@ namespace Magic.Core
 		[System.Data.Linq.Mapping.Column()]
 		public string Name;
 
-		[System.Data.Linq.Mapping.Column()]
-		public Int32 matchesInRound;
-
-		[System.Data.Linq.Mapping.Column()]
+        [System.Data.Linq.Mapping.Column()]
+        public DateTime StartDate;
+        
+        [System.Data.Linq.Mapping.Column()]
 		public Int32 rounds;
 
-		[System.Data.Linq.Mapping.Column()]
-		public bool complete;
+        public static dbEvent LoadDBEvent(string eventName)
+        {
+            var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+            return db.GetTable<dbEvent>().Where(e => e.Name == eventName).First();
+        }
 	}
 
 	[System.Data.Linq.Mapping.Table(Name = "EventPlayers")]
@@ -85,9 +88,6 @@ namespace Magic.Core
 		public string EventName;
 
 		[System.Data.Linq.Mapping.Column()]
-		public string PlayerName;
-
-		[System.Data.Linq.Mapping.Column()]
-		bool Dropped;
+		public string Player;
 	}
 }
