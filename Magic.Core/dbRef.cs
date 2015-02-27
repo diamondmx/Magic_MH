@@ -89,5 +89,11 @@ namespace Magic.Core
 
 		[System.Data.Linq.Mapping.Column()]
 		public string Player;
+
+        public static List<dbEventPlayers> LoadDBEventPlayers(string eventName)
+        {
+            var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+            return db.GetTable<dbEventPlayers>().Where(ep => ep.EventName == eventName).ToList();
+        }
 	}
 }

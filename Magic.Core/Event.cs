@@ -34,8 +34,10 @@ namespace Magic.Core
             var loadedEvent = dbEvent.LoadDBEvent(eventName);
             rounds = loadedEvent.rounds;
 
+            var eventPlayers = dbEventPlayers.LoadDBEventPlayers(eventName);
+
             Players = new List<Player>();
-            dbPlayer.LoadDBPlayers().Where(p => p.Active).ToList().ForEach(p => Players.Add(new Player(p)));
+            dbPlayer.LoadDBPlayers().Where(p => p.Active && eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => Players.Add(new Player(p)));
 
             Matches = new List<Match>();
             dbMatch.LoadDBMatches(name).Where(m=>m.Event==eventName).ToList().ForEach(m => Matches.Add(new Match(m)));

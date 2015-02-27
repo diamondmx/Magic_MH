@@ -13,9 +13,10 @@ namespace MagicScores2.Controllers
         // GET: /Magic/
         public ActionResult Index(string eventName, int round)
         {
-            var playerList = Magic.Core.Utilities.GetAllPlayersFromMatches(eventName);
+            var thisEvent = new Magic.Core.Event();
+            thisEvent.LoadEvent(eventName);
             
-            ViewBag.Players = playerList;
+            ViewBag.Players = thisEvent.Players;
             ViewBag.EventName = eventName;
             ViewBag.Round = round;
             return View();
