@@ -1,6 +1,5 @@
 *.suo
 *.manifest
-*.config
 *.pdb
 *.exe
 */bin/*
