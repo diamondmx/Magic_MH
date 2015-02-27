@@ -10,19 +10,19 @@
 <h2>Players - @eventName - Round @round</h2>
 
 <ul>
-    @foreach (Magic.Core.Player p in players.Where(p => p.Active == true)
+    @foreach (Magic.Core.Player p in players)
     {
     <table border="1" class="matchTable">
         <tr class="keyplayer">
             <td>@string.Format("{0}", p.name)</td>
-                  @foreach (Magic.Core.Match m in p.matches.Where(m => m.Round == round)
-{
-    var normalizedMatch = m.WithPlayerOneAs(p.name);
-    var matchWin = m.Player1Wins > m.Player2Wins ? "Win" : "Loss";
+                  @foreach(Magic.Core.Match m in p.matches.Where(m => m.Round == round))
+                    {
+                        var normalizedMatch = m.WithPlayerOneAs(p.name);
+                        var matchWin = m.Player1Wins > m.Player2Wins ? "Win" : "Loss";
     <a href="/Magic/ViewScore?event=@ViewBag.EventName&round=@ViewBag.Round&p1=@m.Player1&p2=@m.Player2">
-        <td class="opponentplayer">@m.Player2</td><td>@m.Player1Wins</td><td>@m.Player2Wins</td><td>@matchWin</td>
+        <td class="opponentplayer">@m.Player2.name</td><td><text>@m.Player1Wins</text>-<text>@m.Player2Wins</text></td><td>@matchWin</td>
     </a>
-}
+    }
     </tr>
     </table>
     }

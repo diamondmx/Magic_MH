@@ -11,7 +11,7 @@ namespace MagicScores2.Controllers
     {
         //
         // GET: /Magic/
-        public ActionResult Index(string eventName, int round)
+        public ActionResult Index(string eventName="FRF Sealed", int round=1)
         {
             var thisEvent = new Magic.Core.Event();
             thisEvent.LoadEvent(eventName);
