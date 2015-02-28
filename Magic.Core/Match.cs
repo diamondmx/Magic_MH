@@ -67,5 +67,10 @@ namespace Magic.Core
             else
                 throw new InvalidOperationException("Bad Parameter");
         }
-	}
+
+        public void Update()
+        {
+            dbMatch.Update(this);
+        }
+    }
 }

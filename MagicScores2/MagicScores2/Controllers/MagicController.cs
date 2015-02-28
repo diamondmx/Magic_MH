@@ -11,51 +11,52 @@ namespace MagicScores2.Controllers
     {
         //
         // GET: /Magic/
-        public ActionResult Index(string eventName="FRF Sealed", int round=1)
+        public ActionResult Index(string eventName, int round)
         {
             var thisEvent = new Magic.Core.Event();
             thisEvent.LoadEvent(eventName);
-            
+
             ViewBag.Players = thisEvent.Players;
             ViewBag.EventName = eventName;
             ViewBag.Round = round;
             return View();
         }
 
-        public ActionResult Matches(string mtgevent)
+        public List<SelectListItem> GetGameWinsDropdownWithSelected(int winsSelected)
         {
-            return View();
+            var output = new List<SelectListItem>();
+            output.Add(new SelectListItem { Text = "0", Value = "0", Selected = winsSelected == 0 });
+            output.Add(new SelectListItem { Text = "1", Value = "1", Selected = winsSelected == 1 });
+            output.Add(new SelectListItem { Text = "2", Value = "2", Selected = winsSelected == 2 });
+
+            return output;
         }
 
         //
         // GET: /Magic/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string eventName, int round, string player1, string player2, int? player1wins, int? player2wins)
         {
-            return View();
-        }
+            var thisEvent = new Magic.Core.Event();
+            thisEvent.LoadEvent(eventName);
 
-        //
-        // GET: /Magic/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        //
-        // POST: /Magic/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            var match = thisEvent.Matches.Where(m => (m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2)).First();
+            ViewBag.Match = match;
+            
+            if (player1wins.HasValue && player2wins.HasValue)
             {
-                // TODO: Add insert logic here
+                match.Player1Wins = player1wins.Value;
+                match.Player2Wins = player2wins.Value;
 
-                return RedirectToAction("Index");
+                match.Update();
             }
-            catch
-            {
-                return View();
-            }
+
+            var p1dropdown = GetGameWinsDropdownWithSelected(match.Player1Wins);
+            var p2dropdown = GetGameWinsDropdownWithSelected(match.Player2Wins);
+
+            ViewBag.player1wins = p1dropdown;
+            ViewBag.player2wins = p2dropdown;
+
+            return View("MagicMatch");
         }
 
         //
@@ -63,23 +64,6 @@ namespace MagicScores2.Controllers
         public ActionResult Edit(int id)
         {
             return View();
-        }
-
-        //
-        // POST: /Magic/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         //

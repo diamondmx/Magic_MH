@@ -15,7 +15,7 @@ namespace Magic.Core
         public void TestEventLoad()
         {
             var _sut = new Magic.Core.Event();
-            _sut.LoadEvent("FRF Sealed");
+            _sut.LoadEvent("FRF");
         }
     }
 

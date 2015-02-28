@@ -60,7 +60,30 @@ namespace Magic.Core
 			var matchesTable = db.GetTable<dbMatch>().Where(m => m.Event == mtgEvent).ToList();
 			return matchesTable;
 		}
-	}
+
+        internal static void Update(Match match)
+        {
+            var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+            db.ExecuteQuery<dbMatch>(String.Format("UPDATE [Magic]..[Match] SET [Player1Wins]={0}, [Player2Wins]={1}, [Draws]={2}, [InProgress]={3} WHERE [Player1]={4} AND [Player2]={5} AND [Event]={6} AND [Round]={7}", match.Player1Wins, match.Player2Wins, match.Draws, match.InProgress, match.Player1Name, match.Player2Name, match.Event, match.Round));
+            db.ExecuteQuery<dbMatch>(String.Format("UPDATE [Magic]..[Match] SET [Player2Wins]={0}, [Player1Wins]={1}, [Draws]={2}, [InProgress]={3} WHERE [Player2]={4} AND [Player1]={5} AND [Event]={6} AND [Round]={7}", match.Player1Wins, match.Player2Wins, match.Draws, match.InProgress, match.Player1Name, match.Player2Name, match.Event, match.Round));
+        }
+
+        internal static bool IsMatch(dbMatch checkedMatch, string player1name, string player2name, string eventname, int round)
+        {
+            if (eventname == checkedMatch.Event && round == checkedMatch.Round)
+            {
+                if (player1name == checkedMatch.Player1 && player2name == checkedMatch.Player2)
+                    return true;
+                else if (player1name == checkedMatch.Player2 && player2name == checkedMatch.Player1)
+                    return true;
+            }
+
+            return true;
+                
+
+            
+        }
+    }
 
 	[System.Data.Linq.Mapping.Table(Name = "Events")]
 	public class dbEvent

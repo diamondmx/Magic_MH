@@ -178,6 +178,8 @@
     <Content Include="Views\HelloWorld\Index.cshtml" />
     <Content Include="Views\HelloWorld\Welcome.cshtml" />
     <Content Include="Views\Magic\Index.cshtml" />
+    <Content Include="Views\MagicMatch.cshtml" />
+    <Content Include="Views\Magic\MagicMatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\GitHub\Magic_MH\Magic.Core\Magic.Core.csproj">
