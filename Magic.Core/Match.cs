@@ -70,7 +70,8 @@ namespace Magic.Core
 
         public void Update()
         {
-            dbMatch.Update(this);
+            var dbmatch = new dbMatch(this);
+            dbmatch.Update();
         }
     }
 }

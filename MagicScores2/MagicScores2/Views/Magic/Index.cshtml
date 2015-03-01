@@ -18,7 +18,9 @@
             {
                 var normalizedMatch = m.WithPlayerOneAs(p.name);
                 var matchWin = m.Player1Wins > m.Player2Wins ? "Win" : "Loss";
-                <td class="opponentplayer"><a href="~/FRF/1/">@m.Player2.name</a></td><td><text>@m.Player1Wins</text>-<text>@m.Player2Wins</text></td><td>@matchWin</td>
+                var matchUrl = String.Format(@"/{0}/{1}/{2}/{3}/", eventName, round, m.Player1Name, m.Player2Name);
+                
+                <td class="opponentplayer"><a href="@matchUrl">@m.Player2.name</a></td><td><text>@m.Player1Wins</text>-<text>@m.Player2Wins</text></td><td>@matchWin</td>
             }
         </tr>
     }

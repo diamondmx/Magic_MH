@@ -54,6 +54,21 @@ namespace Magic.Core
 		[System.Data.Linq.Mapping.Column()]
 		public bool InProgress;
 
+        public dbMatch(Magic.Core.Match m)
+        {
+            Player1 = m.Player1Name;
+            Player2 = m.Player2Name;
+            Event = m.Event;
+            Round = m.Round;
+            Player1Wins = m.Player1Wins;
+            Player2Wins = m.Player2Wins;
+            Draws = m.Draws;
+            InProgress = m.InProgress;
+        }
+
+        public dbMatch()
+        { }
+
         public void Copy(dbMatch m)
         {
             this.Player1 = m.Player1;
@@ -62,6 +77,7 @@ namespace Magic.Core
             this.Round = m.Round;
             this.Player1Wins = m.Player1Wins;
             this.Player2Wins = m.Player2Wins;
+            this.Draws = m.Draws;
             this.InProgress = m.InProgress;
         }
 
@@ -72,11 +88,11 @@ namespace Magic.Core
 			return matchesTable;
 		}
 
-        internal static void Update(Match match)
+        public void Update()
         {
             var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-            db.ExecuteQuery<dbMatch>(String.Format("UPDATE [Magic]..[Match] SET [Player1Wins]={0}, [Player2Wins]={1}, [Draws]={2}, [InProgress]={3} WHERE [Player1]={4} AND [Player2]={5} AND [Event]={6} AND [Round]={7}", match.Player1Wins, match.Player2Wins, match.Draws, match.InProgress, match.Player1Name, match.Player2Name, match.Event, match.Round));
-            db.ExecuteQuery<dbMatch>(String.Format("UPDATE [Magic]..[Match] SET [Player2Wins]={0}, [Player1Wins]={1}, [Draws]={2}, [InProgress]={3} WHERE [Player2]={4} AND [Player1]={5} AND [Event]={6} AND [Round]={7}", match.Player1Wins, match.Player2Wins, match.Draws, match.InProgress, match.Player1Name, match.Player2Name, match.Event, match.Round));
+            db.ExecuteQuery<dbMatch>(String.Format("UPDATE [Magic]..[Matches] SET [Player1Wins]={0}, [Player2Wins]={1}, [Draws]={2}, [InProgress]='{3}' WHERE [Player1]='{4}' AND [Player2]='{5}' AND [Event]='{6}' AND [Round]={7}", Player1Wins, Player2Wins, Draws, InProgress, Player1, Player2, Event, Round));
+            db.ExecuteQuery<dbMatch>(String.Format("UPDATE [Magic]..[Matches] SET [Player2Wins]={0}, [Player1Wins]={1}, [Draws]={2}, [InProgress]='{3}' WHERE [Player2]='{4}' AND [Player1]='{5}' AND [Event]='{6}' AND [Round]={7}", Player1Wins, Player2Wins, Draws, InProgress, Player1, Player2, Event, Round));
         }
 
         internal static bool IsMatch(dbMatch checkedMatch, string player1name, string player2name, string eventname, int round)

@@ -48,6 +48,8 @@ namespace MagicScores2.Controllers
                 match.Player2Wins = player2wins.Value;
 
                 match.Update();
+
+                return RedirectToAction("Index", new { controller = "Magic", eventName = eventName, round = round });
             }
 
             var p1dropdown = GetGameWinsDropdownWithSelected(match.Player1Wins);
