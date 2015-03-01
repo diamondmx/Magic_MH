@@ -83,3 +83,4 @@ C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\obj\Debug\Ma
 C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\nunit.framework.dll
 C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\nunit.framework.xml
 C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\MagicScores2.dll.config
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\MagicScores2\bin\Antlr3.Runtime.pdb

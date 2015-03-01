@@ -1,0 +1,9 @@
+C:\Users\Fukata\Documents\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\bin\Debug\Magic.Core.Tests.dll
+C:\Users\Fukata\Documents\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\bin\Debug\Magic.Core.Tests.pdb
+C:\Users\Fukata\Documents\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\bin\Debug\Magic.Core.dll
+C:\Users\Fukata\Documents\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\bin\Debug\nunit.framework.dll
+C:\Users\Fukata\Documents\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\bin\Debug\Magic.Core.pdb
+C:\Users\Fukata\Documents\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\bin\Debug\nunit.framework.xml
+C:\Users\Fukata\Documents\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\obj\Debug\Magic.Core.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Fukata\Documents\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\obj\Debug\Magic.Core.Tests.dll
+C:\Users\Fukata\Documents\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\obj\Debug\Magic.Core.Tests.pdb

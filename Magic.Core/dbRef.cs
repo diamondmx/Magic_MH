@@ -54,6 +54,17 @@ namespace Magic.Core
 		[System.Data.Linq.Mapping.Column()]
 		public bool InProgress;
 
+        public void Copy(dbMatch m)
+        {
+            this.Player1 = m.Player1;
+            this.Player2 = m.Player2;
+            this.Event = m.Event;
+            this.Round = m.Round;
+            this.Player1Wins = m.Player1Wins;
+            this.Player2Wins = m.Player2Wins;
+            this.InProgress = m.InProgress;
+        }
+
 		public static List<dbMatch> LoadDBMatches(string mtgEvent)
 		{
             var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
@@ -82,6 +93,34 @@ namespace Magic.Core
                 
 
             
+        }
+
+        public bool Read(string eventName, int round, string p1, string p2)
+        {
+            var allMatches = dbMatch.LoadDBMatches(eventName);
+            var eventMatches = allMatches.Where(m => m.Event == eventName).ToList();
+            var roundMatches = eventMatches.Where(m => m.Round == round).ToList();
+            
+            var matchesAsP1 = roundMatches.Where(m => m.Player1 == p1 && m.Player2 == p2);
+            if(matchesAsP1.Any())
+            {
+                var foundMatch = matchesAsP1.First();
+                Copy(foundMatch);
+                return true;
+
+            }
+            else
+            {
+                var matchesAsP2 = roundMatches.Where(m => m.Player1 == p2 && m.Player2 == p1);
+                if(matchesAsP2.Any())
+                {
+                    var foundMatch = matchesAsP2.First();
+                    Copy(foundMatch);
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 

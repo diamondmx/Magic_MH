@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicScores2", "MagicScores2\MagicScores2.csproj", "{B3275A0B-5A1A-4607-92E5-1EBC91F677A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Magic.Core", "..\Magic.Core\Magic.Core.csproj", "{628E54CF-9A31-4D4D-9B17-5F4A0C13A434}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BA622432-88A1-4A49-9CAE-63CED7DC2AEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Magic.Core.Tests", "..\Magic.Core.Tests\Magic.Core.Tests\Magic.Core.Tests.csproj", "{B16DAB82-54D9-4F3E-8751-3E84055D687D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{628E54CF-9A31-4D4D-9B17-5F4A0C13A434}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{628E54CF-9A31-4D4D-9B17-5F4A0C13A434}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{628E54CF-9A31-4D4D-9B17-5F4A0C13A434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B16DAB82-54D9-4F3E-8751-3E84055D687D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B16DAB82-54D9-4F3E-8751-3E84055D687D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B16DAB82-54D9-4F3E-8751-3E84055D687D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B16DAB82-54D9-4F3E-8751-3E84055D687D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

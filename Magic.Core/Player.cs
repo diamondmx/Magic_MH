@@ -36,62 +36,7 @@ namespace Magic.Core
 
         public Player(dbPlayer p)
         :this(p.Name, 0)
-        {            
+        {
         }
-
-		public static List<Player> FromMatchList(List<Match> matches, string eventName)
-		{
-			var players = new List<Player>();
-
-			foreach (Magic.Core.Match m in matches)
-			{
-				var foundPlayer = new Player(m.Player1.name, 0);
-				var foundPlayer2 = new Player(m.Player2.name, 0);
-				if (players.Count(p => p.name == foundPlayer.name) <= 0)
-					players.Add(foundPlayer);
-
-				if (players.Count(p => p.name == foundPlayer2.name) <= 0)
-					players.Add(foundPlayer2);
-			}
-
-			foreach (Magic.Core.Match m in matches)
-			{
-				AddMatch(players, m);
-			}
-
-			return players;
-		}
-
-		private	static void AddMatch(List<Player> playerList, Magic.Core.Match m)
-		{
-			var player1 = playerList.First(player => player.name == m.Player1.name);
-			var player2 = playerList.First(player => player.name == m.Player2.name);
-            player1.matches.Add(m);
-            player2.matches.Add(m);
-
-			switch (m.Round)
-			{
-				case 1:
-					player1.round1Players.Add(player2);
-					player2.round1Players.Add(player1);
-					break;
-				case 2:
-					player1.round2Players.Add(player2);
-					player2.round2Players.Add(player1);
-					break;
-				case 3:
-					player1.round3Players.Add(player2);
-					player2.round3Players.Add(player1);
-					break;
-			}
-
-			if (m.Player1Wins > m.Player2Wins)
-				player1.Score++;
-			else if (m.Player2Wins > m.Player1Wins)
-				player2.Score++;
-		}
-
-
-
 	}
 }
