@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\MagicSite</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="bin/App_global.asax.compiled">
+      <publishTime>03/04/2015 13:05:29</publishTime>
+    </File>
+    <File Include="bin/App_global.asax.dll">
+      <publishTime>03/04/2015 13:05:29</publishTime>
+    </File>
+    <File Include="bin/Magic.Core.dll">
+      <publishTime>03/04/2015 13:02:34</publishTime>
+    </File>
+    <File Include="bin/MagicScores2.dll">
+      <publishTime>03/04/2015 13:02:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>02/25/2015 08:10:59</publishTime>
+    </File>
+    <File Include="bin/nunit.framework.dll">
+      <publishTime>02/26/2015 11:31:14</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>02/25/2015 08:10:59</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>03/03/2015 09:10:11</publishTime>
+    </File>
+    <File Include="PrecompiledApp.config">
+      <publishTime>03/04/2015 13:05:27</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.js">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.js">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.map">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Scripts/respond.min.js">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Views/HelloWorld/Index.cshtml">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Views/HelloWorld/Welcome.cshtml">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Views/Home/About.cshtml">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Views/Home/Contact.cshtml">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Views/Magic/Index.cshtml">
+      <publishTime>03/04/2015 12:49:59</publishTime>
+    </File>
+    <File Include="Views/Magic/MagicMatch.cshtml">
+      <publishTime>03/03/2015 09:10:11</publishTime>
+    </File>
+    <File Include="Views/MagicMatch.cshtml">
+      <publishTime>03/03/2015 09:10:11</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>02/27/2015 22:59:51</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>02/25/2015 08:10:58</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>03/04/2015 13:02:35</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
