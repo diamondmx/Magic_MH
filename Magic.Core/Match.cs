@@ -53,6 +53,20 @@ namespace Magic.Core
         {
 		}
 
+        public void Copy(Match m)
+        {
+            Player1 = m.Player1;
+            Player1Name = Player1.name;
+            Player2 = m.Player2;
+            Player2Name = Player2.name;
+            Event = m.Event;
+            Round = m.Round;
+            Player1Wins = m.Player1Wins;
+            Player2Wins = m.Player2Wins;
+            Draws = m.Draws;
+            InProgress = m.InProgress;
+        }
+
 		public Match Flipped()
 		{
 			return new Match(p1: Player2, p2: Player1, p1wins: Player2Wins, p2wins: Player1Wins, eventName: Event, round: Round, draws: Draws, inpr: InProgress);
@@ -66,6 +80,11 @@ namespace Magic.Core
                 return this.Flipped();
             else
                 throw new InvalidOperationException("Bad Parameter");
+        }
+
+        public void SetPlayerOneTo(string name)
+        {
+            Copy(WithPlayerOneAs(name));
         }
 
         public void Update()

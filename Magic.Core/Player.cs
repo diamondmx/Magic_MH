@@ -10,12 +10,7 @@ namespace Magic.Core
 	public class Player
 	{
 		public string name;
-		public List<Player> round1Players;
-		public List<Player> round2Players;
-		public List<Player> round3Players;
-		public List<Player> CurrentPlayers;
 		public List<Match> matches;
-		public int Score;
 		public int? droppedInRound;
 
         /*public List<Player> roundPlayers(int round)
@@ -23,20 +18,34 @@ namespace Magic.Core
             var roundMatches = matches.Where(m => m.Round == round);
             return roundMatches.Select(m => m.WithPlayerOneAs(name).Player2).ToList();
         }*/
-		public Player(string newName, int newScore)
+		public Player(string newName)
 		{
 			name = newName;
-			Score = newScore;
-			round1Players = new List<Player>();
-			round2Players = new List<Player>();
-			round3Players = new List<Player>();
-			CurrentPlayers = new List<Player>();
             matches = new List<Match>();
 		}
 
         public Player(dbPlayer p)
-        :this(p.Name, 0)
+        :this(p.Name)
         {
+        }
+
+        public int Score(int round=0)
+        {
+            if(round<=0)
+            {
+                return matches.Where(m => m.Player1Wins > m.Player2Wins).Count();
+            }
+            else
+            {
+                var roundMatches = matches.Where(m => m.Round == round).ToList();
+                roundMatches.ForEach(m => m.SetPlayerOneTo(name));
+                var wonMatches = roundMatches.Where(m => m.Player1Wins > m.Player2Wins);
+                var score = wonMatches.Count();
+                return score;
+            }
+
+
+
         }
 	}
 }
