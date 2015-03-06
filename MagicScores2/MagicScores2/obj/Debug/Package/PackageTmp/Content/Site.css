@@ -23,6 +23,21 @@ textarea {
     table-layout:fixed
 }
 
+.matchTable{
+    width:100%;
+    border:thin;
+    border-collapse:collapse;
+    table-layout:fixed
+}
+
+.playerScore{
+    background-color: coral
+}
+
+.tableHeader{
+    background-color: gold
+}
+
 .keyplayer {
     background-color: lightgreen
 }
