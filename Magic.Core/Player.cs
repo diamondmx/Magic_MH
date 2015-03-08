@@ -43,9 +43,17 @@ namespace Magic.Core
                 var score = wonMatches.Count();
                 return score;
             }
+        }
 
+        public List<Player> Opponents(int round=0)
+        {
+            List<Match> relevantMatches = matches;
+            if(round>0)
+            {
+                relevantMatches = relevantMatches.Where(m => m.Round == round).ToList();   
+            }
 
-
+            return relevantMatches.Select<Match, Player>(m => m.Player2).ToList();
         }
 	}
 }

@@ -102,9 +102,6 @@ namespace Magic.Core
             }
 
             return true;
-                
-
-            
         }
 
         public bool Read(string eventName, int round, string p1, string p2)
