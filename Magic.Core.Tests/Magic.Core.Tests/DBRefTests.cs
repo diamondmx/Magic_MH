@@ -32,9 +32,6 @@ namespace Magic.Core.Tests
             Assert.AreEqual(1- p2wins, _sut2.Player2Wins);
             Assert.AreEqual(1- draws, _sut2.Draws);
             Assert.AreEqual(!inprog, _sut2.InProgress);
-            
-
-
         }
 
         [TestCase("TEST", 1, "TESTPLAYER1", "TESTPLAYER2", 1, 0, 1, false)]
@@ -58,6 +55,15 @@ namespace Magic.Core.Tests
         {
             var _sut = new Magic.Core.Event();
             _sut.LoadEvent("FRF");
+	        foreach (var p in _sut.Players)
+					{
+						Assert.AreEqual(p.matches.Count(), 8);
+						foreach (var match in p.matches)
+						{
+							Assert.IsNotEmpty(match.Player1Name);
+							Assert.IsNotEmpty(match.Player2Name);
+						}
+	        }
         }
     }
 }

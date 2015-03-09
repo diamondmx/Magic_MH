@@ -31,6 +31,15 @@ namespace Magic.Core
             Matches = new List<Match>();
             dbMatch.LoadDBMatches(name).Where(m => m.Event == eventName).ToList().ForEach(m => Matches.Add(new Match(m)));
 
+	        foreach (var match in Matches)
+	        {
+		        if(String.IsNullOrEmpty((match.Player1Name)))
+							throw new Exception();
+
+						if(String.IsNullOrEmpty((match.Player2Name)))
+							throw new Exception();
+	        }
+
             foreach (var p in Players)
             {
                 foreach (var m in Matches)
@@ -44,7 +53,7 @@ namespace Magic.Core
                     else if (m.Player2Name == p.name)
                     {
                         m.Player2 = p;
-                        p.matches.Add(m.WithPlayerOneAs(p.name));
+                        p.matches.Add(m);
                     }
                 }
             }
