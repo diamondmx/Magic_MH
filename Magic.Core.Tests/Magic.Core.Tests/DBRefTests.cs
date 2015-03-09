@@ -7,7 +7,7 @@ namespace Magic.Core.Tests
     [TestFixture]
     public class DBRefTests
     {
-        [TestCase("TEST", 1, "TESTP1", "TESTP2")]
+        [TestCase("TEST", 2, "TESTPLAYER1", "TESTPLAYER2")]
         public void MatchUpdate(string eventName, int round, string p1, string p2)
         {
             var _sut = new dbMatch();
@@ -37,7 +37,7 @@ namespace Magic.Core.Tests
 
         }
 
-        [TestCase("TEST", 1, "TESTP1", "TESTP2", 1, 0, 1, false)]
+        [TestCase("TEST", 1, "TESTPLAYER1", "TESTPLAYER2", 1, 0, 1, false)]
         public void MatchRead(string eventName, int round, string p1, string p2, int expectedP1Wins, int expectedP2Wins, int expectedDraws, bool expectedInProg)
         {
             var _sut = new dbMatch();
@@ -51,6 +51,13 @@ namespace Magic.Core.Tests
             Assert.AreEqual(expectedP2Wins, _sut.Player2Wins);
             Assert.AreEqual(expectedDraws, _sut.Draws);
             Assert.AreEqual(expectedInProg, _sut.InProgress);            
+        }
+
+        [Test]
+        public void TestEventLoad()
+        {
+            var _sut = new Magic.Core.Event();
+            _sut.LoadEvent("FRF");
         }
     }
 }

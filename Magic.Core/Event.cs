@@ -8,17 +8,6 @@ namespace Magic.Core
 {
     using NUnit.Framework;
 
-    [TestFixture]
-    public class EventTests
-    {
-        [Test]
-        public void TestEventLoad()
-        {
-            var _sut = new Magic.Core.Event();
-            _sut.LoadEvent("FRF");
-        }
-    }
-
     public class Event
     {
         public List<Core.Player> Players;
