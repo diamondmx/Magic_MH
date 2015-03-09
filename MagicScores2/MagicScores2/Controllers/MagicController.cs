@@ -16,10 +16,11 @@ namespace MagicScores2.Controllers
             var thisEvent = new Magic.Core.Event();
             thisEvent.LoadEvent(eventName);
 
-            ViewBag.Players = thisEvent.Players;
-            ViewBag.EventName = eventName;
-            ViewBag.Round = round;
-            return View();
+	        ViewBag.Title = String.Format("{0}: Round {1}", eventName, round);
+          ViewBag.Players = thisEvent.Players;
+          ViewBag.EventName = eventName;
+          ViewBag.Round = round;
+          return View();
         }
 
         public List<SelectListItem> GetGameWinsDropdownWithSelected(int winsSelected)
