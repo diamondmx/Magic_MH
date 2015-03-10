@@ -110,6 +110,22 @@ namespace Magic.Core
                 throw new InvalidOperationException("Bad Parameter for Flipped(): Name did not match either player in match");
         }
 
+        public bool DidPlayerWin(string name)
+        {
+            if(Player1Name==name)
+            {
+                return Player1Wins > Player2Wins;
+            }
+            else if(Player2Name==name)
+            {
+                return Player2Wins > Player1Wins;
+            }
+            else
+            {
+                throw new Exception("Player not in match");
+            }
+        }
+
         public void SetPlayerOneTo(string name)
         {
             Copy(WithPlayerOneAs(name));

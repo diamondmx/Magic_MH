@@ -56,13 +56,18 @@ namespace Magic.Core.Tests
             var _sut = new Magic.Core.Event();
             _sut.LoadEvent("FRF");
 	        foreach (var p in _sut.Players)
-					{
-						Assert.AreEqual(p.matches.Count(), 8);
-						foreach (var match in p.matches)
-						{
-							Assert.IsNotEmpty(match.Player1Name);
-							Assert.IsNotEmpty(match.Player2Name);
-						}
+			{
+				Assert.AreEqual(p.matches.Count(), 8);
+				foreach (var match in p.matches)
+				{
+					Assert.IsNotEmpty(match.Player1Name);
+					Assert.IsNotEmpty(match.Player2Name);
+                    Assert.AreEqual(match.Player1.name, match.Player1Name);
+                    Assert.AreEqual(match.Player2.name, match.Player2Name);
+
+                    var playerInMatch = (match.Player1Name == p.name) || (match.Player2Name == p.name);
+                    Assert.AreEqual(playerInMatch, true);
+				}
 	        }
         }
     }

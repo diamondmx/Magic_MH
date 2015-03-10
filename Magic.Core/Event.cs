@@ -57,21 +57,6 @@ namespace Magic.Core
                     }
                 }
             }
-
-            foreach (var p in Players)
-            {
-                foreach (var m in p.matches)
-                {
-                    if (m.Player1.name != p.name)
-                    {
-                        if (m.Player2.name == p.name)
-                            m.SetPlayerOneTo(p.name);
-                        else
-                            throw new Exception("Neither player is correct?");
-                    }
-                }
-
-            }
         }
     }
 }

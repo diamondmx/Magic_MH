@@ -54,6 +54,7 @@
         <tr>
             <th>Player</th>
             <th>Score</th>
+            <th>OMWP</th>
         </tr>
     </thead>
     <tbody>
@@ -62,6 +63,7 @@
             <tr>
             <td class="keyplayer">@p.name</td>
             <td class="playerScore">@p.Score(round)</td>
+            <td class="playerScore">@p.OMWP(round).ToString("F2")<text>%</text></td>
             </tr>
         }
     </tbody>
