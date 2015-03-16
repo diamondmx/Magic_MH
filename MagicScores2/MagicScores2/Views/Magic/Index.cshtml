@@ -58,12 +58,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(Magic.Core.Player p in players.OrderByDescending(p=>p.Score(round)))
+        @foreach(Magic.Core.Player p in players.OrderByDescending(p=>p.Score(round)).ThenByDescending(p=>p.OMWP(round)))
         {
             <tr>
             <td class="keyplayer">@p.name</td>
             <td class="playerScore">@p.Score(round)</td>
             <td class="playerScore">@p.OMWP(round).ToString("F2")<text>%</text></td>
+                @foreach(Magic.Core.Player o in p.Opponents(round))
+                {
+                    <td>@o.name</td>
+                    <td>@o.MWP(round)<text>% </text></td>
+                }
             </tr>
         }
     </tbody>
