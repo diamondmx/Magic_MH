@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System;   
 using System.Collections.Generic;
+using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,16 @@ namespace Magic.Core
 			var playersTable = db.GetTable<dbPlayer>().ToList();
 			return playersTable;
 		}
-	}
+
+        public void Save()
+        {
+            //var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+
+            //var sqlUpdate = String.Format("UPDATE Players SET CurrentRound={0}, Rounds={1}, RoundMatches={2} WHERE Name='{3}'", currentRound, rounds, roundMatches, Name);
+            //db.ExecuteCommand(sqlUpdate);
+
+        }
+    }
 
 	[System.Data.Linq.Mapping.Table(Name = "Matches")]
 	public class dbMatch
@@ -91,6 +101,22 @@ namespace Magic.Core
             db.ExecuteQuery<dbMatch>(String.Format("UPDATE [Magic]..[Matches] SET [Player2Wins]={0}, [Player1Wins]={1}, [Draws]={2}, [InProgress]='{3}' WHERE [Player2]='{4}' AND [Player1]='{5}' AND [Event]='{6}' AND [Round]={7}", Player1Wins, Player2Wins, Draws, InProgress, Player1, Player2, Event, Round));
         }
 
+        public void Insert()
+        {
+            var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+            var sql = String.Format("INSERT INTO [Magic]..[Matches](Event,Round,Player1,Player2,Player1Wins,Player2Wins,Draws,InProgress) VALUES('{0}',{1},'{2}','{3}',{4},{5},{6},0)", Event, Round, Player1, Player2, Player1Wins, Player2Wins, Draws);
+            db.ExecuteQuery<dbMatch>(sql);
+        }
+
+        public void Save()
+        {
+            if (MatchExists(Event, Round, Player1, Player2))
+                Update();
+            else
+                Insert();
+
+        }
+
         internal static bool IsMatch(dbMatch checkedMatch, string player1name, string player2name, string eventname, int round)
         {
             if (eventname == checkedMatch.Event && round == checkedMatch.Round)
@@ -102,6 +128,28 @@ namespace Magic.Core
             }
 
             return true;
+        }
+
+        internal bool MatchExists(string eventName, int round, string p1, string p2)
+        {
+            var allMatches = dbMatch.LoadDBMatches(eventName);
+            var eventMatches = allMatches.Where(m => m.Event == eventName).ToList();
+            var roundMatches = eventMatches.Where(m => m.Round == round).ToList();
+
+            var matchesAsP1 = roundMatches.Where(m => m.Player1 == p1 && m.Player2 == p2);
+            if (matchesAsP1.Any())
+            {
+                return true;
+            }
+            else
+            {
+                var matchesAsP2 = roundMatches.Where(m => m.Player1 == p2 && m.Player2 == p1);
+                if (matchesAsP2.Any())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool Read(string eventName, int round, string p1, string p2)
@@ -133,33 +181,53 @@ namespace Magic.Core
         }
     }
 
-	[System.Data.Linq.Mapping.Table(Name = "Events")]
+	[Table(Name = "Events")]
 	public class dbEvent
 	{
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public string Name;
 
-        [System.Data.Linq.Mapping.Column()]
+        [Column()]
         public DateTime StartDate;
         
-        [System.Data.Linq.Mapping.Column()]
+        [Column()]
 		public Int32 rounds;
+
+        [Column()]
+        public Int32 currentRound;
+
+        [Column()]
+        public Int32 roundMatches;
 
         public static dbEvent LoadDBEvent(string eventName)
         {
             var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
             return db.GetTable<dbEvent>().First(e => e.Name == eventName);
         }
-	}
 
-	[System.Data.Linq.Mapping.Table(Name = "EventPlayers")]
+        internal void Save()
+        {
+            var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+            
+            var sqlUpdate = String.Format("UPDATE Events SET CurrentRound={0}, Rounds={1}, RoundMatches={2} WHERE Name='{3}'", currentRound, rounds, roundMatches, Name);
+            db.ExecuteCommand(sqlUpdate);
+
+            //var test = db.GetChangeSet();
+            //db.SubmitChanges(failureMode: System.Data.Linq.ConflictMode.FailOnFirstConflict);
+        }
+    }
+
+	[Table(Name = "EventPlayers")]
 	public class dbEventPlayers
 	{
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public string EventName;
 
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public string Player;
+
+        [Column()]
+        public int Dropped;
 
         public static List<dbEventPlayers> LoadDBEventPlayers(string eventName)
         {

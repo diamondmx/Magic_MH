@@ -70,5 +70,21 @@ namespace Magic.Core.Tests
 				}
 	        }
         }
+
+        [Test]
+        public void TestMatchSave()
+        {
+            var _sut = new dbMatch();
+            _sut.Event = "TEST";
+            _sut.Round = 3;
+            _sut.Player1 = "TESTPLAYER1";
+            _sut.Player2 = "TESTPLAYER2";
+            _sut.Player1Wins = 6;
+            _sut.Player2Wins = 7;
+            _sut.Draws = 8;
+            _sut.InProgress = false;
+
+            _sut.Save();
+        }
     }
 }

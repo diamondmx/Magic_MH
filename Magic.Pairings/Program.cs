@@ -14,107 +14,19 @@ namespace Magic.Pairings
 {
 	class Program
 	{
-		public static List<Player> LoadFile(string fileName)
+		public static Event LoadDatabase(string eventName)
 		{
-			var list = new List<Player>();
-
-			using (var file = File.Open(fileName, FileMode.Open))
-			{
-				byte[] buffer = new byte[1024*1024];
-				var bytesRead = file.Read(buffer, 0, 1024*1024);
-				var readData = System.Text.Encoding.UTF8.GetString(buffer,0,bytesRead);
-				var readDataLines = readData.Split(new string[]{Environment.NewLine},1024, StringSplitOptions.RemoveEmptyEntries);
-				
-				var matches = new List<Magic.Core.Match>();
-				foreach (string dataLine in readDataLines)
-				{
-					var foundMatch = Magic.Core.Match.ReadFromSQLInsertString(dataLine);
-					if(foundMatch.Player1.Length>=1)
-						matches.Add(foundMatch);
-				}
-
-				foreach(Magic.Core.Match m in matches)
-				{
-					var foundPlayer = new Player(m.Player1, 0);
-					var foundPlayer2 = new Player(m.Player2, 0);
-					if(list.Count(p => p.name==foundPlayer.name)<=0)
-						list.Add(foundPlayer);
-
-					if (list.Count(p => p.name == foundPlayer2.name) <= 0)
-						list.Add(foundPlayer2);
-				}
-
-				foreach (string dataLine in readDataLines)
-				{
-					AddMatch(list, dataLine);
-				}
-				
-			}
-			return list;
-		}
-
-		public static List<Player> LoadDBPlayers(string eventName)
-		{
-			var db = new DataContext(@"Data Source=P-DV-DSK-MHIL;Initial Catalog=Magic;User ID=mhMagic;Password=mtgMagic");
-			var matchesTable = db.GetTable<dbMatch>();
-
-			var matches = new List<Core.Match>();
-			var players = new List<Core.Player>();
-
-			foreach (dbMatch m in matchesTable)
-			{
-				if (m.Event == eventName)
-					matches.Add(new Core.Match(m));
-			}
-
-			 players = Player.FromMatchList(matches, eventName);
-
-			return players;
-		}
-
-		static void AddMatch(List<Player> playerList, string matchInput)
-		{
-			Core.Match m = new Core.Match();
-
-			var inputList = matchInput.Split(new char[] { ',' }, StringSplitOptions.None);
-			m.Player1 = inputList[0].Trim(new char[] { '\'', '(', ')', ' ' });
-			m.Player2 = inputList[1].Trim(new char[] { '\'', '(', ')', ' ' });
-			m.Round = Convert.ToInt32(inputList[2]);
-			m.Event = inputList[3].Trim(new char[] { '\'', '(', ')', ' ' });
-			m.Player1Wins = Convert.ToInt32(inputList[4]);
-			m.Player2Wins = Convert.ToInt32(inputList[5]);
-			m.Draws = Convert.ToInt32(inputList[6]);
-
-			AddMatch(playerList, m);
-		}
-
-		static void AddMatch(List<Player> playerList, Magic.Core.Match m)
-		{
-			var player1 = playerList.First(player => player.name == m.Player1);
-			var player2 = playerList.First(player => player.name == m.Player2);
-
-			player1.round1Players.Add(player2);
-			player2.round1Players.Add(player1);
-			if (m.Player1Wins > m.Player2Wins)
-				player1.Score++;
-			else if (m.Player2Wins > m.Player1Wins)
-				player2.Score++;
-		}
-
-		public static List<Player> LoadDatabase(string eventName)
-		{
-			List<Player> players = LoadDBPlayers(eventName);
-			var currentRound = 3;//GetPlayedRounds(eventName);
-
-			return players;
+            var newEvent = new Event();
+            newEvent.LoadEvent(eventName);
+			return newEvent;
 		}
 		
 		static void Main(string[] args)
 		{
-			var playerList = LoadDatabase("KTK");
+			var mainEvent = LoadDatabase("FRF");
 
 			var playerListString = "";
-			foreach (Player p in playerList)
+			foreach (Player p in mainEvent.Players)
 			{
 				playerListString += PlayerListInfoToString(p);
 				playerListString += Environment.NewLine;
@@ -126,13 +38,12 @@ namespace Magic.Pairings
 				file.Write(outputByte, 0, outputByte.Length);
 			}
 			
-			
-			playerList = GeneratePairings(playerList, 4);
+			GeneratePairings(mainEvent);
 
 			var outputString = "";
-			foreach (Player p in playerList)
+			foreach (Player p in mainEvent.Players)
 			{
-				outputString += PlayerPairingInfoToString(p);
+				outputString += PlayerPairingInfoToString(p, mainEvent.CurrentRound);
 				outputString += Environment.NewLine;
 			}
 
@@ -142,20 +53,20 @@ namespace Magic.Pairings
 				file.Write(outputByte, 0, outputByte.Length);
 			}
 
-
-
+            mainEvent.SaveEvent();
 		}
 
-		static private string PlayerPairingInfoToString(Player p)
+		static private string PlayerPairingInfoToString(Player p, int currentRound)
 		{
 			String output = "";
 
 			output += p.name;
 			output += ": ";
-			for(int i =0;i<p.CurrentPlayers.Count;i++)
+            var listOfOpponents = p.Opponents(currentRound);
+			for(int i =0;i<listOfOpponents.Count;i++)
 			{
-				output += p.CurrentPlayers[i].name;
-				if(i+1<p.CurrentPlayers.Count)
+                output += listOfOpponents[i].name;
+                if (i + 1 < listOfOpponents.Count)
 					output += ", ";
 			}
 
@@ -163,140 +74,102 @@ namespace Magic.Pairings
 		}
 
 		static private string PlayerListInfoToString(Player p)
+        {
+            string output = "";
+
+            output += p.name + ": ";
+
+            foreach(Magic.Core.Match m in p.matches.OrderBy(m=>m.Round).ThenBy(m=>m.WithPlayerOneAs(p.name).Player2Name))
+            {
+                var normalised = m.WithPlayerOneAs(p.name);
+                output += normalised.Player2Name;
+                output += ", ";
+            }
+
+            output += p.Score(0);
+            if (p.droppedInRound > 0)
+                output += "! Dropped in round " + p.droppedInRound;
+
+            return output;
+        }
+
+		static private void GeneratePairings(Event mainEvent)
 		{
-			String output = "";
+            var inputPlayers = mainEvent.Players;
+            var currentRound = mainEvent.CurrentRound;
+            var rounds = mainEvent.rounds;
+            var eventName = mainEvent.name;
+            int activePlayers = inputPlayers.Count(p=>!p.HasDropped(currentRound));
 
-			output += p.name;
-			output += ": ";
-			for (int i = 0; i < p.round1Players.Count; i++)
-			{
-				output += p.round1Players[i].name;
-				if (i + 1 < p.round1Players.Count)
-					output += ", ";
-			}
-
-			if(p.round2Players.Count>0)
-				output += ", ";
-
-			for (int i = 0; i < p.round2Players.Count; i++)
-			{
-				output += p.round2Players[i].name;
-				if (i + 1 < p.round2Players.Count)
-					output += ", ";
-			}
-
-			if (p.round3Players.Count > 0)
-				output += ", ";
-
-			for (int i = 0; i < p.round3Players.Count; i++)
-			{
-				output += p.round3Players[i].name;
-				if (i + 1 < p.round3Players.Count)
-					output += ", ";
-			}
-
-			output += String.Format(" ({0})", p.Score);
-
-
-			return output;
-		}
-
-		static private List<Player> GetPlayerList()
-		{
-			var aaron = new Player("Aaron", 0);
-			var adam = new Player("Adam", 0);
-			var alex = new Player("Alex", 0);
-			var artem = new Player("Artem", 0);
-			var cbLadd = new Player("CB Ladd", 0);
-			var charlie = new Player("Charlie", 0);
-			var david = new Player("David", 0);
-			var elise = new Player("Elise", 0);
-			var jeffrey = new Player("Jeffrey", 0);
-			var john = new Player("John", 0);
-			var markH = new Player("Mark H", 0);
-			var markR = new Player("Mark R", 0);
-			var michael = new Player("Michael", 0);
-			var nicholas = new Player("Nicholas", 0);
-			var nikita = new Player("Nikita", 0);
-			var pete = new Player("Pete", 0);
-			var sean = new Player("Sean", 0);
-			var erik = new Player("Erik", 0);
-
-
-			
-			return new List<Player>{aaron, adam, alex, artem, cbLadd, charlie,david,elise,jeffrey,john,markH,markR,michael,nicholas,nikita,pete,sean,erik};
-		}
-
-		static private List<Player> GeneratePairings(List<Player> inputPlayers, int rounds)
-		{
-			var outputPlayers = inputPlayers;
 
 			bool finished = false;
 			
 			while (!finished)
 			{
-				var matchesAtStart = inputPlayers.Sum(p => p.CurrentPlayers.Count);
-				if (matchesAtStart == inputPlayers.Count * rounds)
-					return inputPlayers;
+				var matchesAtStart = inputPlayers.Sum(p => p.Opponents(currentRound).Count());
+				if (matchesAtStart == activePlayers * mainEvent.RoundMatches)
+                    return;
 
 				// Modify player pairings
 
-				var player = FindRandomPlayerWithFewestOpponents(inputPlayers, rounds);
+				var player = FindRandomPlayerWithFewestOpponents(inputPlayers, mainEvent.RoundMatches, currentRound);
 
 				if (player == null)
-					return inputPlayers;
+					return;
 
-				var matchedPlayer = FindBestMatch(player, inputPlayers, rounds);
+				var matchedPlayer = FindBestMatch(player, inputPlayers, mainEvent.RoundMatches, currentRound);
 				if (matchedPlayer == null)
-					return inputPlayers;
+					return;
 
-				player.CurrentPlayers.Add(matchedPlayer);
-				matchedPlayer.CurrentPlayers.Add(player);
+                var newMatch = new Core.Match(player, player.name, matchedPlayer, matchedPlayer.name, eventName, currentRound, 0,0,0,false);
+				player.matches.Add(newMatch);
+				matchedPlayer.matches.Add(newMatch);
+                mainEvent.Matches.Add(newMatch);
 
 				// End modify player pairings
 
-				var matchesAtEnd = inputPlayers.Sum(p => p.CurrentPlayers.Count);
+				var matchesAtEnd = inputPlayers.Sum(p => p.Opponents(round:currentRound).Count);
 
 				if (matchesAtStart == matchesAtEnd)
 				{
-					finished = true;					
+					finished = true;
 				}
 
-				if (matchesAtEnd == inputPlayers.Count*rounds)
+				if (matchesAtEnd == inputPlayers.Count*mainEvent.RoundMatches)
 				{
 					finished = true;
-					return inputPlayers;
+					return;
 				}
 			}
-			return inputPlayers;
+			return;
 		}
 
-		private static Player FindBestMatch(Player player, List<Player> inputPlayers, int rounds)
+		private static Player FindBestMatch(Player player, List<Player> inputPlayers, int matches, int currentRound)
 		{
 			Player selectedMatch = null;
 
-			selectedMatch = FindMatchWithGivenScore(player, inputPlayers, 0, false, false, rounds);
+            selectedMatch = FindMatchWithGivenScore(player, inputPlayers, 0, false, false, matches, currentRound);
 			if (selectedMatch != null)
 				return selectedMatch;
 			
 			
 			for(var scoreRange=1;scoreRange<99;scoreRange++)
 			{
-				selectedMatch = FindMatchWithGivenScore(player, inputPlayers, scoreRange, false, false, rounds);
+                selectedMatch = FindMatchWithGivenScore(player, inputPlayers, scoreRange, false, false, matches, currentRound);
 				if (selectedMatch != null)
 					return selectedMatch;
 			}
 
 			for (var scoreRange = 1; scoreRange < 99; scoreRange++)
 			{
-				selectedMatch = FindMatchWithGivenScore(player, inputPlayers, scoreRange, true, false, rounds);
+                selectedMatch = FindMatchWithGivenScore(player, inputPlayers, scoreRange, true, false, matches, currentRound);
 				if (selectedMatch != null)
 					return selectedMatch;
 			}
 
 			for (var scoreRange = 1; scoreRange < 99; scoreRange++)
 			{
-				selectedMatch = FindMatchWithGivenScore(player, inputPlayers, scoreRange, true, true, rounds);
+                selectedMatch = FindMatchWithGivenScore(player, inputPlayers, scoreRange, true, true, matches, currentRound);
 				if (selectedMatch != null)
 					return selectedMatch;
 			}
@@ -304,7 +177,7 @@ namespace Magic.Pairings
 			return null;
 		}
 
-		private static Player FindMatchWithGivenScore(Player player, IEnumerable<Player> inputPlayers, int scoreRangeRelaxation, bool relaxRound1MatchRestriction, bool relaxRound2MatchRestriction, int rounds)
+		private static Player FindMatchWithGivenScore(Player player, IEnumerable<Player> inputPlayers, int scoreRangeRelaxation, bool relaxRound1MatchRestriction, bool relaxRound2MatchRestriction, int matches, int currentRound)
 		{
 			var possiblePlayers = new List<Player>();
 			foreach (var p in inputPlayers)
@@ -312,19 +185,22 @@ namespace Magic.Pairings
 				if (p == player)
 					continue;
 
-				if (Math.Abs(p.Score - player.Score) > scoreRangeRelaxation)
+                if (p.HasDropped(currentRound))
+                    continue;
+
+				if (Math.Abs(p.Score(currentRound) - player.Score(currentRound)) > scoreRangeRelaxation)
 					continue;
 
-				if (p.round1Players.Contains(player) && (!relaxRound1MatchRestriction))
+				if (p.Opponents(round:1).Contains(player) && (!relaxRound1MatchRestriction))
 					continue;
 
-				if (p.round2Players.Contains(player) && (!relaxRound2MatchRestriction))
+                if (p.Opponents(round: 2).Contains(player) && (!relaxRound2MatchRestriction))
 					continue;
 
-				if (p.CurrentPlayers.Contains(player))
+				if (p.Opponents(round: currentRound).Contains(player))
 					continue;
 
-				if (p.CurrentPlayers.Count >= rounds)
+				if (p.Opponents(round: currentRound).Count >= matches)
 					continue;
 
 				possiblePlayers.Add(p);
@@ -345,7 +221,7 @@ namespace Magic.Pairings
 
 		}
 
-		private static Player FindPlayerWithHighestScoreFewestOpponents(List<Player> players, int rounds)
+        private static Player FindPlayerWithHighestScoreFewestOpponents(List<Player> players, int rounds, int currentRound)
 		{
 			var selectedPlayer = players[0];
 			
@@ -354,24 +230,27 @@ namespace Magic.Pairings
 				if (selectedPlayer == player)
 					continue;
 
-				if (selectedPlayer.CurrentPlayers.Count >= rounds)
+                if (selectedPlayer.HasDropped(currentRound))
+                    continue;
+
+				if (selectedPlayer.Opponents(round:currentRound).Count >= rounds)
 					selectedPlayer = player;
 
-				if (player.CurrentPlayers.Count < selectedPlayer.CurrentPlayers.Count)
+				if (player.Opponents(round:currentRound).Count < selectedPlayer.Opponents(round:currentRound).Count)
 				{
 					selectedPlayer = player;
 				}
-				else if (player.CurrentPlayers.Count == selectedPlayer.CurrentPlayers.Count)
+				else if (player.Opponents(round:currentRound).Count == selectedPlayer.Opponents(round:currentRound).Count)
 				{
-					if (player.Score < selectedPlayer.Score)
+					if (player.Score() < selectedPlayer.Score())
 						selectedPlayer = player;
 				}
 			}
 
-			return selectedPlayer.CurrentPlayers.Count >= rounds ? null : selectedPlayer;
+			return selectedPlayer.Opponents(round:currentRound).Count >= rounds ? null : selectedPlayer;
 		}
 
-		private static Player FindRandomPlayerWithFewestOpponents(List<Player> players, int rounds)
+		private static Player FindRandomPlayerWithFewestOpponents(List<Player> players, int matches, int currentRound)
 		{
 			var fewestOpponents = 99;
 			var selectedPlayers = new List<Player> {};
@@ -382,22 +261,25 @@ namespace Magic.Pairings
 				if (selectedPlayers.Contains(player))
 					continue;
 
-				if (player.CurrentPlayers.Count >= rounds)
+                if (player.HasDropped(currentRound))
+                    continue;
+
+                if (player.Opponents(currentRound).Count >= matches)
 					continue;
 
-				if (player.CurrentPlayers.Count == fewestOpponents)
+				if (player.Opponents(currentRound).Count == fewestOpponents)
 				{
 					selectedPlayers.Add(player);
 				}
-				else if (player.CurrentPlayers.Count < fewestOpponents)
+                else if (player.Opponents(currentRound).Count < fewestOpponents)
 				{
-					fewestOpponents = player.CurrentPlayers.Count;
+                    fewestOpponents = player.Opponents(currentRound).Count;
 					selectedPlayers.Clear();
 					selectedPlayers.Add(player);
 				}
 			}
 
-			if (selectedPlayers.Count > 0 && fewestOpponents <rounds)
+            if (selectedPlayers.Count > 0 && fewestOpponents < matches)
 				return selectedPlayers[new Random().Next()%selectedPlayers.Count()];
 			else
 				return null;

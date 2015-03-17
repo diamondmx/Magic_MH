@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Magic.Core
 {
-	public class Player
+	[DebuggerDisplay("{name} m:{matches.Count}")]
+    public class Player
 	{
 		public string name;
 		public List<Match> matches;
 		public int? droppedInRound;
+        public dbPlayer myDbPlayer = null;
 
-        /*public List<Player> roundPlayers(int round)
-        {
-            var roundMatches = matches.Where(m => m.Round == round);
-            return roundMatches.Select(m => m.WithPlayerOneAs(name).Player2).ToList();
-        }*/
 		public Player(string newName)
 		{
 			name = newName;
@@ -27,6 +25,13 @@ namespace Magic.Core
         public Player(dbPlayer p)
         :this(p.Name)
         {
+            myDbPlayer = p;
+        }
+
+        public void SavePlayer()
+        {
+            if (myDbPlayer != null)
+                myDbPlayer.Save();
         }
 
         public int Score(int round=0)
@@ -76,6 +81,9 @@ namespace Magic.Core
         public float OMWP(int round=0)
         {
             var opponents = Opponents(round);
+            if (opponents.Count <= 0)
+                return 33.33f;
+
             float omwp = (float)opponents.Average(o => o.MWP(round)>33.33f?o.MWP(round):33.33f);
             return omwp;
         }
@@ -100,5 +108,13 @@ namespace Magic.Core
             float ogwp = (float)opponents.Average(o => o.GWP(round) > 33.33f ? o.GWP(round) : 33.33f);
             return ogwp;
         }
-	}
+
+        public bool HasDropped(int currentRound)
+        {
+            if (droppedInRound > 0 && currentRound > droppedInRound)
+                return true;
+
+            return false;
+        }
+    }
 }

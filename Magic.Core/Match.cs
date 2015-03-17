@@ -27,6 +27,8 @@ namespace Magic.Core
 		public int Draws;
 		public bool InProgress;
 
+        public dbMatch myDbMatch;
+
 		public Match()
 		{ }
 
@@ -69,7 +71,26 @@ namespace Magic.Core
 		public Match(dbMatch m)
             :this(m.Player1, m.Player2, m.Event, m.Round, m.Player1Wins, m.Player2Wins, m.Draws, m.InProgress)
         {
+            myDbMatch = m;
 		}
+
+        public void Save()
+        {
+            if(myDbMatch==null)
+            {
+                myDbMatch = new dbMatch();
+                myDbMatch.Event = Event;
+                myDbMatch.Round = Round;
+                myDbMatch.Player1 = Player1.name;
+                myDbMatch.Player2 = Player2.name;
+            }
+            
+            myDbMatch.Player1Wins = Player1Wins;
+            myDbMatch.Player2Wins = Player2Wins;
+            myDbMatch.Draws = Draws;
+
+            myDbMatch.Save();
+        }
 
         public void Copy(Match m)
         {
