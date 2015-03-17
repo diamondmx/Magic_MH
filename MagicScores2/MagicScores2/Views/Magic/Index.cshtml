@@ -6,6 +6,7 @@
     List<Magic.Core.Player> players = ViewBag.Players;
     string eventName = ViewBag.eventName;
     int numMatches = players.First().matches.Where(m=>m.Round==round).Count();
+		int roundForScores = round == 3 ? 0 : round;
 }
 
 <h2>Players - @eventName - Round @round</h2>
@@ -44,7 +45,7 @@
                 
                 <td class="opponentplayer"><a href="@matchUrl">@normalizedMatch.Player2.name</a></td><td><text>@normalizedMatch.Player1Wins</text>-<text>@normalizedMatch.Player2Wins</text></td><td>@matchResult</td>
             }
-            <td class="playerScore">@p.Score(round)</td>
+            <td class="playerScore">@p.Score(roundForScores)</td>
         </tr>
     }
 </table>
@@ -58,17 +59,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(Magic.Core.Player p in players.OrderByDescending(p=>p.Score(round)).ThenByDescending(p=>p.OMWP(round)))
+        @foreach (Magic.Core.Player p in players.OrderByDescending(p => p.Score(roundForScores)).ThenByDescending(p => p.OMWP(roundForScores)))
         {
             <tr>
             <td class="keyplayer">@p.name</td>
-            <td class="playerScore">@p.Score(round)</td>
-            <td class="playerScore">@p.OMWP(round).ToString("F2")<text>%</text></td>
-                @foreach(Magic.Core.Player o in p.Opponents(round))
+            <td class="playerScore">@p.Score(roundForScores)</td>
+            <td class="playerScore">@p.OMWP(roundForScores).ToString("F2")<text>%</text></td>
+                @foreach (Magic.Core.Player o in p.Opponents(roundForScores))
                 {
-                    <td>@o.name</td>
-                    <td>@o.MWP(round)<text>% </text></td>
-                }
+                    <td class="omwpList">@o.name</td>
+										<td class="omwpList">@o.MWP(roundForScores).ToString("F0")<text>% </text></td>
+								}
             </tr>
         }
     </tbody>
