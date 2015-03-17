@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Magic.Core
 {
-	[DebuggerDisplay("{name} m:{matches.Count}")]
+	[DebuggerDisplay("{name} m:{matches.Count} s:{Score(0)}")]
     public class Player
 	{
 		public string name;
@@ -38,15 +38,21 @@ namespace Magic.Core
         {
             if(round<=0)
             {
-                return matches.Where(m => m.Player1Wins > m.Player2Wins).Count();
+                return matches.Where(m =>
+                {
+	                var nm = m.WithPlayerOneAs(name);
+	                return nm.Player1Wins > nm.Player2Wins;
+                }).Count();
             }
             else
             {
                 var roundMatches = matches.Where(m => m.Round == round).ToList();
-                roundMatches.ForEach(m => m.SetPlayerOneTo(name));
-                var wonMatches = roundMatches.Where(m => m.Player1Wins > m.Player2Wins);
-                var score = wonMatches.Count();
-                return score;
+								var wins = roundMatches.Where(m =>
+								{
+									var nm = m.WithPlayerOneAs(name);
+									return nm.Player1Wins > nm.Player2Wins;
+								}).Count();
+                return wins;
             }
         }
 

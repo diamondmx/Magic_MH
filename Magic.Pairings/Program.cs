@@ -38,7 +38,7 @@ namespace Magic.Pairings
 				file.Write(outputByte, 0, outputByte.Length);
 			}
 			
-			GeneratePairings(mainEvent);
+			//GeneratePairings(mainEvent);
 
 			var outputString = "";
 			foreach (Player p in mainEvent.Players)
@@ -188,7 +188,7 @@ namespace Magic.Pairings
                 if (p.HasDropped(currentRound))
                     continue;
 
-				if (Math.Abs(p.Score(currentRound) - player.Score(currentRound)) > scoreRangeRelaxation)
+				if (Math.Abs(p.Score(0) - player.Score(0)) > scoreRangeRelaxation)
 					continue;
 
 				if (p.Opponents(round:1).Contains(player) && (!relaxRound1MatchRestriction))
