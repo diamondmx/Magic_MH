@@ -20,6 +20,7 @@ namespace MagicScores2.Controllers
           ViewBag.Players = thisEvent.Players;
           ViewBag.EventName = eventName;
           ViewBag.Round = round;
+	        ViewBag.Event = thisEvent;
           return View();
         }
 

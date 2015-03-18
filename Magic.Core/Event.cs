@@ -6,84 +6,88 @@ using System.Threading.Tasks;
 
 namespace Magic.Core
 {
-    using NUnit.Framework;
-    using System.Diagnostics;
+	using NUnit.Framework;
+	using System.Diagnostics;
 
-    [DebuggerDisplay("{name} r:{CurrentRound} p:{Players.Count} m:{Matches.Count}")]
-    public class Event
-    {
-        public List<Core.Player> Players;
-        public List<Core.Match> Matches;
-        public string name;
-        public int rounds;
-        public int CurrentRound;
-        public int RoundMatches;
-        public dbEvent myDbEvent;
+	[DebuggerDisplay("{name} r:{CurrentRound} p:{Players.Count} m:{Matches.Count}")]
+	public class Event
+	{
+		public List<Core.Player> Players;
+		public List<Core.Match> Matches;
+		public string name;
+		public int rounds;
+		public int CurrentRound;
+		public int RoundMatches;
+		public dbEvent myDbEvent;
+		public DateTime RoundEndDate;
+		public DateTime EventStartDate;
 
-        public void LoadEvent(string eventName)
-        {
-            name = eventName;
 
-            var loadedEvent = dbEvent.LoadDBEvent(eventName);
-            myDbEvent = loadedEvent;
-            rounds = loadedEvent.rounds;
-            CurrentRound = loadedEvent.currentRound;
-            RoundMatches = loadedEvent.roundMatches;
+		public void LoadEvent(string eventName)
+		{
+			name = eventName;
 
-            var eventPlayers = dbEventPlayers.LoadDBEventPlayers(eventName);
+			var loadedEvent = dbEvent.LoadDBEvent(eventName);
+			myDbEvent = loadedEvent;
+			rounds = loadedEvent.rounds;
+			CurrentRound = loadedEvent.currentRound;
+			RoundMatches = loadedEvent.roundMatches;
+			RoundEndDate = loadedEvent.RoundEndDate;
 
-            Players = new List<Player>();
-            dbPlayer.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => Players.Add(new Player(p)));
-            eventPlayers.Where(ep => ep.Dropped > 0).ToList().ForEach(ep =>
-            {
-                foreach(var p in Players)
-                {
-                    if (p.name == ep.Player)
-                        p.droppedInRound = ep.Dropped;
-                }
-            });
+			var eventPlayers = dbEventPlayers.LoadDBEventPlayers(eventName);
 
-            Matches = new List<Match>();
-            dbMatch.LoadDBMatches(name).Where(m => m.Event == eventName).ToList().ForEach(m => Matches.Add(new Match(m)));
+			Players = new List<Player>();
+			dbPlayer.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => Players.Add(new Player(p)));
+			eventPlayers.Where(ep => ep.Dropped > 0).ToList().ForEach(ep =>
+			{
+				foreach (var p in Players)
+				{
+					if (p.name == ep.Player)
+						p.droppedInRound = ep.Dropped;
+				}
+			});
 
-	        foreach (var match in Matches)
-	        {
-		        if(String.IsNullOrEmpty((match.Player1Name)))
-							throw new Exception();
+			Matches = new List<Match>();
+			dbMatch.LoadDBMatches(name).Where(m => m.Event == eventName).ToList().ForEach(m => Matches.Add(new Match(m)));
 
-						if(String.IsNullOrEmpty((match.Player2Name)))
-							throw new Exception();
-	        }
+			foreach (var match in Matches)
+			{
+				if (String.IsNullOrEmpty((match.Player1Name)))
+					throw new Exception();
 
-            foreach (var p in Players)
-            {
-                foreach (var m in Matches)
-                {   
-                    if (m.Player1Name == p.name)
-                    {
-                        m.Player1 = p;
-                        p.matches.Add(m);
-                    }
+				if (String.IsNullOrEmpty((match.Player2Name)))
+					throw new Exception();
+			}
 
-                    else if (m.Player2Name == p.name)
-                    {
-                        m.Player2 = p;
-                        p.matches.Add(m);
-                    }
-                }
-            }
-        }
+			foreach (var p in Players)
+			{
+				foreach (var m in Matches)
+				{
+					if (m.Player1Name == p.name)
+					{
+						m.Player1 = p;
+						p.matches.Add(m);
+					}
 
-        public void SaveEvent()
-        {
-            myDbEvent.Name = name;
-            myDbEvent.roundMatches = RoundMatches;
-            myDbEvent.rounds = rounds;
-            myDbEvent.currentRound = CurrentRound;
+					else if (m.Player2Name == p.name)
+					{
+						m.Player2 = p;
+						p.matches.Add(m);
+					}
+				}
+			}
+		}
 
-            Matches.ForEach(m => m.Save());
+		public void SaveEvent()
+		{
+			myDbEvent.Name = name;
+			myDbEvent.roundMatches = RoundMatches;
+			myDbEvent.rounds = rounds;
+			myDbEvent.currentRound = CurrentRound;
 
-            myDbEvent.Save();
-        }
-    }
+			Matches.ForEach(m => m.Save());
+
+			myDbEvent.Save();
+		}
+	}
 }
