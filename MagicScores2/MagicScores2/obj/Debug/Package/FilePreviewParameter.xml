@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="IIS Web Application Name" description="" value="magic" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\mhill\\Desktop\\GitHub\\Magic_MH\\MagicScores2\\MagicScores2\\obj\\Debug\\Package\\PackageTmp$" />
-    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\mhill\\Desktop\\GitHub\\Magic_MH\\MagicScores2\\MagicScores2\\obj\\Debug\\Package\\PackageTmp$" />
-  </parameter>
-</parameters>

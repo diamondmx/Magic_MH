@@ -34,6 +34,11 @@ namespace Magic.Core
                 myDbPlayer.Save();
         }
 
+		public int matchesCompleted(int round)
+		{
+			return matches.Where(m => m.Round == round).Count(m => m.Player1Wins >= 2 || m.Player2Wins >= 2);
+		}
+
         public int Score(int round=0)
         {
             if(round<=0)
