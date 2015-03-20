@@ -24,7 +24,8 @@
 				<th>Result</th>
 			}
 			<th>MWP</th>
-		</tr>
+            <th>Matches Played</th>
+		</tr
 	</thead>
 	@foreach (Magic.Core.Player p in players)
 	{
@@ -50,6 +51,7 @@
 				<td>@matchResult</td>
 			}
 			<td class="playerScore">@p.Score(roundForScores)</td>
+            <td class="playerScore">@p.matchesCompleted(round)<text>/</text>@mainEvent.RoundMatches</td>
 		</tr>
 	}
 </table>
