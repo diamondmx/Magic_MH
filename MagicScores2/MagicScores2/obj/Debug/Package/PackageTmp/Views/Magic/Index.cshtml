@@ -8,10 +8,42 @@
 	int numMatches = players.First().matches.Where(m => m.Round == round).Count();
 	int roundForScores = round == 3 ? 0 : round;
 	Magic.Core.Event mainEvent = ViewBag.Event;
+	TimeSpan timeTillEnd = mainEvent.RoundEndDate - DateTime.Now;
+	int weeksTillEnd = (int)timeTillEnd.TotalDays/7;
+	int daysTillEnd = (int)timeTillEnd.TotalDays%7;
+	int hoursTillEnd = (int) timeTillEnd.TotalHours%24;
+	string endTimeString;
+	
+	if (weeksTillEnd>1)
+	{
+		endTimeString = string.Format("{0} weeks, {1} days",weeksTillEnd, daysTillEnd);
+	}
+	else if (weeksTillEnd > 0)
+	{
+		endTimeString = string.Format("{0} week, {1} days", weeksTillEnd, daysTillEnd);
+	}
+	else if (daysTillEnd > 1)
+	{
+		endTimeString = string.Format("{0} days",daysTillEnd);
+	}
+	else if (daysTillEnd > 0)
+	{
+		endTimeString = string.Format("{0} day", daysTillEnd);
+	}
+	else if(timeTillEnd.TotalMilliseconds>0)
+	{
+		endTimeString = string.Format("{0} hours", hoursTillEnd);
+	}
+	else
+	{
+		endTimeString = "Finished!";
+	}
+	
+	
 }
 
 <h2>Players - @eventName - Round @round</h2>
-<h3>Round Ends: @mainEvent.RoundEndDate.ToString()</h3>
+<h3>Round Ends: @string.Format("{0} - {1}",mainEvent.RoundEndDate.ToString(), endTimeString)</h3>
 
 <table border="1" class="matchTable">
 	<thead class="tableHeader">
@@ -24,8 +56,8 @@
 				<th>Result</th>
 			}
 			<th>MWP</th>
-            <th>Matches Played</th>
-		</tr
+			<th>Matches Played</th>
+		</tr>
 	</thead>
 	@foreach (Magic.Core.Player p in players)
 	{

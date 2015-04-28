@@ -23,7 +23,7 @@ namespace Magic.Pairings
 		
 		static void Main(string[] args)
 		{
-			var mainEvent = LoadDatabase("FRF");
+			var mainEvent = LoadDatabase("DTK");
 
 			var playerListString = "";
 			foreach (Player p in mainEvent.Players)
@@ -38,7 +38,7 @@ namespace Magic.Pairings
 				file.Write(outputByte, 0, outputByte.Length);
 			}
 			
-			//GeneratePairings(mainEvent);
+			GeneratePairings(mainEvent);
 
 			var outputString = "";
 			foreach (Player p in mainEvent.Players)
