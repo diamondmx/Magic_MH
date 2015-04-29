@@ -16,7 +16,7 @@ namespace MagicScores2
             routes.MapRoute(
                 name: "Default",
                 url: "{eventName}/{round}",
-                defaults: new { controller="Magic", action = "Index", eventName = "FRF", round=1 }
+                defaults: new { controller="Magic", action = "Index", eventName = "DTK", round=1 }
                 );
 
             routes.MapRoute(
