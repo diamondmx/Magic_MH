@@ -31,7 +31,18 @@ textarea {
 }
 
 .playerScore{
-    background-color: coral
+    background-color: coral;
+	text-align:center;
+}
+
+.wincolor {
+	background-color: forestgreen;
+	color: gold;
+	font-weight: bold;
+}
+
+.centered {
+	text-align:center;
 }
 
 .omwpList {

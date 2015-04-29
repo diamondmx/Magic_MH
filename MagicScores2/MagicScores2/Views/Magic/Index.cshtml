@@ -52,8 +52,8 @@
 			@for (int i = 0; i < numMatches; i++)
 			{
 				<th>Opp. </th>
-				<th>Games</th>
-				<th>Result</th>
+				<th class="centered">Games</th>
+				<th class="centered">Result</th>
 			}
 			<th>MWP</th>
 			<th>Matches Played</th>
@@ -79,8 +79,15 @@
 				var matchUrl = String.Format(@"/{0}/{1}/{2}/{3}/", eventName, round, normalizedMatch.Player1Name, normalizedMatch.Player2Name);
 
 				<td class="opponentplayer"><a href="@matchUrl">@normalizedMatch.Player2.name</a></td>
-				<td><text>@normalizedMatch.Player1Wins</text>-<text>@normalizedMatch.Player2Wins</text></td>
-				<td>@matchResult</td>
+				<td class="centered"><text>@normalizedMatch.Player1Wins</text>-<text>@normalizedMatch.Player2Wins</text></td>
+				if(@matchResult == "Win")
+				{	
+					<td class="centered wincolor">@matchResult</td>
+				}
+				else
+				{
+					<td class="centered">@matchResult</td>
+				}
 			}
 			<td class="playerScore">@p.Score(roundForScores)</td>
             <td class="playerScore">@p.matchesCompleted(round)<text>/</text>@mainEvent.RoundMatches</td>
@@ -94,6 +101,7 @@
 			<th>Player</th>
 			<th>Score</th>
 			<th>OMWP</th>
+			<th>Remaining Games</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -103,6 +111,7 @@
 				<td class="keyplayer">@p.name</td>
 				<td class="playerScore">@p.Score(roundForScores)</td>
 				<td class="playerScore">@p.OMWP(roundForScores).ToString("F2")<text>%</text></td>
+				<td class="playerScore">@(@mainEvent.RoundMatches - @p.matchesCompleted(round))</td>
 				@foreach (Magic.Core.Player o in p.Opponents(roundForScores))
 				{
 					<td class="omwpList">@o.name</td>
