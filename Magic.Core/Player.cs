@@ -103,14 +103,21 @@ namespace Magic.Core
         {
             int gameWins = 0;
             int gameLosses = 0;
-            matches.ForEach(m => {
+						List<Match> roundMatches = matches.Where(m=>m.Round==round).ToList();
+            roundMatches.ForEach(m => {
                 var normalisedMatch = m.WithPlayerOneAs(name);
                 gameWins += normalisedMatch.Player1Wins;
                 gameLosses += normalisedMatch.Player2Wins;
             });
-
-            float gwp = 100.0f* ((float)(gameWins) / (float)(gameWins+gameLosses));
-            return gwp;
+	        if (gameLosses == 0 && gameWins == 0)
+	        {
+		        return 0.0f;
+	        }
+	        else
+	        {
+						float gwp = 100.0f * ((float)(gameWins) / (float)(gameWins + gameLosses));
+						return gwp;
+	        }         
         }
 
         public float OGWP(int round=0)

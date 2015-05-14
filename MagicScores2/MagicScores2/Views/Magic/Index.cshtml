@@ -101,16 +101,20 @@
 			<th>Player</th>
 			<th>Score</th>
 			<th>OMWP</th>
+			<th>GWP</th>
+			<th>OGWP</th>
 			<th>Remaining Games</th>
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (Magic.Core.Player p in players.OrderByDescending(p => p.Score(roundForScores)).ThenByDescending(p => p.OMWP(roundForScores)))
+		@foreach (Magic.Core.Player p in players.OrderByDescending(p => p.Score(roundForScores)).ThenByDescending(p => p.OMWP(roundForScores)).ThenByDescending(p=> p.GWP(roundForScores)).ThenByDescending(p=>p.OGWP(roundForScores)))
 		{
 			<tr>
 				<td class="keyplayer">@p.name</td>
 				<td class="playerScore">@p.Score(roundForScores)</td>
 				<td class="playerScore">@p.OMWP(roundForScores).ToString("F2")<text>%</text></td>
+				<td class="playerScore">@p.GWP(roundForScores).ToString("F2")<text>%</text></td>
+				<td class="playerScore">@p.OGWP(roundForScores).ToString("F2")<text>%</text></td>
 				<td class="playerScore">@(@mainEvent.RoundMatches - @p.matchesCompleted(round))</td>
 				@foreach (Magic.Core.Player o in p.Opponents(roundForScores))
 				{
