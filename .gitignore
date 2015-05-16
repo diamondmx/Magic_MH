@@ -6,3 +6,4 @@
 */obj/*
 *.cache
 *.dll
+Magic.Core/LocalSetup.cs
