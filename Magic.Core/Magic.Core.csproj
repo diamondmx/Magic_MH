@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="dbRef.cs" />
     <Compile Include="Event.cs" />
+    <Compile Include="LocalSetup.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

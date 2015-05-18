@@ -4,18 +4,11 @@ using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Magic.Core.LocalSetup;
 
 
 namespace Magic.Core
 {
-	public class Constants
-	{
-		public const string connectionStringkCura = @"Data Source=P-DV-DSK-MHIL;Initial Catalog=Magic;User ID=mhMagic;Password=mtgMagic";
-		//public const string connectionStringSekhmet = @"Data Source=SEKHMET\SQLEXPRESS12;Initial Catalog=Magic;User ID=magicData;Password=mtgMagic";
-		public const string connectionStringSekhmet = @"Data Source=SEKHMET\SQLSEKHMET;Initial Catalog=Magic;User ID=mhMagic;Password=mtgMagic";
-		public const string currentConnectionString = connectionStringkCura;
-	}
-
 	[System.Data.Linq.Mapping.Table(Name = "Players")]
 	public class dbPlayer
 	{
