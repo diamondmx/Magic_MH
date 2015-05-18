@@ -6,6 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Magic.Core.LocalSetup;
 
+///////////////////////////////////////////////////
+/// You need a file called LocalSetup.cs which looks like this
+/// 
+/// namespace Magic.Core.LocalSetup
+/// {
+///	  class Constants
+///	  {
+///		  public const string currentConnectionString = CONNECTION STRING GOES HERE;
+///	  }
+/// }
+/// 
+/// ////////////////////////////////////////////////
 
 namespace Magic.Core
 {
