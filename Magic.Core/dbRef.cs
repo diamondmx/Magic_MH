@@ -189,18 +189,13 @@ namespace Magic.Core
 	[Table(Name = "Events")]
 	public class dbEvent
 	{
-		[Column()]
-		public string Name;
-		[Column()]
-		public DateTime StartDate;
-		[Column()]
-		public DateTime RoundEndDate;
-		[Column()]
-		public Int32 rounds;
-		[Column()]
-		public Int32 currentRound;
-		[Column()]
-		public Int32 roundMatches;
+		[Column()] public string Name;
+		[Column()] public DateTime StartDate;
+		[Column()] public DateTime RoundEndDate;
+		[Column()] public Int32 Rounds;
+		[Column()] public Int32 CurrentRound;
+		[Column()] public Int32 RoundMatches;
+		[Column()] public bool Locked;
 
 		public static dbEvent LoadDBEvent(string eventName)
 		{
@@ -212,7 +207,7 @@ namespace Magic.Core
 		{
 			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
 
-			var sqlUpdate = String.Format("UPDATE Events SET CurrentRound={0}, Rounds={1}, RoundMatches={2} WHERE Name='{3}'", currentRound, rounds, roundMatches, Name);
+			var sqlUpdate = String.Format("UPDATE Events SET CurrentRound={0}, Rounds={1}, RoundMatches={2}, Locked={3} WHERE Name='{4}'", CurrentRound, Rounds, RoundMatches, Locked, Name);
 			db.ExecuteCommand(sqlUpdate);
 
 			//var test = db.GetChangeSet();

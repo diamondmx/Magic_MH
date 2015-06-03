@@ -21,6 +21,7 @@ namespace Magic.Core
 		public dbEvent myDbEvent;
 		public DateTime RoundEndDate;
 		public DateTime EventStartDate;
+		private bool _locked;
 
 
 		public void LoadEvent(string eventName)
@@ -29,9 +30,9 @@ namespace Magic.Core
 
 			var loadedEvent = dbEvent.LoadDBEvent(eventName);
 			myDbEvent = loadedEvent;
-			rounds = loadedEvent.rounds;
-			CurrentRound = loadedEvent.currentRound;
-			RoundMatches = loadedEvent.roundMatches;
+			rounds = loadedEvent.Rounds;
+			CurrentRound = loadedEvent.CurrentRound;
+			RoundMatches = loadedEvent.RoundMatches;
 			RoundEndDate = loadedEvent.RoundEndDate;
 
 			var eventPlayers = dbEventPlayers.LoadDBEventPlayers(eventName);
@@ -81,13 +82,23 @@ namespace Magic.Core
 		public void SaveEvent()
 		{
 			myDbEvent.Name = name;
-			myDbEvent.roundMatches = RoundMatches;
-			myDbEvent.rounds = rounds;
-			myDbEvent.currentRound = CurrentRound;
+			myDbEvent.RoundMatches = RoundMatches;
+			myDbEvent.Rounds = rounds;
+			myDbEvent.CurrentRound = CurrentRound;
 
 			Matches.ForEach(m => m.Save());
 
 			myDbEvent.Save();
+		}
+
+		public bool Locked(int round)
+		{
+			if (_locked)
+				return true;
+			if (round < CurrentRound)
+				return true;
+
+			return false;
 		}
 	}
 }

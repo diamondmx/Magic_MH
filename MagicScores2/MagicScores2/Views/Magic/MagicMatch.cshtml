@@ -19,8 +19,8 @@
             <text>@ViewBag.Match.Player1Name @ViewBag.Match.Player1Wins</text> @Html.DropDownList("player1wins")
             <text>@ViewBag.Match.Player2Name @ViewBag.Match.Player2Wins</text> @Html.DropDownList("player2wins")
 
-            <hr />
-            @Html.ValidationSummary(true)
+	        <hr/>
+					@Html.ValidationMessage("CustomError")
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Save" class="btn btn-default" />

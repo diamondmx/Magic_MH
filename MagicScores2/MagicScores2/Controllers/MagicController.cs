@@ -46,15 +46,22 @@ namespace MagicScores2.Controllers
             
             if (player1wins.HasValue && player2wins.HasValue)
             {
-                match.Player1Wins = player1wins.Value;
-                match.Player2Wins = player2wins.Value;
+							if (thisEvent.Locked(round))
+							{
+								ModelState.AddModelError("CustomError", "This match is Locked");
+							}
+							else
+							{
+								match.Player1Wins = player1wins.Value;
+								match.Player2Wins = player2wins.Value;
 
-                match.Update();
+								match.Update();
 
-                return RedirectToAction("Index", new { controller = "Magic", eventName = eventName, round = round });
+								return RedirectToAction("Index", new { controller = "Magic", eventName = eventName, round = round });	
+							}
             }
 
-            var p1dropdown = GetGameWinsDropdownWithSelected(match.Player1Wins);
+						var p1dropdown = GetGameWinsDropdownWithSelected(match.Player1Wins);
             var p2dropdown = GetGameWinsDropdownWithSelected(match.Player2Wins);
 
             ViewBag.player1wins = p1dropdown;
