@@ -207,7 +207,7 @@ namespace Magic.Core
 		{
 			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
 
-			var sqlUpdate = String.Format("UPDATE Events SET CurrentRound={0}, Rounds={1}, RoundMatches={2}, Locked={3} WHERE Name='{4}'", CurrentRound, Rounds, RoundMatches, Locked, Name);
+			var sqlUpdate = String.Format("UPDATE Events SET CurrentRound={0}, Rounds={1}, RoundMatches={2}, Locked={3} WHERE Name='{4}'", CurrentRound, Rounds, RoundMatches, Locked?0:1, Name);
 			db.ExecuteCommand(sqlUpdate);
 
 			//var test = db.GetChangeSet();
