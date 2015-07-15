@@ -34,9 +34,21 @@ namespace Magic.Core
                 myDbPlayer.Save();
         }
 
+		private List<Match> GetRelevantMatches(int round)
+		{
+			if (round > 0)
+			{
+				return matches.Where(m => m.Round == round).ToList();
+			}
+			else
+			{
+				return matches;
+			}
+		}
+
 		public int matchesCompleted(int round)
 		{
-			return matches.Where(m => m.Round == round).Count(m => m.Player1Wins >= 2 || m.Player2Wins >= 2);
+			return GetRelevantMatches(round).Count(m => m.Player1Wins >= 2 || m.Player2Wins >= 2);
 		}
 
         public int Score(int round=0)
@@ -101,14 +113,22 @@ namespace Magic.Core
 
         public float GWP(int round=0)
         {
-            int gameWins = 0;
-            int gameLosses = 0;
-						List<Match> roundMatches = matches.Where(m=>m.Round==round).ToList();
-            roundMatches.ForEach(m => {
-                var normalisedMatch = m.WithPlayerOneAs(name);
-                gameWins += normalisedMatch.Player1Wins;
-                gameLosses += normalisedMatch.Player2Wins;
-            });
+          int gameWins = 0;
+          int gameLosses = 0;
+
+	        List<Match> relevantMatches = matches;
+
+	        if (round > 0)
+	        {
+						relevantMatches = matches.Where(m => m.Round == round).ToList();
+	        }
+
+					relevantMatches.ForEach(m =>
+					{
+              var normalisedMatch = m.WithPlayerOneAs(name);
+              gameWins += normalisedMatch.Player1Wins;
+              gameLosses += normalisedMatch.Player2Wins;
+          });
 	        if (gameLosses == 0 && gameWins == 0)
 	        {
 		        return 0.0f;
