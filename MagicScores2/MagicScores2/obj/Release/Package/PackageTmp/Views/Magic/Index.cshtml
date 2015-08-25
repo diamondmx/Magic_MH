@@ -1,0 +1,139 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+	Magic.Core.Event mainEvent = ViewBag.Event;
+	int round = ViewBag.Round;
+	List<Magic.Core.Player> players = ViewBag.Players;
+	string eventName = ViewBag.eventName;
+	int numMatches = players.First().matches.Count(m => m.Round == round);
+	int roundForScores = round == 3 ? 0 : round;
+	int totalMatchesPlayed = mainEvent.Players.Sum(p => p.matchesCompleted(round));
+	int totalMatchesRemaining = ((mainEvent.Players.Count()*mainEvent.RoundMatches) - totalMatchesPlayed)/2;
+	
+	TimeSpan timeTillEnd = mainEvent.RoundEndDate - DateTime.Now;
+	int weeksTillEnd = (int)timeTillEnd.TotalDays/7;
+	int daysTillEnd = (int)timeTillEnd.TotalDays%7;
+	int hoursTillEnd = (int) timeTillEnd.TotalHours%24;
+	string endTimeString;
+	
+	if (weeksTillEnd>1)
+	{
+		endTimeString = string.Format("{0} weeks, {1} days",weeksTillEnd, daysTillEnd);
+	}
+	else if (weeksTillEnd > 0)
+	{
+		endTimeString = string.Format("{0} week, {1} days", weeksTillEnd, daysTillEnd);
+	}
+	else if (daysTillEnd > 1)
+	{
+		endTimeString = string.Format("{0} days",daysTillEnd);
+	}
+	else if (daysTillEnd > 0)
+	{
+		endTimeString = string.Format("{0} day", daysTillEnd);
+	}
+	else if(timeTillEnd.TotalMilliseconds>0)
+	{
+		endTimeString = string.Format("{0} hours", hoursTillEnd);
+	}
+	else
+	{
+		endTimeString = "Finished!";
+	}
+	
+	
+}
+
+<h2>Players - @eventName - Round @round</h2>
+<h3>Round Ends: @string.Format("{0} - {1}",mainEvent.RoundEndDate.ToString(), endTimeString)</h3>
+
+<table border="1" class="matchTable">
+	<thead class="tableHeader">
+		<tr>
+			<th>Player</th>
+			@for (int i = 0; i < numMatches; i++)
+			{
+				<th>Opp. </th>
+				<th class="centered">Games</th>
+				<th class="centered">Result</th>
+			}
+			<th>MWP</th>
+			<th>Matches Played</th>
+		</tr>
+	</thead>
+	@foreach (Magic.Core.Player p in players)
+	{
+		<tr class="keyplayer">
+			<td>@string.Format("{0}", p.name)</td>
+			@foreach (Magic.Core.Match m in p.matches.Where(m => m.Round == round))
+			{
+				var normalizedMatch = m.WithPlayerOneAs(p.name);
+				var matchResult = "";
+				if (normalizedMatch.Player1Wins == 0 && normalizedMatch.Player2Wins == 0)
+				{ matchResult = ""; }
+				else if (normalizedMatch.Player1Wins == normalizedMatch.Player2Wins)
+				{ matchResult = "Draw"; }
+				else if (normalizedMatch.Player1Wins > normalizedMatch.Player2Wins)
+				{ matchResult = "Win"; }
+				else if (normalizedMatch.Player2Wins > normalizedMatch.Player1Wins)
+				{ matchResult = "Loss"; }
+				var matchWin = normalizedMatch.Player1Wins > normalizedMatch.Player2Wins ? "Win" : "Loss";
+				var matchUrl = String.Format(@"/{0}/{1}/{2}/{3}/", eventName, round, normalizedMatch.Player1Name, normalizedMatch.Player2Name);
+
+				<td class="opponentplayer"><a href="@matchUrl">@normalizedMatch.Player2.name</a></td>
+				<td class="centered"><text>@normalizedMatch.Player1Wins</text>-<text>@normalizedMatch.Player2Wins</text></td>
+				if(@matchResult == "Win")
+				{	
+					<td class="centered wincolor">@matchResult</td>
+				}
+				else
+				{
+					<td class="centered">@matchResult</td>
+				}
+			}
+			<td class="playerScore">@p.Score(roundForScores)</td>
+            <td class="playerScore">@p.matchesCompleted(round)<text>/</text>@mainEvent.RoundMatches</td>
+		</tr>
+	}
+</table>
+<br />
+<table border="1" class="standingTable">
+	<thead class="tableHeader">
+		<tr>
+			<th>Player</th>
+			<th>Score</th>
+			<th>OMWP</th>
+			<th>GWP</th>
+			<th>OGWP</th>
+			<th>Remaining Matches</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (Magic.Core.Player p in players.OrderByDescending(p => p.Score(roundForScores)).ThenByDescending(p => p.OMWP(roundForScores)).ThenByDescending(p=> p.GWP(roundForScores)).ThenByDescending(p=>p.OGWP(roundForScores)))
+		{
+			<tr>
+				<td class="keyplayer">@p.name</td>
+				<td class="playerScore">@p.Score(roundForScores)</td>
+				<td class="playerScore">@p.OMWP(roundForScores).ToString("F2")<text>%</text></td>
+				<td class="playerScore">@p.GWP(roundForScores).ToString("F2")<text>%</text></td>
+				<td class="playerScore">@p.OGWP(roundForScores).ToString("F2")<text>%</text></td>
+				<td class="playerScore">@(@mainEvent.RoundMatches - @p.matchesCompleted(round))</td>
+				@foreach (Magic.Core.Player o in p.Opponents(roundForScores))
+				{
+					<td class="omwpList">@o.name</td>
+					<td class="omwpList">@o.MWP(roundForScores).ToString("F0")<text>% </text></td>
+				}
+			</tr>
+		}
+	</tbody>
+</table>
+<br/>
+<table border="1" class="standingTable">
+	<tbody>
+		<tr>
+			<td class="keyplayer">Total Remaining Matches</td>
+			<td class="playerScore">@totalMatchesRemaining</td>
+		</tr>
+	</tbody>
+</table>

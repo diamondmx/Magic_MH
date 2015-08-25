@@ -142,9 +142,10 @@ namespace Magic.Core
 
         public float OGWP(int round=0)
         {
-            var opponents = Opponents(round);
-            float ogwp = (float)opponents.Average(o => o.GWP(round) > 33.33f ? o.GWP(round) : 33.33f);
-            return ogwp;
+          var opponents = Opponents(round);
+					if (opponents.Count() <= 0) return 33.33f;
+	        float ogwp = (float)opponents.Average(o => o.GWP(round) > 33.33f ? o.GWP(round) : 33.33f);
+	        return ogwp;
         }
 
         public bool HasDropped(int currentRound)
