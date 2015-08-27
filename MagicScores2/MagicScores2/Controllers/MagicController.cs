@@ -41,7 +41,7 @@ namespace MagicScores2.Controllers
             var thisEvent = new Magic.Core.Event();
             thisEvent.LoadEvent(eventName);
 
-            var match = thisEvent.Matches.Where(m => (m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2)).First();
+            var match = thisEvent.Matches.Where(m => (m.Round == round) && (m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2)).First();
             ViewBag.Match = match;
             
             if (player1wins.HasValue && player2wins.HasValue)
