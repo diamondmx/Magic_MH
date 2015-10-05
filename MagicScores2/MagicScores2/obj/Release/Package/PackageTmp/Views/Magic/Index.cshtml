@@ -9,14 +9,15 @@
 	int numMatches = players.First().matches.Count(m => m.Round == round);
 	int roundForScores = round == 3 ? 0 : round;
 	int totalMatchesPlayed = mainEvent.Players.Sum(p => p.matchesCompleted(round));
-	int totalMatchesRemaining = ((mainEvent.Players.Count()*mainEvent.RoundMatches) - totalMatchesPlayed)/2;
-	
+	int totalMatchesRemaining2 = ((mainEvent.Players.Count()*mainEvent.RoundMatches) - totalMatchesPlayed)/2;
+	int totalMatchesRemaining = mainEvent.Matches.Count(m => m.Event == eventName && m.Round == round) - totalMatchesPlayed/2;
+
 	TimeSpan timeTillEnd = mainEvent.RoundEndDate - DateTime.Now;
 	int weeksTillEnd = (int)timeTillEnd.TotalDays/7;
 	int daysTillEnd = (int)timeTillEnd.TotalDays%7;
 	int hoursTillEnd = (int) timeTillEnd.TotalHours%24;
 	string endTimeString;
-	
+
 	if (weeksTillEnd>1)
 	{
 		endTimeString = string.Format("{0} weeks, {1} days",weeksTillEnd, daysTillEnd);
@@ -41,8 +42,8 @@
 	{
 		endTimeString = "Finished!";
 	}
-	
-	
+
+
 }
 
 <h2>Players - @eventName - Round @round</h2>
