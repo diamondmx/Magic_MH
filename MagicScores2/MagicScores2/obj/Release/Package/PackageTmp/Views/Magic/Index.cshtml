@@ -59,7 +59,7 @@
 				<th class="centered">Games</th>
 				<th class="centered">Result</th>
 			}
-			<th>MWP</th>
+			<th>Score</th>
 			<th>Matches Played</th>
 		</tr>
 	</thead>
@@ -116,9 +116,9 @@
 			<tr>
 				<td class="keyplayer">@p.name</td>
 				<td class="playerScore">@p.Score(roundForScores)</td>
-				<td class="playerScore">@p.OMWP(roundForScores).ToString("F2")<text>%</text></td>
-				<td class="playerScore">@p.GWP(roundForScores).ToString("F2")<text>%</text></td>
-				<td class="playerScore">@p.OGWP(roundForScores).ToString("F2")<text>%</text></td>
+				<td class="playerScore">@p.OMWP(roundForScores).ToString("F4")<text>%</text></td>
+				<td class="playerScore">@p.GWP(roundForScores).ToString("F4")<text>%</text></td>
+				<td class="playerScore">@p.OGWP(roundForScores).ToString("F4")<text>%</text></td>
 				<td class="playerScore">@(@mainEvent.RoundMatches - @p.matchesCompleted(round))</td>
 				@foreach (Magic.Core.Player o in p.Opponents(roundForScores))
 				{

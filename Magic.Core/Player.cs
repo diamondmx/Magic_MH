@@ -34,18 +34,6 @@ namespace Magic.Core
 				myDbPlayer.Save();
 		}
 
-		private List<Match> GetRelevantMatches(int round)
-		{
-			if (round > 0)
-			{
-				return matches.Where(m => m.Round == round).ToList();
-			}
-			else
-			{
-				return matches;
-			}
-		}
-
 		public int matchesCompleted(int round)
 		{
 			return GetRelevantMatches(round).Count(m => m.Player1Wins >= 2 || m.Player2Wins >= 2);
@@ -53,35 +41,9 @@ namespace Magic.Core
 
 		public int Score(int round = 0)
 		{
-			if (round <= 0)
-			{
-				return matches.Sum(m =>
-				{
-					var nm = m.WithPlayerOneAs(name);
-					if (nm.Player1Wins > nm.Player2Wins)
-						return 3;
-					else if (nm.Player1Wins == nm.Player2Wins)
-						return 1;
-					else
-						return 0;
-				});
-			}
-			else
-			{
-				var roundMatches = matches.Where(m => m.Round == round).ToList();
-				var wins = roundMatches.Where(m =>
-				{
-					var nm = m.WithPlayerOneAs(name);
-					return nm.Player1Wins > nm.Player2Wins;
-				}).Count();
-				return wins;
-			}
-		}
-
-		public float MWP(int round = 0)
-		{
 			List<Match> relevantMatches = null;
-			if (round == 0)
+
+			if(round<=0)
 			{
 				relevantMatches = matches;
 			}
@@ -90,18 +52,59 @@ namespace Magic.Core
 				relevantMatches = matches.Where(m => m.Round == round).ToList();
 			}
 
-			float matchWins = relevantMatches.Count(m => m.DidPlayerWin(name));
-			return (matchWins / (float)relevantMatches.Count()) * 100;
+			return relevantMatches.Sum(m =>
+			{
+				var nm = m.WithPlayerOneAs(name);
+				if (nm.Player1Wins > nm.Player2Wins)
+					return 3;
+				else if (nm.Player1Wins == nm.Player2Wins)
+					return 1;
+				else
+					return 0;
+			});
+		}
 
+		public float MWP(int round = 0)
+		{
+			//List<Match> relevantMatches = null;
+			//if (round == 0)
+			//{
+			//	relevantMatches = matches;
+			//}
+			//else
+			//{
+			//	relevantMatches = matches.Where(m => m.Round == round).ToList();
+			//}
+
+			//float matchWins = relevantMatches.Count(m => m.DidPlayerWin(name));
+			//return (matchWins / (float)relevantMatches.Count()) * 100;
+			var relevantMatches = GetRelevantMatches(round);
+
+
+			var roundScore = Score(round);
+			var maxScore = (relevantMatches.Count())*3;
+			return ((float)roundScore / (float)maxScore)*100.0f;
+
+		}
+
+		public List<Match> GetRelevantMatches(int round)
+		{
+			List<Match> relevantMatches = matches;
+			if (round <= 0)
+			{
+				relevantMatches = matches;
+			}
+			else
+			{
+				relevantMatches = relevantMatches.Where(m => m.Round == round).ToList();
+			}
+
+			return relevantMatches;
 		}
 
 		public List<Player> Opponents(int round = 0)
 		{
-			List<Match> relevantMatches = matches;
-			if (round > 0)
-			{
-				relevantMatches = relevantMatches.Where(m => m.Round == round).ToList();
-			}
+			var relevantMatches = GetRelevantMatches(round);
 
 			return relevantMatches.Select<Match, Player>(m => (m.Player1.name == name) ? m.Player2 : m.Player1).ToList();
 		}
@@ -121,12 +124,7 @@ namespace Magic.Core
 			int gameWins = 0;
 			int gameLosses = 0;
 
-			List<Match> relevantMatches = matches;
-
-			if (round > 0)
-			{
-				relevantMatches = matches.Where(m => m.Round == round).ToList();
-			}
+			var relevantMatches = GetRelevantMatches(round);
 
 			relevantMatches.ForEach(m =>
 			{

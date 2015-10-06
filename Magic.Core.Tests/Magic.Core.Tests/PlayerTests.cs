@@ -59,9 +59,9 @@ namespace Magic.Core.Tests
             var match4 = new Match(opp4, opp4.name, _sut, testPlayerName, "TEST", 1, 1, 2, 0, false); // sut wins 2-1
             _sut.matches = new List<Match> { match1, match2, match3, match4 };
 
-            var result = _sut.MWP();
+            var result = _sut.MWP(1);
 
-            Assert.AreEqual(true, floatComparison(result, 50.0f, 0.1f));
+            Assert.AreEqual(true, floatComparison(result, 58.3f, 0.1f));
         }
         [Test]
         public void TestGWP()
@@ -84,5 +84,31 @@ namespace Magic.Core.Tests
 
             Assert.AreEqual(true, floatComparison(result, 55.5f, 0.1f)); // 5 out of 9
         }
+
+		[Test]
+		public void TestScore()
+		{
+			var testPlayerName = "sut";
+			var _sut = new Player(testPlayerName);
+
+			var opp1 = new Player("Result1");
+			var opp2 = new Player("Result2");
+			var opp3 = new Player("Result3");
+			var opp4 = new Player("Result4");
+
+			var match1 = new Match(_sut, testPlayerName, opp1, opp1.name, "TEST", 1, 2, 0, 0, false); // sut wins 2-0
+			var match2 = new Match(_sut, testPlayerName, opp2, opp2.name, "TEST", 1, 0, 2, 0, false); // sut loses 0-2
+			var match3 = new Match(opp3, opp3.name, _sut, testPlayerName, "TEST", 1, 1, 1, 0, false); // sut draws 1-1
+			var match4 = new Match(opp4, opp4.name, _sut, testPlayerName, "TEST", 1, 1, 2, 0, false); // sut wins 2-1
+			_sut.matches = new List<Match> { match1, match2, match3, match4 };
+
+			var result = _sut.Score();
+
+			Assert.AreEqual(7, result);
+
+
+
+
+		}
 	}
 }
