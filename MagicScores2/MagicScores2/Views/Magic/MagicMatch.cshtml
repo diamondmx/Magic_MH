@@ -18,6 +18,7 @@
         <fieldset>
             <text>@ViewBag.Match.Player1Name @ViewBag.Match.Player1Wins</text> @Html.DropDownList("player1wins")
             <text>@ViewBag.Match.Player2Name @ViewBag.Match.Player2Wins</text> @Html.DropDownList("player2wins")
+						<text>Draws @ViewBag.Match.Draws</text> @Html.DropDownList("draws")
 
 	        <hr/>
 					@Html.ValidationMessage("CustomError")
