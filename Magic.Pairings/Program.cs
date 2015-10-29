@@ -23,7 +23,7 @@ namespace Magic.Pairings
 		
 		static void Main(string[] args)
 		{
-			var mainEvent = LoadDatabase("ORI");
+			var mainEvent = LoadDatabase("BFZ");
 
 			var playerListString = "";
 			foreach (Player p in mainEvent.Players)
