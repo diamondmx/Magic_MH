@@ -36,7 +36,7 @@ namespace Magic.Core
 
 		public int matchesCompleted(int round)
 		{
-			return GetRelevantMatches(round).Count(m => m.Player1Wins >= 2 || m.Player2Wins >= 2);
+			return GetRelevantMatches(round).Count(m => m.Player1Wins >= 2 || m.Player2Wins >= 2 || ((m.Player1Wins >= 1 || m.Player2Wins >=1) && m.Draws >=1));
 		}
 
 		public int Score(int round = 0)
@@ -52,17 +52,41 @@ namespace Magic.Core
 				relevantMatches = matches.Where(m => m.Round == round).ToList();
 			}
 
-			return relevantMatches.Sum(m =>
-			{
-				var nm = m.WithPlayerOneAs(name);
-				if (nm.Player1Wins > nm.Player2Wins)
-					return 3;
-				else if (nm.Player1Wins == nm.Player2Wins)
-					return 1;
-				else
-					return 0;
-			});
-		}
+            return relevantMatches.Sum(m =>
+            {
+                var nm = m.WithPlayerOneAs(name);
+                return MatchScore(nm.Player1Wins, nm.Player2Wins, nm.Draws);
+            });
+
+            //return relevantMatches.Sum(m =>
+            //{
+            //	var nm = m.WithPlayerOneAs(name);
+            //	if (nm.Player1Wins > nm.Player2Wins)
+            //		return 3;
+            //	else if (nm.Player1Wins == nm.Player2Wins)
+            //		return 1;
+            //	else
+            //		return 0;
+            //});
+        }
+
+        public int MatchScore(int player1Wins, int player2Wins, int draws)
+        {
+            if ((player1Wins + draws >=2) || (player2Wins + draws>=2)) // Match Complete
+            {
+                if (player1Wins > player2Wins)
+                    return 3;
+                else if (player2Wins > player1Wins)
+                    return 0;
+                else
+                    return 1;
+            }
+            else
+            {
+                return 0; // Match incomplete
+            }
+
+        }
 
 		public float MWP(int round = 0)
 		{
