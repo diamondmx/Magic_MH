@@ -7,7 +7,7 @@
 	List<Magic.Core.Player> players = ViewBag.Players;
 	string eventName = ViewBag.eventName;
 	int numMatches = players.First().matches.Count(m => m.Round == round);
-	int roundForScores = round == 3 ? 0 : round;
+	int roundForScores = round;
 	int totalMatchesPlayed = mainEvent.Players.Sum(p => p.matchesCompleted(round));
 	int totalMatchesRemaining2 = ((mainEvent.Players.Count()*mainEvent.RoundMatches) - totalMatchesPlayed)/2;
 	int totalMatchesRemaining = mainEvent.Matches.Count(m => m.Event == eventName && m.Round == round) - totalMatchesPlayed/2;
@@ -71,7 +71,7 @@
 			{
 				var normalizedMatch = m.WithPlayerOneAs(p.name);
 				var matchResult = "";
-				if (normalizedMatch.Player1Wins == 0 && normalizedMatch.Player2Wins == 0)
+				if (normalizedMatch.Player1Wins == 0 && normalizedMatch.Player2Wins == 0 && normalizedMatch.Draws <=1)
 				{ matchResult = ""; }
 				else if (normalizedMatch.Player1Wins == normalizedMatch.Player2Wins)
 				{ matchResult = "Draw"; }
