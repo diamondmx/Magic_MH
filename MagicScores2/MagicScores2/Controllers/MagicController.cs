@@ -11,7 +11,7 @@ namespace MagicScores2.Controllers
 	{
 		//
 		// GET: /Magic/
-		public ActionResult Index(string eventName, int round)
+		public ActionResult Index(string eventName, int round, bool detailedMode)
 		{
 			var thisEvent = new Magic.Core.Event();
 			thisEvent.LoadEvent(eventName);

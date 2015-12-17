@@ -100,5 +100,36 @@ namespace Magic.Core
 
 			return false;
 		}
+
+        public int RoundMatchCount(int round)
+        {
+            if (round > 0)
+            {
+                return Players.Max(p => p.matches.Count(m => m.Round == round));
+            }
+            else
+            {
+                return Players.Max(p => p.matches.Count());
+            }
+        }
+
+        public int TotalMatches(int round)
+        {
+            if(round>0)
+            {
+                return Matches.Count(m => m.Round == round);
+            }
+            else
+            {
+                return Matches.Count();
+            }
+                
+                    
+        }
+
+        public int TotalMatchesPlayed(int round)
+        {
+            return Players.Sum(p => p.matchesCompleted(round));
+        }
 	}
 }
