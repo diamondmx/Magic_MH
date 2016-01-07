@@ -73,10 +73,19 @@ namespace MagicScores2.Controllers
 			return View("MagicMatch");
 		}
 
+		public ActionResult ViewEvents()
+		{
+			var dummyEvent = new Magic.Core.Event();
+			var eventList = dummyEvent.LoadAllEvents();
+
+			return View("ViewEvents", eventList);
+		}
+
 		//
 		// GET: /Magic/Edit/5
 		public ActionResult Edit(int id)
 		{
+			throw new Exception("TEST");
 			return View();
 		}
 

@@ -203,6 +203,12 @@ namespace Magic.Core
 			return db.GetTable<dbEvent>().First(e => e.Name == eventName);
 		}
 
+		public static List<dbEvent> LoadAllDBEvents()
+		{
+			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+			return db.GetTable<dbEvent>().ToList();
+		}
+
 		public void Save()
 		{
 			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);

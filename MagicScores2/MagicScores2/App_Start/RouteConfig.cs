@@ -9,21 +9,26 @@ namespace MagicScores2
 {
     public class RouteConfig
     {
-        public static void RegisterRoutes(RouteCollection routes)
-        {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+		public static void RegisterRoutes(RouteCollection routes)
+		{
+			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "Default",
-                url: "{eventName}/{round}",
-                defaults: new { controller="Magic", action = "Index", eventName = "BFZ", round=2 }
-                );
+			routes.MapRoute(
+								name: "ViewEvents",
+								url: "ViewEvents",
+								defaults: new { controller = "Magic", action = "ViewEvents" });
 
-            routes.MapRoute(
-                name: "Details",
-                url: "{eventName}/{round}/{player1}/{player2}",
-                defaults: new { controller = "Magic", action = "Details", eventName = "ORI", round = 3, player1wins = UrlParameter.Optional}
-            );
-        }
+			routes.MapRoute(
+									name: "Default",
+									url: "{eventName}/{round}",
+									defaults: new { controller = "Magic", action = "Index", eventName = "BFZ", round = 2 }
+									);
+
+			routes.MapRoute(
+					name: "Details",
+					url: "{eventName}/{round}/{player1}/{player2}",
+					defaults: new { controller = "Magic", action = "Details", eventName = "ORI", round = 3, player1wins = UrlParameter.Optional }
+			);
+		}
     }
 }

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Magic.Core.Event>
+
+@{
+    ViewBag.Title = "ViewEvents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ViewEvents</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+					Name
+				</th>
+			<th>
+				Round
+			</th>
+			<th>
+				Players
+			</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+				<td>
+					@item.name
+				</td>
+			<td>
+				@item.CurrentRound
+			</td>
+			<td>
+				@item.Players.Count
+			</td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Players", "Players", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

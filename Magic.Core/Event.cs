@@ -23,19 +23,31 @@ namespace Magic.Core
 		public DateTime EventStartDate;
 		private bool _locked;
 
-
-		public void LoadEvent(string eventName)
+		public List<Event> LoadAllEvents()
 		{
-			name = eventName;
+			List<Event> results = new List<Event>();
 
-			var loadedEvent = dbEvent.LoadDBEvent(eventName);
+			var events = dbEvent.LoadAllDBEvents();
+			foreach(var item in events)
+			{
+				var loadedEvent = new Event();
+				loadedEvent.PopulateEvent(item);
+				results.Add(loadedEvent);
+			}
+
+			return results;
+		}
+
+		public void PopulateEvent(dbEvent loadedEvent)
+		{
+			name = loadedEvent.Name;
 			myDbEvent = loadedEvent;
 			rounds = loadedEvent.Rounds;
 			CurrentRound = loadedEvent.CurrentRound;
 			RoundMatches = loadedEvent.RoundMatches;
 			RoundEndDate = loadedEvent.RoundEndDate;
 
-			var eventPlayers = dbEventPlayers.LoadDBEventPlayers(eventName);
+			var eventPlayers = dbEventPlayers.LoadDBEventPlayers(loadedEvent.Name);
 
 			Players = new List<Player>();
 			dbPlayer.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => Players.Add(new Player(p)));
@@ -49,7 +61,7 @@ namespace Magic.Core
 			});
 
 			Matches = new List<Match>();
-			dbMatch.LoadDBMatches(name).Where(m => m.Event == eventName).ToList().ForEach(m => Matches.Add(new Match(m)));
+			dbMatch.LoadDBMatches(name).Where(m => m.Event == loadedEvent.Name).ToList().ForEach(m => Matches.Add(new Match(m)));
 
 			foreach (var match in Matches)
 			{
@@ -77,6 +89,12 @@ namespace Magic.Core
 					}
 				}
 			}
+		}
+
+		public void LoadEvent(string eventName)
+		{
+			var loadedEvent = dbEvent.LoadDBEvent(eventName);
+			PopulateEvent(loadedEvent);
 		}
 
 		public void SaveEvent()

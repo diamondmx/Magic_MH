@@ -17,3 +17,4 @@ C:\Users\mhill\Desktop\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\obj\Deb
 C:\Users\mhill\Desktop\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\obj\Debug\Magic.Core.Tests.dll
 C:\Users\mhill\Desktop\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\obj\Debug\Magic.Core.Tests.pdb
 C:\Users\mhill\Desktop\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Fukata\Documents\GitHub\Magic_MH\Magic.Core.Tests\Magic.Core.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll

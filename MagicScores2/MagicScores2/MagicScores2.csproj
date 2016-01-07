@@ -175,6 +175,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Magic\Index.cshtml" />
     <Content Include="Views\Magic\MagicMatch.cshtml" />
+    <Content Include="Views\Magic\ViewEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\GitHub\Magic_MH\Magic.Core\Magic.Core.csproj">
