@@ -19,15 +19,9 @@ namespace MagicScores2
 								defaults: new { controller = "Magic", action = "ViewEvents" });
 
             routes.MapRoute(
-                name: "DetailMode",
-                url: "{eventName}/{round}/{detailMode}",
-                defaults: new { controller="Magic", action = "Index", eventName = "BFZ", round=3, detailMode=0 }
-                );
-
-            routes.MapRoute(
                 name: "Default",
-                url: "{eventName}/{round}",
-                defaults: new { controller = "Magic", action = "Index", eventName = "BFZ", round = 3}
+                url: "{eventName}/{round}/{detailMode}",
+                defaults: new { controller="Magic", action = "Index", eventName = "BFZ", round=4, detailMode=0 }
                 );
 
 			routes.MapRoute(
