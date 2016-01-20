@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Magic;
+using Magic.Core;
 
 namespace MagicScores2.Controllers
 {
@@ -35,8 +36,6 @@ namespace MagicScores2.Controllers
 			return output;
 		}
 
-		//
-		// GET: /Magic/Details/5
 		public ActionResult Details(string eventName, int round, string player1, string player2, int? player1wins, int? player2wins, int? draws)
 		{
 			var thisEvent = new Magic.Core.Event();
@@ -82,13 +81,27 @@ namespace MagicScores2.Controllers
 			return View("ViewEvents", eventList);
 		}
 
-		//
-		// GET: /Magic/Edit/5
-		public ActionResult EditEvent(string eventName, string name, int? currentRound, int? roundMatches, DateTime? startDate, DateTime? roundEndDate)
+		public ActionResult CreateEvent()
 		{
+			var newEvent = new Magic.Core.Event();
 
+			var currentRoundDropdown = GetDropdownWithSelected(4, 1);
+			var roundMatchesDropdown = GetDropdownWithSelected(4, 4);
+
+			@ViewBag.CurrentRound = currentRoundDropdown;
+			@ViewBag.RoundMatches = roundMatchesDropdown;
+			@ViewBag.NewEvent = true;
+
+			return View("EditEvent", newEvent);
+		}
+
+		public ActionResult EditEvent(string eventName, bool NewEvent, string name, int? currentRound, int? roundMatches, DateTime? startDate, DateTime? roundEndDate)
+		{
 			var thisEvent = new Magic.Core.Event();
-			thisEvent.LoadEvent(eventName);
+			if(NewEvent == false)
+			{
+				thisEvent.LoadEvent(eventName);
+			}
 
 			if (currentRound.HasValue)
 			{
@@ -98,7 +111,16 @@ namespace MagicScores2.Controllers
 				thisEvent.EventStartDate = startDate.HasValue? startDate.Value: thisEvent.EventStartDate;
 				thisEvent.RoundEndDate = roundEndDate.HasValue? roundEndDate.Value: thisEvent.RoundEndDate;
 
-				thisEvent.SaveEvent(saveMatches: false);
+
+				if(NewEvent == false)
+				{
+					thisEvent.SaveEvent(saveMatches: false);
+				}
+				else
+				{
+					thisEvent.CreateEvent(saveMatches: false);
+				}
+				
 
 				return ViewEvents();
 			}
@@ -109,32 +131,31 @@ namespace MagicScores2.Controllers
 
 			@ViewBag.CurrentRound = currentRoundDropdown;
 			@ViewBag.RoundMatches = roundMatchesDropdown;
+			@ViewBag.NewEvent = false;
 
 			return View("EditEvent", thisEvent);
 		}
 
-		//
-		// GET: /Magic/Delete/5
-		public ActionResult Delete(int id)
+		public ActionResult DeleteEvent(int id)
 		{
 			return View();
 		}
 
-		//
-		// POST: /Magic/Delete/5
-		[HttpPost]
-		public ActionResult Delete(int id, FormCollection collection)
+		public ActionResult ListPlayers(string eventName)
 		{
-			try
-			{
-				// TODO: Add delete logic here
-
-				return RedirectToAction("Index");
-			}
-			catch
-			{
-				return View();
-			}
+			var playerList = new List<Player>() { new Player("One"), new Player("Two") };
+			return View("ListPlayers", playerList);
 		}
+
+		/*public ActionResult AddPlayer(string eventName, string playerName)
+		{
+			var thisEvent = new Event();
+			thisEvent.LoadEvent(eventName);
+
+			var newPlayer = new Player(playerName);
+			thisEvent.AddPlayer(newPlayer);
+			
+		}*/
+
 	}
 }

@@ -3,7 +3,7 @@
 	ViewBag.Title = "EditEvent";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{//Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
+
 }
 
 <h2>EditEvent</h2>
@@ -22,11 +22,13 @@
 			<text>Matches Played</text> @Model.TotalMatchesPlayed(0) <br/>
 			<text>Start Date: </text><input type="date" name="startdate" value="@Model.EventStartDate.ToString("yyyy-MM-dd")" /> <br/>
 			<text>Round End Date: </text><input type="date" name="roundenddate" value ="@Model.RoundEndDate.ToString("yyyy-MM-dd")" /> <br/> 
+			
+			<input type="hidden" name="newEvent" value="@ViewBag.NewEvent.ToString()" />
 			<input type="submit" value="Save" class="btn btn-default" />
 
 		</fieldset>
 	</div>
 }
 	<div>
-		@Html.ActionLink("Back to List", "Index")
+		@Html.ActionLink("Back to List", "ViewEvents")
 	</div>

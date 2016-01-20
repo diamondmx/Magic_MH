@@ -214,11 +214,30 @@ namespace Magic.Core
 			return results;
 		}
 
-		public void Save()
+		public void Create()
 		{
 			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-			// Name not saved yet - need cascade update or manual update due to reference contraint
-			var sqlUpdate = String.Format($"UPDATE Events SET Name={Name}, CurrentRound={CurrentRound}, Rounds={Rounds}, RoundMatches={RoundMatches}, Locked={Convert.ToInt32(Locked)}, StartDate='{StartDate}', RoundEndDate='{RoundEndDate}' WHERE Name='{dbName}'", CurrentRound, Rounds, RoundMatches, Locked ? 0 : 1, Name);
+
+			var sqlCreate = "INSERT INTO Events (Name, CurrentRound, Rounds, RoundMatches, Locked, StartDate, RoundEndDate)";
+			var sqlValues = $"VALUES ('{Name}', {CurrentRound}, {Rounds}, {RoundMatches}, {Convert.ToInt32(Locked)}, '{StartDate}', '{RoundEndDate}')";
+			var fullSql = sqlCreate + sqlValues;
+
+			try
+			{
+				db.ExecuteCommand(fullSql);
+				dbName = Name;
+			}
+			catch(Exception ex)
+			{
+				throw;
+			}
+		}
+
+		public void Update()
+		{
+			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+
+			var sqlUpdate = $"UPDATE Events SET Name='{Name}', CurrentRound={CurrentRound}, Rounds={Rounds}, RoundMatches={RoundMatches}, Locked={Convert.ToInt32(Locked)}, StartDate='{StartDate}', RoundEndDate='{RoundEndDate}' WHERE Name='{dbName}'";
 
 			try
 			{

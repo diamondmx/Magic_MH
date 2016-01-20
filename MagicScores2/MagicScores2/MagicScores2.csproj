@@ -181,6 +181,7 @@
     <Content Include="Views\Magic\MagicMatch.cshtml" />
     <Content Include="Views\Magic\ViewEvents.cshtml" />
     <Content Include="Views\Magic\EditEvent.cshtml" />
+    <Content Include="Views\Magic\ListPlayers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\GitHub\Magic_MH\Magic.Core\Magic.Core.csproj">

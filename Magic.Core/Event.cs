@@ -12,16 +12,16 @@ namespace Magic.Core
 	[DebuggerDisplay("{name} r:{CurrentRound} p:{Players.Count} m:{Matches.Count}")]
 	public class Event
 	{
-		public List<Core.Player> Players;
-		public List<Core.Match> Matches;
-		public string name;
-		public int rounds;
-		public int CurrentRound;
-		public int RoundMatches;
-		public dbEvent myDbEvent;
-		public DateTime RoundEndDate;
-		public DateTime EventStartDate;
-		private bool _locked;
+		public List<Player> Players = new List<Player>();
+		public List<Match> Matches = new List<Match>();
+		public string name = "";
+		public int rounds = 1;
+		public int CurrentRound = 1;
+		public int RoundMatches = 4;
+		public dbEvent myDbEvent = null;
+		public DateTime RoundEndDate = DateTime.Today;
+		public DateTime EventStartDate = DateTime.Today;
+		private bool _locked = false;
 
 		public List<Event> LoadAllEvents()
 		{
@@ -100,6 +100,33 @@ namespace Magic.Core
 
 		public void SaveEvent(bool saveMatches=true)
 		{
+			if(myDbEvent==null)
+			{
+				CreateEvent(saveMatches);
+			}
+			else
+			{
+				UpdateEvent(saveMatches);
+			}
+		}
+
+		public void CreateEvent(bool saveMatches)
+		{
+			myDbEvent = new dbEvent()
+			{
+				Name = name,
+				RoundMatches = RoundMatches,
+				Rounds = rounds,
+				CurrentRound = CurrentRound,
+				RoundEndDate = RoundEndDate,
+				StartDate = EventStartDate
+			};
+
+			myDbEvent.Create();
+		}
+
+		public void UpdateEvent(bool saveMatches)
+		{
 			if (myDbEvent.Name != name)
 			{
 				myDbEvent.Name = name;
@@ -118,8 +145,9 @@ namespace Magic.Core
 				UpdateAllMatches();
 			}
 
-			myDbEvent.Save();
+			myDbEvent.Update();
 		}
+
 
 		private async Task UpdateAllMatches()
 		{
@@ -169,7 +197,7 @@ namespace Magic.Core
 
         public int TotalMatchesPlayed(int round)
         {
-            return Players.Sum(p => p.matchesCompleted(round));
+					return Players.Sum(p => p.matchesCompleted(round));
         }
 	}
 }
