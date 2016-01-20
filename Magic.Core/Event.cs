@@ -45,6 +45,7 @@ namespace Magic.Core
 			rounds = loadedEvent.Rounds;
 			CurrentRound = loadedEvent.CurrentRound;
 			RoundMatches = loadedEvent.RoundMatches;
+			EventStartDate = loadedEvent.StartDate;
 			RoundEndDate = loadedEvent.RoundEndDate;
 
 			var eventPlayers = dbEventPlayers.LoadDBEventPlayers(loadedEvent.Name);
@@ -97,16 +98,37 @@ namespace Magic.Core
 			PopulateEvent(loadedEvent);
 		}
 
-		public void SaveEvent()
+		public void SaveEvent(bool saveMatches=true)
 		{
-			myDbEvent.Name = name;
+			if (myDbEvent.Name != name)
+			{
+				myDbEvent.Name = name;
+				ApplyNameChange();
+				saveMatches = true;
+			}
+
 			myDbEvent.RoundMatches = RoundMatches;
 			myDbEvent.Rounds = rounds;
 			myDbEvent.CurrentRound = CurrentRound;
+			myDbEvent.RoundEndDate = RoundEndDate;
+			myDbEvent.StartDate = EventStartDate;
 
-			Matches.ForEach(m => m.Save());
+			if (saveMatches)
+			{
+				UpdateAllMatches();
+			}
 
 			myDbEvent.Save();
+		}
+
+		private async Task UpdateAllMatches()
+		{
+			Matches.ForEach(m => m.Save());
+		}
+
+		private void ApplyNameChange()
+		{
+			Matches.ForEach(m => m.Event = name);
 		}
 
 		public bool Locked(int round)

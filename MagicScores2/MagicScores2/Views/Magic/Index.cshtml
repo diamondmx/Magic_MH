@@ -78,9 +78,8 @@
                 else if (normalizedMatch.Player2Wins > normalizedMatch.Player1Wins)
                 { matchResult = "Loss"; }
                 var matchWin = normalizedMatch.Player1Wins > normalizedMatch.Player2Wins ? "Win" : "Loss";
-                var matchUrl = String.Format(@"/{0}/{1}/{2}/{3}/", eventName, round, normalizedMatch.Player1Name, normalizedMatch.Player2Name);
 
-                <td class="opponentplayer"><a href="@matchUrl">@normalizedMatch.Player2.name</a></td>
+                <td class="opponentplayer">@Html.ActionLink(normalizedMatch.Player2.name, "Details", new {eventName = eventName, round = round, player1 = normalizedMatch.Player1Name, player2 = normalizedMatch.Player2Name})</td>
                 <td class="centered"><text>@normalizedMatch.Player1Wins</text>-<text>@normalizedMatch.Player2Wins</text></td>
                 if (@matchResult == "Win")
                 {

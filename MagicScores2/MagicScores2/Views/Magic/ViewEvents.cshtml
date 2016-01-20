@@ -35,9 +35,10 @@
 				@item.Players.Count
 			</td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Players", "Players", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+          @Html.ActionLink("Edit", "EditEvent", new { controller = "Magic", action = "EditEvent", eventName = item.name }) |
+          @Html.ActionLink("Players", "Players", new { controller = "Magic", action = "EventPlayers", eventName = item.name }) |
+          @Html.ActionLink("Delete", "Delete", new { controller = "Magic", action = "DeleteEvents", eventName = item.name })
+					
         </td>
     </tr>
 }

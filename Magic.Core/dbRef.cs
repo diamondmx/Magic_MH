@@ -196,28 +196,39 @@ namespace Magic.Core
 		[Column()] public Int32 CurrentRound;
 		[Column()] public Int32 RoundMatches;
 		[Column()] public bool Locked;
+		private string dbName;
 
 		public static dbEvent LoadDBEvent(string eventName)
 		{
 			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-			return db.GetTable<dbEvent>().First(e => e.Name == eventName);
+			var result = db.GetTable<dbEvent>().First(e => e.Name == eventName);
+			result.dbName = result.Name;
+			return result;
 		}
 
 		public static List<dbEvent> LoadAllDBEvents()
 		{
 			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-			return db.GetTable<dbEvent>().ToList();
+			var results = db.GetTable<dbEvent>().ToList();
+			results.ForEach(r=>r.dbName=r.Name);
+			return results;
 		}
 
 		public void Save()
 		{
 			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+			// Name not saved yet - need cascade update or manual update due to reference contraint
+			var sqlUpdate = String.Format($"UPDATE Events SET Name={Name}, CurrentRound={CurrentRound}, Rounds={Rounds}, RoundMatches={RoundMatches}, Locked={Convert.ToInt32(Locked)}, StartDate='{StartDate}', RoundEndDate='{RoundEndDate}' WHERE Name='{dbName}'", CurrentRound, Rounds, RoundMatches, Locked ? 0 : 1, Name);
 
-			var sqlUpdate = String.Format("UPDATE Events SET CurrentRound={0}, Rounds={1}, RoundMatches={2}, Locked={3} WHERE Name='{4}'", CurrentRound, Rounds, RoundMatches, Locked?0:1, Name);
-			db.ExecuteCommand(sqlUpdate);
-
-			//var test = db.GetChangeSet();
-			//db.SubmitChanges(failureMode: System.Data.Linq.ConflictMode.FailOnFirstConflict);
+			try
+			{
+				db.ExecuteCommand(sqlUpdate);
+				dbName = Name;
+			}
+			catch(Exception ex)
+			{
+				throw;
+			}
 		}
 	}
 

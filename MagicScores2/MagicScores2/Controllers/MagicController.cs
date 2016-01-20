@@ -24,12 +24,13 @@ namespace MagicScores2.Controllers
 			return View();
 		}
 
-		public List<SelectListItem> GetGameWinsDropdownWithSelected(int winsSelected)
+		public List<SelectListItem> GetDropdownWithSelected(int max, int selected)
 		{
 			var output = new List<SelectListItem>();
-			output.Add(new SelectListItem { Text = "0", Value = "0", Selected = winsSelected == 0 });
-			output.Add(new SelectListItem { Text = "1", Value = "1", Selected = winsSelected == 1 });
-			output.Add(new SelectListItem { Text = "2", Value = "2", Selected = winsSelected == 2 });
+			for(int i=0; i<=max;i++)
+			{
+				output.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = selected == i });
+			}
 
 			return output;
 		}
@@ -62,9 +63,9 @@ namespace MagicScores2.Controllers
 				}
 			}
 
-			var p1Dropdown = GetGameWinsDropdownWithSelected(match.Player1Wins);
-			var p2Dropdown = GetGameWinsDropdownWithSelected(match.Player2Wins);
-			var drawsDropdown = GetGameWinsDropdownWithSelected(match.Draws);
+			var p1Dropdown = GetDropdownWithSelected(2, match.Player1Wins);
+			var p2Dropdown = GetDropdownWithSelected(2, match.Player2Wins);
+			var drawsDropdown = GetDropdownWithSelected(3, match.Draws);
 
 			ViewBag.player1wins = p1Dropdown;
 			ViewBag.player2wins = p2Dropdown;
@@ -83,10 +84,33 @@ namespace MagicScores2.Controllers
 
 		//
 		// GET: /Magic/Edit/5
-		public ActionResult Edit(int id)
+		public ActionResult EditEvent(string eventName, string name, int? currentRound, int? roundMatches, DateTime? startDate, DateTime? roundEndDate)
 		{
-			throw new Exception("TEST");
-			return View();
+
+			var thisEvent = new Magic.Core.Event();
+			thisEvent.LoadEvent(eventName);
+
+			if (currentRound.HasValue)
+			{
+				thisEvent.name = name;
+				thisEvent.CurrentRound = currentRound.HasValue? currentRound.Value: thisEvent.CurrentRound;
+				thisEvent.RoundMatches = roundMatches.HasValue ? roundMatches.Value: thisEvent.RoundMatches;
+				thisEvent.EventStartDate = startDate.HasValue? startDate.Value: thisEvent.EventStartDate;
+				thisEvent.RoundEndDate = roundEndDate.HasValue? roundEndDate.Value: thisEvent.RoundEndDate;
+
+				thisEvent.SaveEvent(saveMatches: false);
+
+				return ViewEvents();
+			}
+
+
+			var currentRoundDropdown = GetDropdownWithSelected(4, thisEvent.CurrentRound);
+			var roundMatchesDropdown = GetDropdownWithSelected(4, thisEvent.RoundMatches);
+
+			@ViewBag.CurrentRound = currentRoundDropdown;
+			@ViewBag.RoundMatches = roundMatchesDropdown;
+
+			return View("EditEvent", thisEvent);
 		}
 
 		//
