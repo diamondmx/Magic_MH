@@ -29,11 +29,11 @@ namespace MagicScores2
 								defaults: new { controller = "Magic", action = "EditEvent" }
 				);
 
-			routes.MapRoute(
-								name: "Default",
-								url: "Magic/Index/{eventName}/{round}/{detailedMode}",
-								defaults: new { controller = "Magic", action = "Index", eventName = "BFZ", round = 3, detailedMode = false }
-			 );
+            routes.MapRoute(
+                name: "Default",
+                url: "{eventName}/{round}/{detailMode}",
+                defaults: new { controller="Magic", action = "Index", eventName = "BFZ", round=4, detailMode=0 }
+                );
 
 			routes.MapRoute(
 					name: "Details",

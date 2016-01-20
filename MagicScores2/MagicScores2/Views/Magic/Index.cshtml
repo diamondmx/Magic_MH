@@ -5,6 +5,7 @@
     Magic.Core.Event mainEvent = ViewBag.Event;
     int round = ViewBag.Round;
     List<Magic.Core.Player> players = ViewBag.Players;
+    int detailMode = ViewBag.DetailMode;
     string eventName = ViewBag.eventName;
     int numMatches = mainEvent.RoundMatchCount(round);
     int maxMatchesPlayed = mainEvent.Players.Max(p => p.matches.Count(m => m.Round == round));
@@ -43,8 +44,18 @@
 
 
 }
+@if(detailMode>0)
+{ <h2>DetailMode: @detailMode </h2>}
 
-<h2>Players - @eventName - Round @round</h2>
+@if (round > 0)
+{
+    <h2>Players - @eventName - Round @round</h2>
+}
+else
+{
+    <h2>Players - @eventName - Event Overview</h2>
+}
+
 <h3>Round Ends: @string.Format("{0} - {1}", mainEvent.RoundEndDate.ToString(), endTimeString)</h3>
 
 <table border="1" class="matchTable">
@@ -106,15 +117,24 @@
             <th>GWP</th>
             <th>OGWP</th>
             <th>Remaining Matches</th>
+            @if(detailMode>=1)
+            {
+                <th>MaxPossScore</th>
+            }
+            @if(detailMode>=2)
+            {
+                <th>OpponentMatches</th>
+            }
         </tr>
     </thead>
     <tbody>
 
         @{
-                    scoreIndex = 1;
-                    foreach (Magic.Core.Player p in players.OrderByDescending(p => p.Score(round)).ThenByDescending(p => p.OMWP(round)).ThenByDescending(p => p.GWP(round)).ThenByDescending(p => p.OGWP(round)))
-                    {
-
+            scoreIndex = 1;
+            foreach (Magic.Core.Player p in players.OrderByDescending(p => p.Score(round)).ThenByDescending(p => p.OMWP(round)).ThenByDescending(p => p.GWP(round)).ThenByDescending(p => p.OGWP(round)))
+            {
+                var remainingMatches = (@mainEvent.RoundMatchCount(round) - @p.matchesCompleted(round));
+                
                 <tr>
                     <td class="playerScore">@(scoreIndex++)</td>
                     <td class="keyplayer">@p.name</td>
@@ -122,12 +142,23 @@
                     <td class="playerScore">@p.OMWP(round).ToString("F4")<text>%</text></td>
                     <td class="playerScore">@p.GWP(round).ToString("F4")<text>%</text></td>
                     <td class="playerScore">@p.OGWP(round).ToString("F4")<text>%</text></td>
-                    <td class="playerScore">@(@mainEvent.RoundMatchCount(round) - @p.matchesCompleted(round))</td>
-
-                    @foreach (Magic.Core.Player o in p.Opponents(round))
-                {
-                        <td class="omwpList">@o.name</td>
-                        <td class="omwpList">@o.MWP(round).ToString("F0")<text>% </text></td>
+                    <td class="playerScore">@remainingMatches</td>
+                    
+                    @if (detailMode >= 1)
+                    {
+                        var maxPossibleScore = @p.Score(round) + remainingMatches * 3;
+                        <td class="playerScore">@maxPossibleScore</td>
+                    }
+                    @foreach (Magic.Core.Player o in p.Opponents(round).OrderBy(o=>o.name))
+                    {
+                        if (detailMode >= 2)
+                        {
+                            <td class="omwpList">@o.name</td>
+                        }
+                        if(detailMode >= 3)
+                        {
+                            <td class="omwpList">@o.MWP(round).ToString("F0")<text>% </text></td>
+                        }
                     }
                 </tr>
             }

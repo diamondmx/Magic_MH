@@ -12,7 +12,7 @@ namespace MagicScores2.Controllers
 	{
 		//
 		// GET: /Magic/
-		public ActionResult Index(string eventName, int round, bool detailedMode)
+		public ActionResult Index(string eventName, int round, int detailMode=0)
 		{
 			var thisEvent = new Magic.Core.Event();
 			thisEvent.LoadEvent(eventName);
@@ -22,6 +22,7 @@ namespace MagicScores2.Controllers
 			ViewBag.EventName = eventName;
 			ViewBag.Round = round;
 			ViewBag.Event = thisEvent;
+            ViewBag.DetailMode = detailMode;
 			return View();
 		}
 
