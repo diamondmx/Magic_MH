@@ -147,7 +147,7 @@ namespace MagicScores2.Controllers
 			var thisEvent = new Event();
 			thisEvent.LoadEvent(eventName);
 
-			return View("ListPlayers", thisEvent.Players);
+			return View("ListPlayers", thisEvent);
 		}
 
 		public ActionResult AddPlayer(string eventName, string playerName)
@@ -158,7 +158,7 @@ namespace MagicScores2.Controllers
 			var newPlayer = new Player(playerName);
 			thisEvent.AddPlayer(newPlayer);
 
-			return View("ListPlayers", thisEvent.Players);
+			return View("ListPlayers", thisEvent);
 			
 		}
 
