@@ -9,6 +9,10 @@ namespace MagicScores2
 {
 	public class RouteConfig
 	{
+        public static int currentRound = 1;
+        public static string currentEvent = "OGW";
+        public static int defaultDetail = 0;
+
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -44,19 +48,19 @@ namespace MagicScores2
             routes.MapRoute(
                 name: "Default",
                 url: "{eventName}/{round}/{detailMode}",
-                defaults: new { controller="Magic", action = "Index", eventName = "BFZ", round=4, detailMode=0 }
+                defaults: new { controller="Magic", action = "Index", eventName = currentEvent, round=currentRound, detailMode=defaultDetail }
                 );
 
 			routes.MapRoute(
 					name: "Details",
 					url: "Magic/Match/{eventName}/{round}/{player1}/{player2}",
-					defaults: new { controller = "Magic", action = "Details", eventName = "ORI", round = 3, player1wins = UrlParameter.Optional }
+					defaults: new { controller = "Magic", action = "Details", eventName = currentEvent, round = currentRound, player1wins = UrlParameter.Optional }
 			);
 
 			routes.MapRoute(
 					name: "Generic",
 					url: "{controller}/{action}/",
-					defaults: new { controller = "Magic", action = "Index", eventName = "FRF", round = 2, detailedMode = false}
+					defaults: new { controller = "Magic", action = "Index", eventName = currentEvent, round = currentRound, detailedMode = defaultDetail}
 			);
 		}
 	}
