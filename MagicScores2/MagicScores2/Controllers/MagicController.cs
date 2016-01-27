@@ -144,19 +144,22 @@ namespace MagicScores2.Controllers
 
 		public ActionResult ListPlayers(string eventName)
 		{
-			var playerList = new List<Player>() { new Player("One"), new Player("Two") };
-			return View("ListPlayers", playerList);
+			var thisEvent = new Event();
+			thisEvent.LoadEvent(eventName);
+			return View("ListPlayers", thisEvent.Players);
 		}
 
-		/*public ActionResult AddPlayer(string eventName, string playerName)
+		public ActionResult AddPlayer(string eventName, string playerName)
 		{
 			var thisEvent = new Event();
 			thisEvent.LoadEvent(eventName);
 
 			var newPlayer = new Player(playerName);
 			thisEvent.AddPlayer(newPlayer);
+
+			return View("ListPlayers", thisEvent.Players);
 			
-		}*/
+		}
 
 	}
 }

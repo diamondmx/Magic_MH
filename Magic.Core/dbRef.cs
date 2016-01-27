@@ -249,6 +249,25 @@ namespace Magic.Core
 				throw;
 			}
 		}
+
+		public void AddPlayer(dbPlayer dbPlayer)
+		{
+			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+
+			var sqlAddPlayerToPlayers = $"IF NOT EXISTS(SELECT * FROM Players WHERE Players.Name = '{0}') INSERT INTO Players(Name) VALUES('{0}')";
+			var sqlAddPlayerToEvent = $"IF NOT EXISTS(SELECT * FROM EventPlayers WHERE Player={0} AND EventName={1}) INSERT INTO EventPlayers(Player, EventName) VALUES({0}, {1})";
+
+			try
+			{
+				db.ExecuteCommand(sqlAddPlayerToPlayers, dbPlayer.Name);
+				db.ExecuteCommand(sqlAddPlayerToEvent, dbPlayer.Name, Name);
+			}
+			catch(Exception ex)
+			{
+				throw;
+			}
+
+    }
 	}
 
 	[Table(Name = "EventPlayers")]

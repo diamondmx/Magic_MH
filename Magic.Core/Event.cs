@@ -140,18 +140,13 @@ namespace Magic.Core
 			myDbEvent.RoundEndDate = RoundEndDate;
 			myDbEvent.StartDate = EventStartDate;
 
-			if (saveMatches)
-			{
-				UpdateAllMatches();
-			}
-
 			myDbEvent.Update();
 		}
 
 
-		private async Task UpdateAllMatches()
+		public async Task UpdateAllMatches()
 		{
-			Matches.ForEach(m => m.Save());
+			await Task.Run(()=> Matches.ForEach(m => m.Save()));
 		}
 
 		private void ApplyNameChange()
@@ -199,5 +194,12 @@ namespace Magic.Core
         {
 					return Players.Sum(p => p.matchesCompleted(round));
         }
+
+		public void AddPlayer(Player newPlayer)
+		{
+			var dbPlayer = new dbPlayer() { Name = newPlayer.name };
+			myDbEvent.AddPlayer(dbPlayer);
+		}
+			
 	}
 }
