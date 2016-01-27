@@ -146,6 +146,7 @@ namespace MagicScores2.Controllers
 		{
 			var thisEvent = new Event();
 			thisEvent.LoadEvent(eventName);
+
 			return View("ListPlayers", thisEvent.Players);
 		}
 

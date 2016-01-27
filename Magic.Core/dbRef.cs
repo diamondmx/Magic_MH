@@ -266,7 +266,6 @@ namespace Magic.Core
 			{
 				throw;
 			}
-
     }
 	}
 
