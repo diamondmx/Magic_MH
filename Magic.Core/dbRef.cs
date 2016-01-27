@@ -249,6 +249,13 @@ namespace Magic.Core
 				throw;
 			}
 		}
+
+		public void AddPlayer(dbPlayer newPlayer)
+		{
+			newPlayer.Save();
+
+			// Add player to Event -> Todo
+		}
 	}
 
 	[Table(Name = "EventPlayers")]

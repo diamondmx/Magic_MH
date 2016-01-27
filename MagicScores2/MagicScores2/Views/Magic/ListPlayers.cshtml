@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Magic.Core.Player>
+﻿@model Magic.Core.Event
 
 @{
     ViewBag.Title = "ListPlayers";
@@ -8,22 +8,22 @@
 <h2>ListPlayers</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "AddPlayer", new { eventName = Model.name, playerName = Guid.NewGuid().ToString().Substring(0,10) })
 </p>
 <table class="table">
     <tr>
-        <th></th>
+        <th>Player Name</th>
+				<th>Actions</th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Players) {
     <tr>
-        <td>
-					<text>@item.name</text>
-					  @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
+        <td><text>@item.name</text></td>
+			<td>@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+					@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+					@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })</td>
     </tr>
 }
-
 </table>
+
+@Html.ActionLink("Back to Events", "ViewEvents")

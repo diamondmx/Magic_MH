@@ -14,6 +14,18 @@ namespace MagicScores2
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			routes.MapRoute(
+				name: "AddPlayer",
+				url: "Magic/AddPlayer",
+				defaults: new { controller = "Magic", action = "AddPlayer" }
+				);
+
+			routes.MapRoute(
+				name: "CreateEvent",
+				url: "Magic/CreateEvent",
+				defaults: new { controller = "Magic", action = "CreateEvent" }
+				);
+
+			routes.MapRoute(
 				name: "ListPlayers",
 				url: "Magic/ListPlayers",
 				defaults: new { controller = "Magic", action = "ListPlayers" });
@@ -26,7 +38,7 @@ namespace MagicScores2
 			routes.MapRoute(
 								name: "EditEvent",
 								url: "Magic/EditEvent/{eventName}",
-								defaults: new { controller = "Magic", action = "EditEvent" }
+								defaults: new { controller = "Magic", action = "EditEvent", eventName = UrlParameter.Optional }
 				);
 
             routes.MapRoute(
