@@ -252,8 +252,8 @@ namespace Magic.Core
 		{
 			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
 
-			var sqlAddPlayerToPlayers = $"IF NOT EXISTS(SELECT * FROM Players WHERE Players.Name = '{0}') INSERT INTO Players(Name) VALUES('{0}')";
-			var sqlAddPlayerToEvent = $"IF NOT EXISTS(SELECT * FROM EventPlayers WHERE Player={0} AND EventName={1}) INSERT INTO EventPlayers(Player, EventName) VALUES({0}, {1})";
+			var sqlAddPlayerToPlayers = $"IF NOT EXISTS(SELECT * FROM Players WHERE Players.Name = '{dbPlayer.Name}') INSERT INTO Players(Name) VALUES('{dbPlayer.Name}')";
+			var sqlAddPlayerToEvent = $"IF NOT EXISTS(SELECT * FROM EventPlayers WHERE Player='{dbPlayer.Name}' AND EventName='{Name}') INSERT INTO EventPlayers(Player, EventName) VALUES('{dbPlayer.Name}', '{Name}')";
 
 			try
 			{

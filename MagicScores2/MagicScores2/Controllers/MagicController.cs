@@ -158,7 +158,7 @@ namespace MagicScores2.Controllers
 			var newPlayer = new Player(playerName);
 			thisEvent.AddPlayer(newPlayer);
 
-			return View("ListPlayers", thisEvent);
+			return Redirect(Url.Action("ListPlayers", "Magic", new { eventName = eventName}));
 			
 		}
 

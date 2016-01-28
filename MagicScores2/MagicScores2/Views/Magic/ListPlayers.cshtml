@@ -8,7 +8,17 @@
 <h2>ListPlayers</h2>
 
 <p>
-    @Html.ActionLink("Create New", "AddPlayer", new { eventName = Model.name, playerName = Guid.NewGuid().ToString().Substring(0,10) })
+    <!--@Html.ActionLink("Create New", "AddPlayer", new { eventName = Model.name, playerName = Guid.NewGuid().ToString().Substring(0,10) })
+			-->
+
+		@using (Html.BeginForm("AddPlayer", "Magic", FormMethod.Get))
+		{
+			<text>Name </text> 
+			<input type="text" name="playerName" value="" />
+			<input type="hidden" name="eventName" value="@Model.name" />
+			<input type="submit" value="Save" class="btn btn-default" />
+
+		}
 </p>
 <table class="table">
     <tr>
@@ -16,7 +26,8 @@
 				<th>Actions</th>
     </tr>
 
-@foreach (var item in Model.Players) {
+@foreach (var item in Model.Players)
+{
     <tr>
         <td><text>@item.name</text></td>
 			<td>@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
