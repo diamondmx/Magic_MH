@@ -23,7 +23,7 @@
 			</th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.OrderBy(ev=>ev.EventStartDate)) {
     <tr>
 				<td>
 					@item.name
