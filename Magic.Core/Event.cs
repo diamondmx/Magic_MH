@@ -146,7 +146,7 @@ namespace Magic.Core
 
 		public async Task UpdateAllMatches()
 		{
-			await Task.Run(()=> Matches.ForEach(m => m.Save()));
+		    Matches.ForEach(m => m.Save());
 		}
 
 		private void ApplyNameChange()
