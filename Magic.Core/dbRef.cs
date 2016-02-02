@@ -19,48 +19,52 @@ using Magic.Core.LocalSetup;
 
 namespace Magic.Core
 {
-	[System.Data.Linq.Mapping.Table(Name = "Players")]
-	public class dbPlayer
+	public class PlayerRepository
 	{
-		[System.Data.Linq.Mapping.Column(IsPrimaryKey = true)]
-		public string Name;
-
-		public static List<dbPlayer> LoadDBPlayers()
+		private readonly IDataContextWrapper _dataContext;
+		public PlayerRepository(IDataContextWrapper dataContext)
 		{
-			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
+			_dataContext = dataContext;
+		}
 
-			var playersTable = db.GetTable<dbPlayer>().ToList();
+		public List<dbPlayer> LoadDBPlayers()
+		{
+			var playersTable = _dataContext.GetTable<dbPlayer>().ToList();
 			return playersTable;
 		}
 
 		public void Save()
 		{
-			//var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-
 			//var sqlUpdate = String.Format("UPDATE Players SET CurrentRound={0}, Rounds={1}, RoundMatches={2} WHERE Name='{3}'", currentRound, rounds, roundMatches, Name);
 			//db.ExecuteCommand(sqlUpdate);
-
 		}
 	}
 
-	[System.Data.Linq.Mapping.Table(Name = "Matches")]
+	[Table(Name = "Players")]
+	public class dbPlayer
+	{
+		[Column(IsPrimaryKey = true)]
+		public string Name;
+	}
+
+	[Table(Name = "Matches")]
 	public class dbMatch
 	{
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public string Player1;
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public string Player2;
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public int Round;
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public string Event;
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public int Player1Wins;
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public int Player2Wins;
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public int Draws;
-		[System.Data.Linq.Mapping.Column()]
+		[Column()]
 		public bool InProgress;
 
 		public dbMatch(Magic.Core.Match m)
@@ -195,34 +199,36 @@ namespace Magic.Core
 		[Column()] public Int32 RoundMatches;
 		[Column()] public bool Locked;
 		private string dbName;
+		private readonly IDataContextWrapper _dataContext;
 
-		public static dbEvent LoadDBEvent(string eventName)
+		public dbEvent(IDataContextWrapper dataContext)
 		{
-			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-			var result = db.GetTable<dbEvent>().First(e => e.Name == eventName);
+			_dataContext = dataContext;
+		}
+
+		public dbEvent LoadDBEvent(string eventName)
+		{
+			var result = _dataContext.GetTable<dbEvent>().First(e => e.Name == eventName);
 			result.dbName = result.Name;
 			return result;
 		}
 
-		public static List<dbEvent> LoadAllDBEvents()
+		public List<dbEvent> LoadAllDBEvents()
 		{
-			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-			var results = db.GetTable<dbEvent>().ToList();
+			var results = _dataContext.GetTable<dbEvent>().ToList();
 			results.ForEach(r=>r.dbName=r.Name);
 			return results;
 		}
 
 		public void Create()
 		{
-			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-
 			var sqlCreate = "INSERT INTO Events (Name, CurrentRound, Rounds, RoundMatches, Locked, StartDate, RoundEndDate)";
 			var sqlValues = $"VALUES ('{Name}', {CurrentRound}, {Rounds}, {RoundMatches}, {Convert.ToInt32(Locked)}, '{StartDate}', '{RoundEndDate}')";
 			var fullSql = sqlCreate + sqlValues;
 
 			try
 			{
-				db.ExecuteCommand(fullSql);
+				_dataContext.ExecuteCommand(fullSql);
 				dbName = Name;
 			}
 			catch(Exception ex)
@@ -233,13 +239,11 @@ namespace Magic.Core
 
 		public void Update()
 		{
-			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-
 			var sqlUpdate = $"UPDATE Events SET Name='{Name}', CurrentRound={CurrentRound}, Rounds={Rounds}, RoundMatches={RoundMatches}, Locked={Convert.ToInt32(Locked)}, StartDate='{StartDate}', RoundEndDate='{RoundEndDate}' WHERE Name='{dbName}'";
 
 			try
 			{
-				db.ExecuteCommand(sqlUpdate);
+				_dataContext.ExecuteCommand(sqlUpdate);
 				dbName = Name;
 			}
 			catch(Exception ex)
@@ -250,15 +254,13 @@ namespace Magic.Core
 
 		public void AddPlayer(dbPlayer dbPlayer)
 		{
-			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-
 			var sqlAddPlayerToPlayers = $"IF NOT EXISTS(SELECT * FROM Players WHERE Players.Name = '{dbPlayer.Name}') INSERT INTO Players(Name) VALUES('{dbPlayer.Name}')";
 			var sqlAddPlayerToEvent = $"IF NOT EXISTS(SELECT * FROM EventPlayers WHERE Player='{dbPlayer.Name}' AND EventName='{Name}') INSERT INTO EventPlayers(Player, EventName) VALUES('{dbPlayer.Name}', '{Name}')";
 
 			try
 			{
-				db.ExecuteCommand(sqlAddPlayerToPlayers, dbPlayer.Name);
-				db.ExecuteCommand(sqlAddPlayerToEvent, dbPlayer.Name, Name);
+				_dataContext.ExecuteCommand(sqlAddPlayerToPlayers, dbPlayer.Name);
+				_dataContext.ExecuteCommand(sqlAddPlayerToEvent, dbPlayer.Name, Name);
 			}
 			catch(Exception ex)
 			{
@@ -270,6 +272,12 @@ namespace Magic.Core
 	[Table(Name = "EventPlayers")]
 	public class dbEventPlayers
 	{
+		private readonly IDataContextWrapper _dataContext;
+		public dbEventPlayers(IDataContextWrapper dataContext)
+		{
+			_dataContext = dataContext;
+		}
+
 		[Column()]
 		public string EventName;
 
@@ -279,10 +287,9 @@ namespace Magic.Core
 		[Column()]
 		public int Dropped;
 
-		public static List<dbEventPlayers> LoadDBEventPlayers(string eventName)
+		public List<dbEventPlayers> LoadDBEventPlayers(string eventName)
 		{
-			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-			return db.GetTable<dbEventPlayers>().Where(ep => ep.EventName == eventName).ToList();
+			return _dataContext.GetTable<dbEventPlayers>().Where(ep => ep.EventName == eventName).ToList();
 		}
 	}
 }

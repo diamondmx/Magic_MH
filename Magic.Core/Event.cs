@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Magic.Core
 {
+	using LocalSetup;
 	using NUnit.Framework;
 	using System.Diagnostics;
 
@@ -22,6 +23,13 @@ namespace Magic.Core
 		public DateTime RoundEndDate = DateTime.Today;
 		public DateTime EventStartDate = DateTime.Today;
 		private bool _locked = false;
+
+		private readonly IDataContextWrapper _dataContext;
+
+		public Event()
+		{
+			_dataContext = new DataContextWrapper(Constants.currentConnectionString);
+    }
 
 		public List<Event> LoadAllEvents()
 		{
@@ -48,10 +56,15 @@ namespace Magic.Core
 			EventStartDate = loadedEvent.StartDate;
 			RoundEndDate = loadedEvent.RoundEndDate;
 
+
 			var eventPlayers = dbEventPlayers.LoadDBEventPlayers(loadedEvent.Name);
 
+			//LoadPlayers
+			var PlayerRepository = new PlayerRepository(_dataContext);
 			Players = new List<Player>();
-			dbPlayer.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => Players.Add(new Player(p)));
+			PlayerRepository.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => Players.Add(new Player(p)));
+
+			//LoadEventPlayers
 			eventPlayers.Where(ep => ep.Dropped > 0).ToList().ForEach(ep =>
 			{
 				foreach (var p in Players)
@@ -61,6 +74,7 @@ namespace Magic.Core
 				}
 			});
 
+			//LoadMatches
 			Matches = new List<Match>();
 			dbMatch.LoadDBMatches(name).Where(m => m.Event == loadedEvent.Name).ToList().ForEach(m => Matches.Add(new Match(m)));
 
