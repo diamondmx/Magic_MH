@@ -269,15 +269,26 @@ namespace Magic.Core
     }
 	}
 
-	[Table(Name = "EventPlayers")]
-	public class dbEventPlayers
+	public class EventPlayerRepository
 	{
 		private readonly IDataContextWrapper _dataContext;
-		public dbEventPlayers(IDataContextWrapper dataContext)
+
+		public EventPlayerRepository(IDataContextWrapper dataContext)
 		{
 			_dataContext = dataContext;
 		}
 
+		public List<dbEventPlayers> LoadDBEventPlayers(string eventName)
+		{
+			return _dataContext.GetTable<dbEventPlayers>().Where(ep => ep.EventName == eventName).ToList();
+		}
+
+	}
+
+
+	[Table(Name = "EventPlayers")]
+	public class dbEventPlayers
+	{
 		[Column()]
 		public string EventName;
 
@@ -285,12 +296,7 @@ namespace Magic.Core
 		public string Player;
 
 		[Column()]
-		public int Dropped;
-
-		public List<dbEventPlayers> LoadDBEventPlayers(string eventName)
-		{
-			return _dataContext.GetTable<dbEventPlayers>().Where(ep => ep.EventName == eventName).ToList();
-		}
+		public int Dropped;		
 	}
 }
 
