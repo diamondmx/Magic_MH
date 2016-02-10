@@ -3,26 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Magic;
 using Magic.Core;
+using Magic.Domain;
 
 namespace MagicScores2.Controllers
 {
 	public class MagicController : Controller
 	{
+		private readonly IEventManager _eventManager;
+		private readonly IMatchManager _matchManager;
+
+		public MagicController()
+		{
+			var dataContext = new Magic.Data.DataContextWrapper(Magic.Data.LocalSetup.Constants.currentConnectionString);
+			var eventPlayerRepo = new Magic.Data.EventPlayerRepository(dataContext);
+			var playerRepo = new Magic.Data.PlayerRepository(dataContext);
+			var matchRepo = new Magic.Data.MatchRepository();
+			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo);
+			_eventManager = new EventManager(eventRepo);
+			_matchManager = new MatchManager(matchRepo);
+		}
+
 		//
 		// GET: /Magic/
 		public ActionResult Index(string eventName, int round, int detailMode=0)
 		{
-			var thisEvent = new Magic.Core.Event();
-			thisEvent.LoadEvent(eventName);
+			Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
 
 			ViewBag.Title = String.Format("{0}: Round {1}", eventName, round);
 			ViewBag.Players = thisEvent.Players;
 			ViewBag.EventName = eventName;
 			ViewBag.Round = round;
 			ViewBag.Event = thisEvent;
-            ViewBag.DetailMode = detailMode;
+      ViewBag.DetailMode = detailMode;
 			return View();
 		}
 
@@ -39,8 +52,7 @@ namespace MagicScores2.Controllers
 
 		public ActionResult Details(string eventName, int round, string player1, string player2, int? player1wins, int? player2wins, int? draws)
 		{
-			var thisEvent = new Magic.Core.Event();
-			thisEvent.LoadEvent(eventName);
+			Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
 
 			var match = thisEvent.Matches.Where(m => (m.Round == round) && (m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2)).First();
 			ViewBag.Match = match;
@@ -57,7 +69,7 @@ namespace MagicScores2.Controllers
 					match.Player2Wins = player2wins.Value;
 					match.Draws = draws.Value;
 
-					match.Update();
+					_matchManager.Update(match);
 
 					return RedirectToAction("Index", new { controller = "Magic", eventName = eventName, round = round });
 				}
@@ -76,15 +88,14 @@ namespace MagicScores2.Controllers
 
 		public ActionResult ViewEvents()
 		{
-			var dummyEvent = new Magic.Core.Event();
-			var eventList = dummyEvent.LoadAllEvents();
+			var eventList = _eventManager.LoadAllEvents();
 
 			return View("ViewEvents", eventList);
 		}
 
 		public ActionResult CreateEvent()
 		{
-			var newEvent = new Magic.Core.Event();
+			var newEvent = new Magic.Domain.Event();
 
 			var currentRoundDropdown = GetDropdownWithSelected(4, 1);
 			var roundMatchesDropdown = GetDropdownWithSelected(4, 4);
@@ -98,10 +109,14 @@ namespace MagicScores2.Controllers
 
 		public ActionResult EditEvent(string eventName, bool NewEvent, string name, int? currentRound, int? roundMatches, DateTime? startDate, DateTime? roundEndDate)
 		{
-			var thisEvent = new Magic.Core.Event();
+			Magic.Domain.Event thisEvent = null;
 			if(NewEvent == false)
 			{
-				thisEvent.LoadEvent(eventName);
+				thisEvent = _eventManager.LoadEvent(eventName);
+			}
+			else
+			{
+				thisEvent = new Magic.Domain.Event();
 			}
 
 			if (currentRound.HasValue)
@@ -115,11 +130,11 @@ namespace MagicScores2.Controllers
 
 				if(NewEvent == false)
 				{
-					thisEvent.SaveEvent(saveMatches: false);
+					_eventManager.SaveEvent(thisEvent);
 				}
 				else
 				{
-					thisEvent.CreateEvent(saveMatches: false);
+					_eventManager.CreateEvent(thisEvent);
 				}
 				
 
@@ -144,19 +159,17 @@ namespace MagicScores2.Controllers
 
 		public ActionResult ListPlayers(string eventName)
 		{
-			var thisEvent = new Event();
-			thisEvent.LoadEvent(eventName);
+			var thisEvent = _eventManager.LoadEvent(eventName);
 
 			return View("ListPlayers", thisEvent);
 		}
 
 		public ActionResult AddPlayer(string eventName, string playerName)
 		{
-			var thisEvent = new Event();
-			thisEvent.LoadEvent(eventName);
+			var thisEvent = _eventManager.LoadEvent(eventName);
 
 			var newPlayer = new Player(playerName);
-			thisEvent.AddPlayer(newPlayer);
+			_eventManager.AddPlayer(thisEvent, newPlayer);
 
 			return Redirect(Url.Action("ListPlayers", "Magic", new { eventName = eventName}));
 			

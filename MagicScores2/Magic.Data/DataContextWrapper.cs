@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Magic.Core
+namespace Magic.Data
 {
 	public interface IDataContextWrapper
 	{
