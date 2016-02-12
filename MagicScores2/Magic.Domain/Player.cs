@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Magic.Core
+namespace Magic.Domain
 {
 	[DebuggerDisplay("{name} m:{matches.Count} s:{Score(0)}")]
 	public class Player
@@ -14,24 +14,11 @@ namespace Magic.Core
 		public string name;
 		public List<Match> matches;
 		public int? droppedInRound;
-		public dbPlayer myDbPlayer = null;
 
 		public Player(string newName)
 		{
 			name = newName;
 			matches = new List<Match>();
-		}
-
-		public Player(dbPlayer p)
-		: this(p.Name)
-		{
-			myDbPlayer = p;
-		}
-
-		public void SavePlayer()
-		{
-			if (myDbPlayer != null)
-				myDbPlayer.Save();
 		}
 
 		public int matchesCompleted(int round)
@@ -57,51 +44,28 @@ namespace Magic.Core
                 var nm = m.WithPlayerOneAs(name);
                 return MatchScore(nm.Player1Wins, nm.Player2Wins, nm.Draws);
             });
-
-            //return relevantMatches.Sum(m =>
-            //{
-            //	var nm = m.WithPlayerOneAs(name);
-            //	if (nm.Player1Wins > nm.Player2Wins)
-            //		return 3;
-            //	else if (nm.Player1Wins == nm.Player2Wins)
-            //		return 1;
-            //	else
-            //		return 0;
-            //});
         }
 
-        public int MatchScore(int player1Wins, int player2Wins, int draws)
+    public int MatchScore(int player1Wins, int player2Wins, int draws)
+    {
+        if ((player1Wins + draws >=2) || (player2Wins + draws>=2)) // Match Complete
         {
-            if ((player1Wins + draws >=2) || (player2Wins + draws>=2)) // Match Complete
-            {
-                if (player1Wins > player2Wins)
-                    return 3;
-                else if (player2Wins > player1Wins)
-                    return 0;
-                else
-                    return 1;
-            }
+            if (player1Wins > player2Wins)
+                return 3;
+            else if (player2Wins > player1Wins)
+                return 0;
             else
-            {
-                return 0; // Match incomplete
-            }
-
+                return 1;
         }
+        else
+        {
+            return 0; // Match incomplete
+        }
+
+    }
 
 		public float MWP(int round = 0)
 		{
-			//List<Match> relevantMatches = null;
-			//if (round == 0)
-			//{
-			//	relevantMatches = matches;
-			//}
-			//else
-			//{
-			//	relevantMatches = matches.Where(m => m.Round == round).ToList();
-			//}
-
-			//float matchWins = relevantMatches.Count(m => m.DidPlayerWin(name));
-			//return (matchWins / (float)relevantMatches.Count()) * 100;
 			var relevantMatches = GetRelevantMatches(round);
 
 

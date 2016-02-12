@@ -73,6 +73,17 @@
 									</li>
 
 									<li>@Html.ActionLink("RMZ", "Index", new { controller = "Magic", action = "Index", eventName = "RMZ", round = 1 })</li>
+                    
+                                    <li class="dropdown">
+                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">OGW<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("OGW(1)", "Index", new { controller = "Magic", action = "Index", eventName = "OGW", round = 1 })</li>
+                                            <li>@Html.ActionLink("OGW(2)", "Index", new { controller = "Magic", action = "Index", eventName = "OGW", round = 2 })</li>
+                                            <li>@Html.ActionLink("OGW(3)", "Index", new { controller = "Magic", action = "Index", eventName = "OGW", round = 3 })</li>
+                                            <li>@Html.ActionLink("OGW(*)", "Index", new { controller = "Magic", action = "Index", eventName = "OGW", round = 0 })</li>
+                                            <li>@Html.ActionLink("OGW(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "OGW", round = 4 })</li>
+                                        </ul>
+                                    </li>
 
                 </ul>
             </div>
