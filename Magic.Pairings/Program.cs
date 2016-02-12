@@ -23,7 +23,7 @@ namespace Magic.Pairings
 		
 		static void Main(string[] args)
 		{
-			var mainEvent = LoadDatabase("BFZ");
+			var mainEvent = LoadDatabase("OGW");
 
 			var playerListString = "";
 			foreach (Player p in mainEvent.Players)
@@ -53,7 +53,7 @@ namespace Magic.Pairings
 				file.Write(outputByte, 0, outputByte.Length);
 			}
 
-            mainEvent.SaveEvent();
+            mainEvent.UpdateAllMatches();
 		}
 
 		static private string PlayerPairingInfoToString(Player p, int currentRound)
