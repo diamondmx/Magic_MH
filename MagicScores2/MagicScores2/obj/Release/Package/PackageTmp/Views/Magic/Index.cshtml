@@ -2,9 +2,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
-    Magic.Core.Event mainEvent = ViewBag.Event;
+    Magic.Domain.Event mainEvent = ViewBag.Event;
     int round = ViewBag.Round;
-    List<Magic.Core.Player> players = ViewBag.Players;
+    List<Magic.Domain.Player> players = ViewBag.Players;
     int detailMode = ViewBag.DetailMode;
     string eventName = ViewBag.eventName;
     int numMatches = mainEvent.RoundMatchCount(round);
@@ -72,11 +72,11 @@ else
             <th>Matches Played</th>
         </tr>
     </thead>
-    @foreach (Magic.Core.Player p in players)
+    @foreach (Magic.Domain.Player p in players)
     {
         <tr class="keyplayer">
             <td>@string.Format("{0}", p.name)</td>
-            @foreach (Magic.Core.Match m in p.matches.Where(m => m.Round == round))
+            @foreach (Magic.Domain.Match m in p.matches.Where(m => m.Round == round))
             {
                 var normalizedMatch = m.WithPlayerOneAs(p.name);
                 var matchResult = "";
@@ -89,9 +89,8 @@ else
                 else if (normalizedMatch.Player2Wins > normalizedMatch.Player1Wins)
                 { matchResult = "Loss"; }
                 var matchWin = normalizedMatch.Player1Wins > normalizedMatch.Player2Wins ? "Win" : "Loss";
-                var matchUrl = String.Format(@"/{0}/{1}/{2}/{3}/", eventName, round, normalizedMatch.Player1Name, normalizedMatch.Player2Name);
 
-                <td class="opponentplayer"><a href="@matchUrl">@normalizedMatch.Player2.name</a></td>
+                <td class="opponentplayer">@Html.ActionLink(normalizedMatch.Player2.name, "Details", new {eventName = eventName, round = round, player1 = normalizedMatch.Player1Name, player2 = normalizedMatch.Player2Name})</td>
                 <td class="centered"><text>@normalizedMatch.Player1Wins</text>-<text>@normalizedMatch.Player2Wins</text></td>
                 if (@matchResult == "Win")
                 {
@@ -132,7 +131,7 @@ else
 
         @{
             scoreIndex = 1;
-            foreach (Magic.Core.Player p in players.OrderByDescending(p => p.Score(round)).ThenByDescending(p => p.OMWP(round)).ThenByDescending(p => p.GWP(round)).ThenByDescending(p => p.OGWP(round)))
+            foreach (Magic.Domain.Player p in players.OrderByDescending(p => p.Score(round)).ThenByDescending(p => p.OMWP(round)).ThenByDescending(p => p.GWP(round)).ThenByDescending(p => p.OGWP(round)))
             {
                 var remainingMatches = (@mainEvent.RoundMatchCount(round) - @p.matchesCompleted(round));
                 
@@ -150,7 +149,7 @@ else
                         var maxPossibleScore = @p.Score(round) + remainingMatches * 3;
                         <td class="playerScore">@maxPossibleScore</td>
                     }
-                    @foreach (Magic.Core.Player o in p.Opponents(round).OrderBy(o=>o.name))
+                    @foreach (Magic.Domain.Player o in p.Opponents(round).OrderBy(o=>o.name))
                     {
                         if (detailMode >= 2)
                         {
@@ -172,6 +171,10 @@ else
         <tr>
             <td class="keyplayer">Total Remaining Matches</td>
             <td class="playerScore">@totalMatchesRemaining</td>
+        </tr>
+        <tr>
+            <td class="keyplayer">Players in Event</td>
+            <td class="playerScore">@mainEvent.Players.Count()</td>
         </tr>
     </tbody>
 </table>
