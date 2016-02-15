@@ -1,3 +1,6 @@
 .\Magic.Core\bin
 .\Magic.Pairings\bin
 .\MagicManager\bin
+.\Magic.Core\obj
+.\Magic.Pairings\obj
+.\MagicManager\obj
