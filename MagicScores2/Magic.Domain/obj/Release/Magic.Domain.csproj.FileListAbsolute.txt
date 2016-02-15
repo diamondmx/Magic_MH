@@ -1,5 +1,0 @@
-C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Domain\bin\Release\Magic.Domain.dll
-C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Domain\bin\Release\Magic.Domain.pdb
-C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Domain\obj\Release\Magic.Domain.csprojResolveAssemblyReference.cache
-C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Domain\obj\Release\Magic.Domain.dll
-C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Domain\obj\Release\Magic.Domain.pdb
