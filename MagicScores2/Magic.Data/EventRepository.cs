@@ -146,9 +146,9 @@ namespace Magic.Data
 			Update(updateEvent.myDbEvent);
 		}
 
-		public async Task UpdateAllMatches(Event updateEvent)
+		public void UpdateAllMatches(Event updateEvent)
 		{
-			await Task.Run(() => updateEvent.Matches.ForEach(m => _matchRepository.Save(m)));
+			updateEvent.Matches.ForEach(m => _matchRepository.Save(m));
 		}
 
 

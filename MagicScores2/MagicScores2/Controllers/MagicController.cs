@@ -172,7 +172,15 @@ namespace MagicScores2.Controllers
 			_eventManager.AddPlayer(thisEvent, newPlayer);
 
 			return Redirect(Url.Action("ListPlayers", "Magic", new { eventName = eventName}));
-			
+		}
+
+		public ActionResult GeneratePairings(string eventName)
+		{
+			var pairingsManager = new PairingsManager(_eventManager);
+
+			var thisEvent = pairingsManager.LoadDatabase(eventName);
+			pairingsManager.GeneratePairings(thisEvent);
+			return View("PreviewPairings", thisEvent);
 		}
 
 	}
