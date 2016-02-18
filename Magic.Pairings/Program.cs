@@ -60,7 +60,7 @@ namespace Magic.Pairings
 				file.Write(outputByte, 0, outputByte.Length);
 			}
 
-			//eventRepo.UpdateAllMatches(mainEvent);
+			matchManager.UpdateAllMatches(mainEvent.Matches, mainEvent.CurrentRound);
 		}
 
 		static private string PlayerPairingInfoToString(Player p, int currentRound)

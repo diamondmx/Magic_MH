@@ -36,7 +36,7 @@ namespace MagicScores2.Controllers
 			ViewBag.Round = round;
 			ViewBag.Event = thisEvent;
       ViewBag.DetailMode = detailMode;
-			return View();
+			return View("Index");
 		}
 
 		public List<SelectListItem> GetDropdownWithSelected(int max, int selected)
@@ -180,8 +180,16 @@ namespace MagicScores2.Controllers
 
 			var thisEvent = pairingsManager.LoadDatabase(eventName);
 			pairingsManager.GeneratePairings(thisEvent);
+			Session["pairedEvent"] = thisEvent;
 			return View("PreviewPairings", thisEvent);
 		}
 
+		public ActionResult SaveMatches()
+		{
+			Event eventToSave = Session["pairedEvent"] as Event;
+			_matchManager.UpdateAllMatches(eventToSave.Matches, eventToSave.CurrentRound);
+
+			return RedirectToAction("Index", new { eventName = eventToSave.name, round = eventToSave.CurrentRound });
+		}
 	}
 }

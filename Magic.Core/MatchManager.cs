@@ -12,6 +12,7 @@ namespace Magic.Core
 	public interface IMatchManager
 	{
 		void Update(Match m);
+		void UpdateAllMatches(List<Match> matches, int round);
   }
 
 	public class MatchManager : IMatchManager
@@ -31,6 +32,21 @@ namespace Magic.Core
 		public void Save(Match m)
 		{
 			_matchRepository.Save(m);
+		}
+
+		public void UpdateAllMatches(List<Match> matches, int round)
+		{
+			IEnumerable<Match> relevantMatches;
+      if (round==0)
+			{
+				relevantMatches = matches;
+			}
+			else
+			{
+				relevantMatches = matches.Where(m => m.Round == round);
+			}
+
+			_matchRepository.UpdateAllMatches(relevantMatches);
 		}
 	}
 }

@@ -31,7 +31,7 @@ namespace Magic.Data
 		public void Insert(Match m)
 		{
 			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-			var sql = $"INSERT INTO [Matches](Event,Round,Player1,Player2,Player1Wins,Player2Wins,Draws,InProgress) VALUES('{m.Event}',{m.Round},'{m.Player1Name}','{m.Player2Name}',{m.Player1Wins},{m.Player2Wins},{m.Draws},0)";
+			var sql = $"INSERT INTO [Matches](Event,Round,Player1,Player2,Player1Wins,Player2Wins,Draws) VALUES('{m.Event}',{m.Round},'{m.Player1Name}','{m.Player2Name}',{m.Player1Wins},{m.Player2Wins},{m.Draws})";
 			db.ExecuteQuery<dbMatch>(sql);
 		}
 
@@ -102,6 +102,11 @@ namespace Magic.Data
 			}
 
 			return null;
+		}
+
+		public void UpdateAllMatches(IEnumerable<Match> matches)
+		{
+			matches.ToList().ForEach(m => Save(m));
 		}
 	}
 }

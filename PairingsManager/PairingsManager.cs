@@ -49,7 +49,7 @@ namespace Magic.Core
 				if (matchedPlayer == null)
 					return;
 
-				var newMatch = new Domain.Match(player, player.name, matchedPlayer, matchedPlayer.name, eventName, currentRound, 0, 0, 0, false);
+				var newMatch = new Domain.Match(player, player.name, matchedPlayer, matchedPlayer.name, eventName, currentRound, 0, 0, 0);
 				player.matches.Add(newMatch);
 				matchedPlayer.matches.Add(newMatch);
 				mainEvent.Matches.Add(newMatch);
