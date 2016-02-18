@@ -18,6 +18,18 @@ namespace MagicScores2
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			routes.MapRoute(
+				name: "SaveMatches",
+        url: "Magic/SaveMatches",
+				defaults: new { controller = "Magic", action = "SaveMatches" }
+				);
+
+			routes.MapRoute(
+				name: "GeneratePairings",
+				url: "Magic/GeneratePairings",
+				defaults: new { controller = "Magic", action = "GeneratePairings" }
+				);
+
+			routes.MapRoute(
 				name: "AddPlayer",
 				url: "Magic/AddPlayer",
 				defaults: new { controller = "Magic", action = "AddPlayer" }

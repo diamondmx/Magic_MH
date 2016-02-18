@@ -38,7 +38,7 @@
           @Html.ActionLink("Edit", "EditEvent", new { controller = "Magic", action = "EditEvent", eventName = item.name, newEvent = false}) |
           @Html.ActionLink("Players", "ListPlayers", new { controller = "Magic", action = "ListPlayers", eventName = item.name }) |
           @Html.ActionLink("Delete", "Delete", new { controller = "Magic", action = "DeleteEvents", eventName = item.name })
-					
+					@Html.ActionLink("GeneratePairings", "GeneratePairings", new { controller = "Magic", action = "GeneratePairings", eventName = item.name })
         </td>
     </tr>
 }

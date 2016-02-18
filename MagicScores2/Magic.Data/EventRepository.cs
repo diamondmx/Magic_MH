@@ -146,11 +146,6 @@ namespace Magic.Data
 			Update(updateEvent.myDbEvent);
 		}
 
-		public async Task UpdateAllMatches(Event updateEvent)
-		{
-			await Task.Run(() => updateEvent.Matches.ForEach(m => _matchRepository.Save(m)));
-		}
-
 
 		public dbEvent LoadDBEvent(string eventName)
 		{

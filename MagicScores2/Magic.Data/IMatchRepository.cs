@@ -10,5 +10,6 @@ namespace Magic.Data
 		Match Read(string eventName, int round, string p1, string p2);
     void Save(Match m);
 		void Update(Match m);
-	}
+		void UpdateAllMatches(IEnumerable<Match> matches);
+  }
 }

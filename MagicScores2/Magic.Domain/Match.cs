@@ -27,14 +27,14 @@ namespace Magic.Domain
 		public int Player1Wins;
 		public int Player2Wins;
 		public int Draws;
-		public bool InProgress;
+		public bool IsPreview;
 
 		public dbMatch myDbMatch;
 
 		public Match()
 		{ }
 
-		public Match(string p1, string p2, string eventName, int round, int p1wins, int p2wins, int draws, bool inpr)
+		public Match(string p1, string p2, string eventName, int round, int p1wins, int p2wins, int draws)
 		{
 			_player1Name = p1;
 			_player2Name = p2;
@@ -43,10 +43,9 @@ namespace Magic.Domain
 			Player1Wins = p1wins;
 			Player2Wins = p2wins;
 			Draws = draws;
-			InProgress = inpr;
 		}
 
-		public Match(Player p1, string player1name, Player p2, string player2name, string eventName, int round, int p1wins, int p2wins, int draws, bool inpr)
+		public Match(Player p1, string player1name, Player p2, string player2name, string eventName, int round, int p1wins, int p2wins, int draws)
 		{
 			Player1 = p1;
 			_player1Name = player1name;
@@ -57,7 +56,6 @@ namespace Magic.Domain
 			Player1Wins = p1wins;
 			Player2Wins = p2wins;
 			Draws = draws;
-			InProgress = inpr;
 
 			if (String.IsNullOrEmpty(_player1Name))
 				throw new Exception();
@@ -71,7 +69,7 @@ namespace Magic.Domain
 		}
 
 		public Match(dbMatch m)
-						: this(m.Player1, m.Player2, m.Event, m.Round, m.Player1Wins, m.Player2Wins, m.Draws, m.InProgress)
+						: this(m.Player1, m.Player2, m.Event, m.Round, m.Player1Wins, m.Player2Wins, m.Draws)
 		{
 			myDbMatch = m;
 		}
@@ -87,7 +85,6 @@ namespace Magic.Domain
 			Player1Wins = m.Player1Wins;
 			Player2Wins = m.Player2Wins;
 			Draws = m.Draws;
-			InProgress = m.InProgress;
 
 			if (String.IsNullOrEmpty(_player1Name))
 				throw new Exception();
@@ -102,7 +99,7 @@ namespace Magic.Domain
 
 		public Match Flipped()
 		{
-			return new Match(p1: Player2, player1name: Player2Name, p2: Player1, player2name: Player1Name, p1wins: Player2Wins, p2wins: Player1Wins, eventName: Event, round: Round, draws: Draws, inpr: InProgress);
+			return new Match(p1: Player2, player1name: Player2Name, p2: Player1, player2name: Player1Name, p1wins: Player2Wins, p2wins: Player1Wins, eventName: Event, round: Round, draws: Draws);
 		}
 
 		public Match WithPlayerOneAs(string name)
