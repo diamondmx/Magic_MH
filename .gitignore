@@ -7,3 +7,4 @@
 *.cache
 *.dll
 Magic.Core/LocalSetup.cs
+*.force
