@@ -54,10 +54,10 @@ namespace Magic.Core.Tests
 			var opp3 = new Player("Result3");
 			var opp4 = new Player("Result4");
 
-			var match1 = new Match(_sut, testPlayerName, opp1, opp1.name, "TEST", 1, 2, 0, 0, false); // sut wins 2-0
-			var match2 = new Match(_sut, testPlayerName, opp2, opp2.name, "TEST", 1, 0, 2, 0, false); // sut loses 0-2
-			var match3 = new Match(opp3, opp3.name, _sut, testPlayerName, "TEST", 1, 1, 1, 0, false); // sut draws 1-1
-			var match4 = new Match(opp4, opp4.name, _sut, testPlayerName, "TEST", 1, 1, 2, 0, false); // sut wins 2-1
+			var match1 = new Match(_sut, testPlayerName, opp1, opp1.name, "TEST", 1, 2, 0, 0); // sut wins 2-0
+			var match2 = new Match(_sut, testPlayerName, opp2, opp2.name, "TEST", 1, 0, 2, 0); // sut loses 0-2
+			var match3 = new Match(opp3, opp3.name, _sut, testPlayerName, "TEST", 1, 1, 1, 0); // sut draws 1-1
+			var match4 = new Match(opp4, opp4.name, _sut, testPlayerName, "TEST", 1, 1, 2, 0); // sut wins 2-1
 			_sut.matches = new List<Match> { match1, match2, match3, match4 };
 
 			var result = _sut.MWP(1);
@@ -75,10 +75,10 @@ namespace Magic.Core.Tests
 			var opp3 = new Player("Result3");
 			var opp4 = new Player("Result4");
 
-			var match1 = new Match(_sut, testPlayerName, opp1, opp1.name, "TEST", 1, 2, 0, 0, false); // sut wins 2-0
-			var match2 = new Match(_sut, testPlayerName, opp2, opp2.name, "TEST", 1, 0, 2, 0, false); // sut loses 0-2
-			var match3 = new Match(opp3, opp3.name, _sut, testPlayerName, "TEST", 1, 1, 1, 0, false); // sut draws 1-1
-			var match4 = new Match(opp4, opp4.name, _sut, testPlayerName, "TEST", 1, 1, 2, 0, false); // sut wins 2-1
+			var match1 = new Match(_sut, testPlayerName, opp1, opp1.name, "TEST", 1, 2, 0, 0); // sut wins 2-0
+			var match2 = new Match(_sut, testPlayerName, opp2, opp2.name, "TEST", 1, 0, 2, 0); // sut loses 0-2
+			var match3 = new Match(opp3, opp3.name, _sut, testPlayerName, "TEST", 1, 1, 1, 0); // sut draws 1-1
+			var match4 = new Match(opp4, opp4.name, _sut, testPlayerName, "TEST", 1, 1, 2, 0); // sut wins 2-1
 			_sut.matches = new List<Match> { match1, match2, match3, match4 };
 
 			var result = _sut.GWP();
@@ -97,10 +97,10 @@ namespace Magic.Core.Tests
 			var opp3 = new Player("Result3");
 			var opp4 = new Player("Result4");
 
-			var match1 = new Match(_sut, testPlayerName, opp1, opp1.name, "TEST", 1, 2, 0, 0, false); // sut wins 2-0
-			var match2 = new Match(_sut, testPlayerName, opp2, opp2.name, "TEST", 1, 0, 2, 0, false); // sut loses 0-2
-			var match3 = new Match(opp3, opp3.name, _sut, testPlayerName, "TEST", 1, 1, 1, 0, false); // sut draws 1-1
-			var match4 = new Match(opp4, opp4.name, _sut, testPlayerName, "TEST", 1, 1, 2, 0, false); // sut wins 2-1
+			var match1 = new Match(_sut, testPlayerName, opp1, opp1.name, "TEST", 1, 2, 0, 0); // sut wins 2-0
+			var match2 = new Match(_sut, testPlayerName, opp2, opp2.name, "TEST", 1, 0, 2, 0); // sut loses 0-2
+			var match3 = new Match(opp3, opp3.name, _sut, testPlayerName, "TEST", 1, 1, 1, 0); // sut draws 1-1
+			var match4 = new Match(opp4, opp4.name, _sut, testPlayerName, "TEST", 1, 1, 2, 0); // sut wins 2-1
 			_sut.matches = new List<Match> { match1, match2, match3, match4 };
 
 			var result = _sut.Score();

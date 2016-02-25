@@ -77,21 +77,20 @@ else
         <tr class="keyplayer">
             <td>@string.Format("{0}", p.name)</td>
             @foreach (Magic.Domain.Match m in p.matches.Where(m => m.Round == round))
-            {
-                var normalizedMatch = m.WithPlayerOneAs(p.name);
-                var matchResult = "";
-                if (normalizedMatch.Player1Wins == 0 && normalizedMatch.Player2Wins == 0 && normalizedMatch.Draws <= 1)
-                { matchResult = ""; }
-                else if (normalizedMatch.Player1Wins == normalizedMatch.Player2Wins)
-                { matchResult = "Draw"; }
-                else if (normalizedMatch.Player1Wins > normalizedMatch.Player2Wins)
-                { matchResult = "Win"; }
-                else if (normalizedMatch.Player2Wins > normalizedMatch.Player1Wins)
-                { matchResult = "Loss"; }
-                var matchWin = normalizedMatch.Player1Wins > normalizedMatch.Player2Wins ? "Win" : "Loss";
-
-                <td class="opponentplayer">@Html.ActionLink(normalizedMatch.Player2.name, "Details", new {eventName = eventName, round = round, player1 = normalizedMatch.Player1Name, player2 = normalizedMatch.Player2Name})</td>
-                <td class="centered"><text>@normalizedMatch.Player1Wins</text>-<text>@normalizedMatch.Player2Wins</text></td>
+						{
+							var normalizedMatch = m.WithPlayerOneAs(p.name);
+							var matchResult = "";
+							if (normalizedMatch.Player1Wins == 0 && normalizedMatch.Player2Wins == 0 && normalizedMatch.Draws <= 1)
+							{ matchResult = ""; }
+							else if (normalizedMatch.Player1Wins == normalizedMatch.Player2Wins)
+							{ matchResult = "Draw"; }
+							else if (normalizedMatch.Player1Wins > normalizedMatch.Player2Wins)
+							{ matchResult = "Win"; }
+							else if (normalizedMatch.Player2Wins > normalizedMatch.Player1Wins)
+							{ matchResult = "Loss"; }
+							var matchWin = normalizedMatch.Player1Wins > normalizedMatch.Player2Wins ? "Win" : "Loss";
+							<td class="opponentPlayer" data-player="@normalizedMatch.Player1.name" data-opponent="@normalizedMatch.Player2.name" data-event="@eventName" data-round="@round">@normalizedMatch.Player2.name</td>
+              <td class="centered"><text>@normalizedMatch.Player1Wins</text>-<text>@normalizedMatch.Player2Wins</text></td>
                 if (@matchResult == "Win")
                 {
                     <td class="centered wincolor">@matchResult</td>
@@ -178,3 +177,10 @@ else
         </tr>
     </tbody>
 </table>
+
+<button id="button">Button!</button><br/>
+<div id="matchDialog"></div>
+
+@section scripts{
+	@Scripts.Render("~/bundles/site")
+}
