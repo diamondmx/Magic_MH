@@ -3,3 +3,8 @@ C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Domain\bin\Debug\Ma
 C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Domain\obj\Debug\Magic.Domain.csprojResolveAssemblyReference.cache
 C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Domain\obj\Debug\Magic.Domain.dll
 C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Domain\obj\Debug\Magic.Domain.pdb
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Domain\bin\Debug\Magic.Domain.dll
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Domain\bin\Debug\Magic.Domain.pdb
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Domain\obj\Debug\Magic.Domain.csprojResolveAssemblyReference.cache
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Domain\obj\Debug\Magic.Domain.dll
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Domain\obj\Debug\Magic.Domain.pdb

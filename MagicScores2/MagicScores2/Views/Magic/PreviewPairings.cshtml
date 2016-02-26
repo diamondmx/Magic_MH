@@ -19,7 +19,7 @@
 	var relevantMatches = player.matches.Where(m => m.Round == Model.CurrentRound).Select(m=>m.WithPlayerOneAs(player.name));
     <tr>
         <td>
-					@player.name <text>vs</text>
+					@player.name (@player.Score(0)) <text>vs</text>
 					@foreach(Magic.Domain.Match match in relevantMatches)
 					{
 						<td>@match.Player2Name <text>( @match.Player2.Score(0) )</text></td>

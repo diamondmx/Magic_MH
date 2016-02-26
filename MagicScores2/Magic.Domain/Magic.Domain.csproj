@@ -46,6 +46,10 @@
     <Compile Include="dbMatch.cs" />
     <Compile Include="dbPlayer.cs" />
     <Compile Include="Event.cs" />
+    <Compile Include="IEventPlayerRepository.cs" />
+    <Compile Include="IEventRepository.cs" />
+    <Compile Include="IMatchRepository.cs" />
+    <Compile Include="IPlayerRepository.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

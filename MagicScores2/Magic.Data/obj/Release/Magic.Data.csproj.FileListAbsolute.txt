@@ -1,0 +1,7 @@
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Data\bin\Release\Magic.Data.dll
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Data\bin\Release\Magic.Data.pdb
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Data\bin\Release\Magic.Domain.dll
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Data\bin\Release\Magic.Domain.pdb
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Data\obj\Release\Magic.Data.csprojResolveAssemblyReference.cache
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Data\obj\Release\Magic.Data.dll
+C:\Users\mhill\Desktop\GitHub\Magic_MH\MagicScores2\Magic.Data\obj\Release\Magic.Data.pdb
