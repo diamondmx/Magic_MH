@@ -85,3 +85,11 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+.errorTitle {
+	background-color: red;
+	border:solid;
+	border-color:slategrey;
+	text-align:center;
+	color:white;
+}

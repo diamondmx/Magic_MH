@@ -12,7 +12,8 @@
 		Exception lastError = (Exception)Session["LastError"];
 		if (lastError!= null)
 		{
-			<div>ERROR: @lastError.Message</div>
+			<div class="errorTitle">ERROR: @lastError.Message</div>
+			Session["LastError"] = null;
 		}
 	}
 	
