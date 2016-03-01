@@ -1,0 +1,7 @@
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Data\bin\Debug\Magic.Data.dll
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Data\bin\Debug\Magic.Data.pdb
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Data\bin\Debug\Magic.Domain.dll
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Data\bin\Debug\Magic.Domain.pdb
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Data\obj\Debug\Magic.Data.csprojResolveAssemblyReference.cache
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Data\obj\Debug\Magic.Data.dll
+C:\Users\Fukata\Documents\GitHub\Magic_MH\MagicScores2\Magic.Data\obj\Debug\Magic.Data.pdb

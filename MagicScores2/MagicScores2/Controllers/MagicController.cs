@@ -28,15 +28,23 @@ namespace MagicScores2.Controllers
 		// GET: /Magic/
 		public ActionResult Index(string eventName, int round, int detailMode=0)
 		{
-			Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
+			try
+			{
+				Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
 
-			ViewBag.Title = String.Format("{0}: Round {1}", eventName, round);
-			ViewBag.Players = thisEvent.Players;
-			ViewBag.EventName = eventName;
-			ViewBag.Round = round;
-			ViewBag.Event = thisEvent;
-      ViewBag.DetailMode = detailMode;
-			return View("Index");
+				ViewBag.Title = String.Format("{0}: Round {1}", eventName, round);
+				ViewBag.Players = thisEvent.Players;
+				ViewBag.EventName = eventName;
+				ViewBag.Round = round;
+				ViewBag.Event = thisEvent;
+				ViewBag.DetailMode = detailMode;
+				return View("Index");
+			}
+			catch(Exception ex)
+			{
+				Session["LastError"] = new Exception($"Failed to load event {eventName} - {round}", ex);
+				return RedirectToAction("ViewEvents");
+			}
 		}
 
 		public List<SelectListItem> GetDropdownWithSelected(int max, int selected)
