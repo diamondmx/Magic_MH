@@ -3,20 +3,27 @@
 if (typeof jQuery == 'undefined')
 {
 	alert("jQuery not loaded");
-}
+}		
 
 var matchDlg = $("#matchDialog");
-var dialogButton = $("#button");
-setupDialog(matchDlg, dialogButton);
+matchDlg.dialog({ autoOpen: false });
 
+setupAllMatchPopups()
 
+function setupAllMatchPopups() {
+	var allBtns = $(".matchPopupLink");
 
-function setupDialog(dlg, btn) {
-	dlg.dialog({ autoOpen: false });
+	allBtns.click(function (event) {
+		var target = $(event.target)
+		var p1 = target.attr("data-player")
+		var p2 = target.attr("data-opponent")
+		var r = target.attr("data-round")
+		var e = target.attr("data-event")
 
-	btn.click(function () {
-		dlg.load("/Magic/Match/OGW/1/TESTPLAYER1/TESTPLAYER2")
-		dlg.dialog("open");
+		var url = "/Magic/Match/" + e + "/" + r + "/" + p1 + "/" + p2 + "/";
+
+		matchDlg.load(url)
+		matchDlg.dialog("open");
+
 	})
-	return dlg;
 }

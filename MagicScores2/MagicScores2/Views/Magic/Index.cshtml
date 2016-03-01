@@ -89,7 +89,7 @@ else
 							else if (normalizedMatch.Player2Wins > normalizedMatch.Player1Wins)
 							{ matchResult = "Loss"; }
 							var matchWin = normalizedMatch.Player1Wins > normalizedMatch.Player2Wins ? "Win" : "Loss";
-							<td class="opponentPlayer" data-player="@normalizedMatch.Player1.name" data-opponent="@normalizedMatch.Player2.name" data-event="@eventName" data-round="@round">@normalizedMatch.Player2.name</td>
+							<td><button class="opponentPlayer matchPopupLink" data-player="@normalizedMatch.Player1.name" data-opponent="@normalizedMatch.Player2.name" data-event="@eventName" data-round="@round">@normalizedMatch.Player2.name</button></td>
               <td class="centered"><text>@normalizedMatch.Player1Wins</text>-<text>@normalizedMatch.Player2Wins</text></td>
                 if (@matchResult == "Win")
                 {
@@ -178,7 +178,6 @@ else
     </tbody>
 </table>
 
-<button id="button">Button!</button><br/>
 <div id="matchDialog"></div>
 
 @section scripts{
