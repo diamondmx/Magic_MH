@@ -2,8 +2,8 @@
 *.manifest
 *.pdb
 *.exe
-*/bin/*
-*/obj/*
+bin
+obj
 *.cache
 *.dll
 Magic.Core/LocalSetup.cs
@@ -11,4 +11,3 @@ Magic.Core/LocalSetup.cs
 MagicScores2/.vs/config/applicationhost.config
 MagicScores2/Magic.Data/LocalSetup.cs
 *.csproj.user
-*/TemporaryGeneratedFile_*
