@@ -1,14 +1,6 @@
 ﻿@model Magic.Domain.Match
 
-@{
-    ViewBag.Title = "MagicMatch";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h2>MagicMatch</h2>
-
-
-@using (Html.BeginForm("Details", "Magic", FormMethod.Get))
+5@using (Html.BeginForm("Details", "Magic", FormMethod.Get))
 {
     @Html.AntiForgeryToken()
     

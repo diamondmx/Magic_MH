@@ -2,8 +2,8 @@
 *.manifest
 *.pdb
 *.exe
-bin
-obj
+**/bin/
+**/obj/
 *.cache
 *.dll
 Magic.Core/LocalSetup.cs
