@@ -62,8 +62,19 @@ namespace MagicScores2.Controllers
 		{
 			Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
 
-			var match = thisEvent.Matches.Where(m => (m.Round == round) && (m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2)).First();
+			var match = thisEvent.Matches.FirstOrDefault(m => (m.Round == round) && (m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2));
 			ViewBag.Match = match;
+
+				if (match == null)
+			{
+				Session["LastError"] = new Exception($"Match {player1} vs {player2} not found in {eventName}:{round}");
+				return View("Index", new
+				{
+					eventName = eventName,
+					round = round
+				});
+			}
+
 
 			if (player1wins.HasValue && player2wins.HasValue && draws.HasValue)
 			{

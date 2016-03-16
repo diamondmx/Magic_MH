@@ -22,7 +22,7 @@ function setupAllMatchPopups() {
 
 		var url = "/Magic/Match/" + e + "/" + r + "/" + p1 + "/" + p2 + "/";
 
-		matchDlg.load(url)
+		matchDlg.load(encodeURI(url))
 		matchDlg.dialog("open");
 
 	})
