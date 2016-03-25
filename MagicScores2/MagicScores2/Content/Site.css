@@ -58,7 +58,11 @@ textarea {
 }
 
 .opponentplayer {
-    background-color: lightblue
+	background-color: lightblue;
+}
+
+a.matchPopupLink {
+    color: blue;
 }
 
 /* styles for validation helpers */

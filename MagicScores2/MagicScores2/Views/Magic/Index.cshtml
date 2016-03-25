@@ -89,16 +89,20 @@ else
 							else if (normalizedMatch.Player2Wins > normalizedMatch.Player1Wins)
 							{ matchResult = "Loss"; }
 							var matchWin = normalizedMatch.Player1Wins > normalizedMatch.Player2Wins ? "Win" : "Loss";
-							<td><button class="opponentPlayer matchPopupLink" data-player="@normalizedMatch.Player1.name" data-opponent="@normalizedMatch.Player2.name" data-event="@eventName" data-round="@round">@normalizedMatch.Player2.name</button></td>
-              <td class="centered"><text>@normalizedMatch.Player1Wins</text>-<text>@normalizedMatch.Player2Wins</text></td>
-                if (@matchResult == "Win")
-                {
-                    <td class="centered wincolor">@matchResult</td>
-                }
-                else
-                {
-                    <td class="centered">@matchResult</td>
-                }
+							<td class="opponentplayer"><text>@normalizedMatch.Player2.name</text></td>
+
+							string scoreText = string.Format("{0}-{1}",normalizedMatch.Player1Wins, normalizedMatch.Player2Wins);
+							
+							<td class="centered"><a class="matchPopupLink" data-player="@normalizedMatch.Player1.name" data-opponent="@normalizedMatch.Player2.name" data-event="@eventName" data-round="@round">@scoreText</a></td>
+
+							if (@matchResult == "Win")
+							{
+                  <td class="centered wincolor">@matchResult</td>
+              }
+              else
+              {
+                  <td class="centered">@matchResult</td>
+              }
             }
             <td class="playerScore">@p.Score(round)</td>
             <td class="playerScore">@p.matchesCompleted(round)<text>/</text>@mainEvent.RoundMatches</td>
