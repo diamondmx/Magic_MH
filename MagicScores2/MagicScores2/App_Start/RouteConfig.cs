@@ -9,7 +9,7 @@ namespace MagicScores2
 {
 	public class RouteConfig
 	{
-        public static int currentRound = 2;
+        public static int currentRound = 3;
         public static string currentEvent = "OGW";
         public static int defaultDetail = 0;
 
