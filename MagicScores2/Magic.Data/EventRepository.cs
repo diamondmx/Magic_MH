@@ -198,7 +198,7 @@ namespace Magic.Data
 			var eventName = e.myDbEvent.Name;
 
 			var sqlAddPlayerToPlayers = $"IF NOT EXISTS(SELECT * FROM Players WHERE Players.Name = '{player.name}') INSERT INTO Players(Name) VALUES('{player.name}')";
-			var sqlAddPlayerToEvent = $"IF NOT EXISTS(SELECT * FROM EventPlayers WHERE Player='{player.name}' AND EventName='{eventName}') INSERT INTO EventPlayers(Player, EventName) VALUES('{player.name}', '{eventName}')";
+			var sqlAddPlayerToEvent = $"IF NOT EXISTS(SELECT * FROM EventPlayers WHERE Player='{player.name}' AND EventName='{eventName}') INSERT INTO EventPlayers(Player, EventName, Dropped) VALUES('{player.name}', '{eventName}', 0)";
 
 			try
 			{
