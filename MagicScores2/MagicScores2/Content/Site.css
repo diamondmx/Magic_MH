@@ -16,6 +16,10 @@ textarea {
     max-width: 280px;
 }
 
+.namecol {
+	width:90px
+}
+
 .matchTable{
     width:100%;
     border:thin;
@@ -31,30 +35,35 @@ textarea {
 }
 
 .playerScore{
-    background-color: coral;
+    background-color: darkgray;
 	text-align:center;
 }
 
 .wincolor {
-	background-color: forestgreen;
-	color: gold;
+	background-color: #d3dfd3;
+	color: black;
 	font-weight: bold;
 }
+
+.losscolor {
+	background-color: #efd3d3
+}
+
 
 .centered {
 	text-align:center;
 }
 
 .omwpList {
-    background-color: aqua
+    background-color: lightblue
 }
 
 .tableHeader{
-    background-color: gold
+    background-color: #aaaaff
 }
 
 .keyplayer {
-    background-color: lightgreen
+    background-color: lightgray
 }
 
 .opponentplayer {

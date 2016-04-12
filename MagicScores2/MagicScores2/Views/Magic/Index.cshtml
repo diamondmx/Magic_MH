@@ -61,15 +61,15 @@ else
 <table border="1" class="matchTable">
     <thead class="tableHeader">
         <tr>
-            <th>Player</th>
+            <th class="centered namecol">Player</th>
             @for (int i = 0; i < maxMatchesPlayed; i++)
             {
-                <th>Opp. </th>
+                <th class="centered namecol">Opp. </th>
                 <th class="centered">Games</th>
                 <th class="centered">Result</th>
             }
-            <th>Score</th>
-            <th>Matches Played</th>
+            <th class="centered">Score</th>
+            <th class="centered">Matches Played</th>
         </tr>
     </thead>
     @foreach (Magic.Domain.Player p in players)
@@ -99,11 +99,15 @@ else
 							{
                   <td class="centered wincolor">@matchResult</td>
               }
-              else
+              else if (@matchResult == "Loss")
               {
-                  <td class="centered">@matchResult</td>
-              }
-            }
+	              <td class="centered losscolor">@matchResult</td>
+							}
+							else
+							{
+								<td class="centered">@matchResult</td>
+							}
+						}
             <td class="playerScore">@p.Score(round)</td>
             <td class="playerScore">@p.matchesCompleted(round)<text>/</text>@mainEvent.RoundMatches</td>
         </tr>
@@ -113,20 +117,20 @@ else
 <table border="1" class="standingTable">
     <thead class="tableHeader">
         <tr>
-            <th>Place</th>
-            <th>Player</th>
-            <th>Score</th>
-            <th>OMWP</th>
-            <th>GWP</th>
-            <th>OGWP</th>
-            <th>Remaining Matches</th>
+            <th class="centered">Place</th>
+            <th class="centered namecol">Player</th>
+            <th class="centered">Score</th>
+            <th class="centered">OMWP</th>
+            <th class="centered">GWP</th>
+            <th class="centered">OGWP</th>
+            <th class="centered">Remaining Matches</th>
             @if(detailMode>=1)
             {
-                <th>MaxPossScore</th>
+                <th class="centered">MaxPossScore</th>
             }
             @if(detailMode>=2)
             {
-                <th>OpponentMatches</th>
+                <th class="centered">OpponentMatches</th>
             }
         </tr>
     </thead>
@@ -140,7 +144,7 @@ else
                 
                 <tr>
                     <td class="playerScore">@(scoreIndex++)</td>
-                    <td class="keyplayer">@p.name</td>
+                    <td class="keyplayer namecol">@p.name</td>
                     <td class="playerScore">@p.Score(round)</td>
                     <td class="playerScore">@p.OMWP(round).ToString("F4")<text>%</text></td>
                     <td class="playerScore">@p.GWP(round).ToString("F4")<text>%</text></td>
