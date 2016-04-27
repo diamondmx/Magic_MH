@@ -23,7 +23,7 @@ namespace Magic.Domain
 
 		public int matchesCompleted(int round)
 		{
-			return GetRelevantMatches(round).Count(m => m.Player1Wins >= 2 || m.Player2Wins >= 2 || ((m.Player1Wins >= 1 || m.Player2Wins >=1) && m.Draws >=1));
+			return GetRelevantMatches(round).Count(m => m.Player1Wins >= 2 || m.Player2Wins >= 2 || m.Draws >= 3 ||((m.Player1Wins >= 1 || m.Player2Wins >=1) && m.Draws >=1));
 		}
 
 		public int Score(int round = 0)
