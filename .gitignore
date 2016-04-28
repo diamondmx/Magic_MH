@@ -12,3 +12,4 @@ MagicScores2/.vs/config/applicationhost.config
 MagicScores2/Magic.Data/LocalSetup.cs
 *.csproj.user
 **/packages/
+packages/Antlr.3.4.1.9004/Antlr.3.4.1.9004.nupkg
