@@ -6,7 +6,7 @@ using IdentitySample.Models;
 using Owin;
 using System;
 
-namespace IdentitySample
+namespace kMagicSecure
 {
     public partial class Startup
     {
