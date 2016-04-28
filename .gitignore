@@ -11,3 +11,4 @@ Magic.Core/LocalSetup.cs
 MagicScores2/.vs/config/applicationhost.config
 MagicScores2/Magic.Data/LocalSetup.cs
 *.csproj.user
+**/packages/
