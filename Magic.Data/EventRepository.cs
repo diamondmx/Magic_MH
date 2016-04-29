@@ -172,7 +172,7 @@ namespace Magic.Data
 				_dataContext.ExecuteCommand(fullSql);
 				e.dbName = e.Name;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				throw;
 			}
@@ -187,7 +187,7 @@ namespace Magic.Data
 				_dataContext.ExecuteCommand(sqlUpdate);
 				e.dbName = e.Name;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				throw;
 			}
@@ -205,7 +205,7 @@ namespace Magic.Data
 				_dataContext.ExecuteCommand(sqlAddPlayerToPlayers);
 				_dataContext.ExecuteCommand(sqlAddPlayerToEvent);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				throw;
 			}

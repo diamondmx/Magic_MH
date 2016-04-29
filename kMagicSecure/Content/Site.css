@@ -16,6 +16,64 @@ textarea {
     max-width: 280px;
 }
 
+.namecol {
+	width:90px
+}
+
+.matchTable{
+    width:100%;
+    border:thin;
+    border-collapse:collapse;
+    table-layout:fixed
+}
+
+.matchTable{
+    width:100%;
+    border:thin;
+    border-collapse:collapse;
+    table-layout:fixed
+}
+
+.playerScore{
+    background-color: darkgray;
+	text-align:center;
+}
+
+.wincolor {
+	background-color: #d3dfd3;
+	color: black;
+	font-weight: bold;
+}
+
+.losscolor {
+	background-color: #efd3d3
+}
+
+
+.centered {
+	text-align:center;
+}
+
+.omwpList {
+    background-color: lightblue
+}
+
+.tableHeader{
+    background-color: #aaaaff
+}
+
+.keyplayer {
+    background-color: lightgray
+}
+
+.opponentplayer {
+	background-color: lightblue;
+}
+
+a.matchPopupLink {
+    color: blue;
+}
+
 /* styles for validation helpers */
 .field-validation-error {
     color: #b94a48;
@@ -39,4 +97,12 @@ input[type="checkbox"].input-validation-error {
 
 .validation-summary-valid {
     display: none;
+}
+
+.errorTitle {
+	background-color: red;
+	border:solid;
+	border-color:slategrey;
+	text-align:center;
+	color:white;
 }

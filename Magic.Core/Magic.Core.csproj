@@ -52,11 +52,11 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MagicScores2\Magic.Data\Magic.Data.csproj">
+    <ProjectReference Include="..\Magic.Data\Magic.Data.csproj">
       <Project>{7c35a8a8-9fe4-4b4a-abf6-88bb31be811e}</Project>
       <Name>Magic.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MagicScores2\Magic.Domain\Magic.Domain.csproj">
+    <ProjectReference Include="..\Magic.Domain\Magic.Domain.csproj">
       <Project>{3f8364a9-3d03-4a45-bbaa-f117301eea72}</Project>
       <Name>Magic.Domain</Name>
     </ProjectReference>

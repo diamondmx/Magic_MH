@@ -82,7 +82,7 @@
       <Project>{628e54cf-9a31-4d4d-9b17-5f4a0c13a434}</Project>
       <Name>Magic.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MagicScores2\Magic.Domain\Magic.Domain.csproj">
+    <ProjectReference Include="..\..\Magic.Domain\Magic.Domain.csproj">
       <Project>{3f8364a9-3d03-4a45-bbaa-f117301eea72}</Project>
       <Name>Magic.Domain</Name>
     </ProjectReference>
