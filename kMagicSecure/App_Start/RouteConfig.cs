@@ -3,17 +3,28 @@ using System.Web.Routing;
 
 namespace IdentitySample
 {
-    public class RouteConfig
-    {
-        public static void RegisterRoutes(RouteCollection routes)
-        {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+	public class RouteConfig
+	{
+		public static int currentRound = 1;
+		public static string currentEvent = "SOI";
+		public static int defaultDetail = 0;
 
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
-        }
-    }
+
+		public static void RegisterRoutes(RouteCollection routes)
+		{
+			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+			routes.MapRoute(
+					name: "HomeDefault",
+					url: "{controller}/{action}/{id}",
+					defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+			);
+
+			routes.MapRoute(
+					name: "Default",
+					url: "{eventName}/{round}/{detailMode}",
+					defaults: new { controller = "Magic", action = "Index", eventName = currentEvent, round = currentRound, detailMode = defaultDetail }
+			);
+		}
+	}
 }

@@ -57,11 +57,11 @@ namespace MagicScores2
 								defaults: new { controller = "Magic", action = "EditEvent", eventName = UrlParameter.Optional }
 				);
 
-            routes.MapRoute(
-                name: "Default",
-                url: "{eventName}/{round}/{detailMode}",
-                defaults: new { controller="Magic", action = "Index", eventName = currentEvent, round=currentRound, detailMode=defaultDetail }
-                );
+      routes.MapRoute(
+          name: "Default",
+          url: "{eventName}/{round}/{detailMode}",
+          defaults: new { controller="Magic", action = "Index", eventName = currentEvent, round=currentRound, detailMode=defaultDetail }
+          );
 
 			routes.MapRoute(
 					name: "Details",

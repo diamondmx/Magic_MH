@@ -1,127 +1,128 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@ViewBag.Title - kMagic Scores</title>
-	@Styles.Render("~/Content/css")
-	@Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - kMagic Scores</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
 	@{
 		Exception lastError = (Exception)Session["LastError"];
-		if (lastError != null)
+		if (lastError!= null)
 		{
 			<div class="errorTitle">ERROR: @lastError.Message</div>
 			Session["LastError"] = null;
 		}
 	}
+	
+		
 
-
-
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				@Html.ActionLink("Magic", "Index", new { controller = "Magic", action = "Index", eventName = "DTK", round = 2 }, new { @class = "navbar-brand" })
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">FRF<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("FRF(1)", "Index", new { controller = "Magic", action = "Index", eventName = "FRF", round = 1 })</li>
-							<li>@Html.ActionLink("FRF(2)", "Index", new { controller = "Magic", action = "Index", eventName = "FRF", round = 2 })</li>
-							<li>@Html.ActionLink("FRF(3)", "Index", new { controller = "Magic", action = "Index", eventName = "FRF", round = 3 })</li>
-							<li>@Html.ActionLink("FRF(*)", "Index", new { controller = "Magic", action = "Index", eventName = "FRF", round = 0 })</li>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">DTK<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("DTK(1)", "Index", new { controller = "Magic", action = "Index", eventName = "DTK", round = 1 })</li>
-							<li>@Html.ActionLink("DTK(2)", "Index", new { controller = "Magic", action = "Index", eventName = "DTK", round = 2 })</li>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Magic", "Index", new { controller = "Magic", action = "Index", eventName = "DTK", round = 2 }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">FRF<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("FRF(1)", "Index", new { controller = "Magic", action = "Index", eventName = "FRF", round = 1 })</li>
+                            <li>@Html.ActionLink("FRF(2)", "Index", new { controller = "Magic", action = "Index", eventName = "FRF", round = 2 })</li>
+                            <li>@Html.ActionLink("FRF(3)", "Index", new { controller = "Magic", action = "Index", eventName = "FRF", round = 3 })</li>
+                            <li>@Html.ActionLink("FRF(*)", "Index", new { controller = "Magic", action = "Index", eventName = "FRF", round = 0 })</li>
+                        </ul>
+                    </li>
+	                <li class="dropdown">
+		                <a href="#" data-toggle="dropdown" class="dropdown-toggle">DTK<b class="caret"></b></a>
+		                <ul class="dropdown-menu">
+			                <li>@Html.ActionLink("DTK(1)", "Index", new {controller = "Magic", action = "Index", eventName = "DTK", round = 1})</li>
+			                <li>@Html.ActionLink("DTK(2)", "Index", new {controller = "Magic", action = "Index", eventName = "DTK", round = 2})</li>
 							<li>@Html.ActionLink("DTK(3)", "Index", new { controller = "Magic", action = "Index", eventName = "DTK", round = 3 })</li>
-							<li>@Html.ActionLink("DTK(*)", "Index", new { controller = "Magic", action = "Index", eventName = "DTK", round = 0 })</li>
-						</ul>
-					</li>
+                            <li>@Html.ActionLink("DTK(*)", "Index", new { controller = "Magic", action = "Index", eventName = "DTK", round = 0 })</li>
+		                </ul>
+	                </li>
 
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">MM2<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("MM2(1)", "Index", new { controller = "Magic", action = "Index", eventName = "MM2", round = 1 })</li>
-							<li>@Html.ActionLink("MM2(2)", "Index", new { controller = "Magic", action = "Index", eventName = "MM2", round = 2 })</li>
-							<li>@Html.ActionLink("MM2(3)", "Index", new { controller = "Magic", action = "Index", eventName = "MM2", round = 3 })</li>
-							<li>@Html.ActionLink("MM2(*)", "Index", new { controller = "Magic", action = "Index", eventName = "MM2", round = 0 })</li>
-						</ul>
-					</li>
+									<li class="dropdown">
+										<a href="#" data-toggle="dropdown" class="dropdown-toggle">MM2<b class="caret"></b></a>
+										<ul class="dropdown-menu">
+											<li>@Html.ActionLink("MM2(1)", "Index", new { controller = "Magic", action = "Index", eventName = "MM2", round = 1 })</li>
+											<li>@Html.ActionLink("MM2(2)", "Index", new { controller = "Magic", action = "Index", eventName = "MM2", round = 2 })</li>
+											<li>@Html.ActionLink("MM2(3)", "Index", new { controller = "Magic", action = "Index", eventName = "MM2", round = 3 })</li>
+                                            <li>@Html.ActionLink("MM2(*)", "Index", new { controller = "Magic", action = "Index", eventName = "MM2", round = 0 })</li>
+										</ul>
+									</li>
 
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">ORI<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("ORI(1)", "Index", new { controller = "Magic", action = "Index", eventName = "ORI", round = 1 })</li>
-							<li>@Html.ActionLink("ORI(2)", "Index", new { controller = "Magic", action = "Index", eventName = "ORI", round = 2 })</li>
-							<li>@Html.ActionLink("ORI(3)", "Index", new { controller = "Magic", action = "Index", eventName = "ORI", round = 3 })</li>
-							<li>@Html.ActionLink("ORI(*)", "Index", new { controller = "Magic", action = "Index", eventName = "ORI", round = 0 })</li>
-						</ul>
-					</li>
+									<li class="dropdown">
+									<a href="#" data-toggle="dropdown" class="dropdown-toggle">ORI<b class="caret"></b></a>
+									<ul class="dropdown-menu">
+										<li>@Html.ActionLink("ORI(1)", "Index", new { controller = "Magic", action = "Index", eventName = "ORI", round = 1 })</li>
+										<li>@Html.ActionLink("ORI(2)", "Index", new { controller = "Magic", action = "Index", eventName = "ORI", round = 2 })</li>
+										<li>@Html.ActionLink("ORI(3)", "Index", new { controller = "Magic", action = "Index", eventName = "ORI", round = 3 })</li>
+                                        <li>@Html.ActionLink("ORI(*)", "Index", new { controller = "Magic", action = "Index", eventName = "ORI", round = 0 })</li>
+									</ul>
+									</li>
 
-					<li>@Html.ActionLink("MM2 Sealed", "Index", new { controller = "Magic", action = "Index", eventName = "MM2S", round = 1 })</li>
+									<li>@Html.ActionLink("MM2 Sealed", "Index", new { controller = "Magic", action = "Index", eventName = "MM2S", round = 1 })</li>
 
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">BFZ<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("BFZ(1)", "Index", new { controller = "Magic", action = "Index", eventName = "BFZ", round = 1 })</li>
-							<li>@Html.ActionLink("BFZ(2)", "Index", new { controller = "Magic", action = "Index", eventName = "BFZ", round = 2 })</li>
-							<li>@Html.ActionLink("BFZ(3)", "Index", new { controller = "Magic", action = "Index", eventName = "BFZ", round = 3 })</li>
-							<li>@Html.ActionLink("BFZ(*)", "Index", new { controller = "Magic", action = "Index", eventName = "BFZ", round = 0 })</li>
-							<li>@Html.ActionLink("BFZ(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "BFZ", round = 4 })</li>
-						</ul>
-					</li>
+									<li class="dropdown">
+										<a href="#" data-toggle="dropdown" class="dropdown-toggle">BFZ<b class="caret"></b></a>
+										<ul class="dropdown-menu">
+											<li>@Html.ActionLink("BFZ(1)", "Index", new { controller = "Magic", action = "Index", eventName = "BFZ", round = 1 })</li>
+											<li>@Html.ActionLink("BFZ(2)", "Index", new { controller = "Magic", action = "Index", eventName = "BFZ", round = 2 })</li>
+											<li>@Html.ActionLink("BFZ(3)", "Index", new { controller = "Magic", action = "Index", eventName = "BFZ", round = 3 })</li>
+                                            <li>@Html.ActionLink("BFZ(*)", "Index", new { controller = "Magic", action = "Index", eventName = "BFZ", round = 0 })</li>
+                                            <li>@Html.ActionLink("BFZ(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "BFZ", round = 4 })</li>
+										</ul>
+									</li>
 
-					<li>@Html.ActionLink("RMZ", "Index", new { controller = "Magic", action = "Index", eventName = "RMZ", round = 1 })</li>
+									<li>@Html.ActionLink("RMZ", "Index", new { controller = "Magic", action = "Index", eventName = "RMZ", round = 1 })</li>
 
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">OGW<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("OGW(1)", "Index", new { controller = "Magic", action = "Index", eventName = "OGW", round = 1 })</li>
-							<li>@Html.ActionLink("OGW(2)", "Index", new { controller = "Magic", action = "Index", eventName = "OGW", round = 2 })</li>
+	                <li class="dropdown">
+		                <a href="#" data-toggle="dropdown" class="dropdown-toggle">OGW<b class="caret"></b></a>
+		                <ul class="dropdown-menu">
+			                <li>@Html.ActionLink("OGW(1)", "Index", new {controller = "Magic", action = "Index", eventName = "OGW", round = 1})</li>
+			                <li>@Html.ActionLink("OGW(2)", "Index", new {controller = "Magic", action = "Index", eventName = "OGW", round = 2})</li>
 
-							<li>@Html.ActionLink("OGW(3)", "Index", new { controller = "Magic", action = "Index", eventName = "OGW", round = 3 })</li>
-							<li>@Html.ActionLink("OGW(*)", "Index", new { controller = "Magic", action = "Index", eventName = "OGW", round = 0 })</li>
-							<li>@Html.ActionLink("OGW(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "OGW", round = 4 })</li>
-						</ul>
-					</li>
+			                <li>@Html.ActionLink("OGW(3)", "Index", new {controller = "Magic", action = "Index", eventName = "OGW", round = 3})</li>
+			                <li>@Html.ActionLink("OGW(*)", "Index", new {controller = "Magic", action = "Index", eventName = "OGW", round = 0})</li>
+			                <li>@Html.ActionLink("OGW(Top 8)", "Index", new {controller = "Magic", action = "Index", eventName = "OGW", round = 4})</li>
+		                </ul>
+	                </li>
 
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">SOI<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("SOI(1)", "Index", new { controller = "Magic", action = "Index", eventName = "SOI", round = 1 })</li>
-							<li>@Html.ActionLink("SOI(2)", "Index", new { controller = "Magic", action = "Index", eventName = "SOI", round = 2 })</li>
-							<li>@Html.ActionLink("SOI(3)", "Index", new { controller = "Magic", action = "Index", eventName = "SOI", round = 3 })</li>
-							<li>@Html.ActionLink("SOI(*)", "Index", new { controller = "Magic", action = "Index", eventName = "SOI", round = 0 })</li>
-							<li>@Html.ActionLink("SOI(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "SOI", round = 4 })</li>
-						</ul>
-					</li>
+									<li class="dropdown">
+										<a href="#" data-toggle="dropdown" class="dropdown-toggle">SOI<b class="caret"></b></a>
+										<ul class="dropdown-menu">
+											<li>@Html.ActionLink("SOI(1)", "Index", new { controller = "Magic", action = "Index", eventName = "SOI", round = 1 })</li>
+											<li>@Html.ActionLink("SOI(2)", "Index", new { controller = "Magic", action = "Index", eventName = "SOI", round = 2 })</li>
+											<li>@Html.ActionLink("SOI(3)", "Index", new { controller = "Magic", action = "Index", eventName = "SOI", round = 3 })</li>
+											<li>@Html.ActionLink("SOI(*)", "Index", new { controller = "Magic", action = "Index", eventName = "SOI", round = 0 })</li>
+											<li>@Html.ActionLink("SOI(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "SOI", round = 4 })</li>
+										</ul>
+									</li>
 
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="container body-content">
-		@RenderBody()
-		<hr />
-		<footer>
-			<p>&copy; 2015 - MHill kMagic Manager</p>
-		</footer>
-	</div>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2015 - MHill kMagic Manager</p>
+        </footer>
+    </div>
 
-	@Scripts.Render("~/bundles/jquery")
-	@Scripts.Render("~/bundles/bootstrap")
-	@RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
+

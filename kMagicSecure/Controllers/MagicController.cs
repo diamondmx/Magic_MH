@@ -38,7 +38,7 @@ namespace kMagicSecure.Controllers
 				ViewBag.Round = round;
 				ViewBag.Event = thisEvent;
 				ViewBag.DetailMode = detailMode;
-				return View("Index");
+				return View("MagicMatchList");
 			}
 			catch (Exception ex)
 			{
@@ -68,7 +68,7 @@ namespace kMagicSecure.Controllers
 			if (match == null)
 			{
 				Session["LastError"] = new Exception($"Match {player1} vs {player2} not found in {eventName}:{round}");
-				return View("Index", new
+				return View("MagicMatchList", new
 				{
 					eventName = eventName,
 					round = round
