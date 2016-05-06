@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MagicScores2</RootNamespace>
     <AssemblyName>MagicScores2</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -181,28 +181,28 @@
     <Content Include="Views\Magic\PreviewPairings.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GitHub\Magic_MH\Magic.Core\Magic.Core.csproj">
+    <Content Include="Controllers\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Controllers\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Controllers\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Magic.Core\Magic.Core.csproj">
       <Project>{628e54cf-9a31-4d4d-9b17-5f4a0c13a434}</Project>
       <Name>Magic.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Magic.Data\Magic.Data.csproj">
+      <Project>{7c35a8a8-9fe4-4b4a-abf6-88bb31be811e}</Project>
+      <Name>Magic.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Magic.Domain\Magic.Domain.csproj">
+      <Project>{3f8364a9-3d03-4a45-bbaa-f117301eea72}</Project>
+      <Name>Magic.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\PairingsManager\PairingsManager.csproj">
       <Project>{51705a34-6ace-42b1-9c73-05c42f7daf03}</Project>
       <Name>PairingsManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Magic.Data\Magic.Data.csproj">
-      <Project>{7c35a8a8-9fe4-4b4a-abf6-88bb31be811e}</Project>
-      <Name>Magic.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Magic.Domain\Magic.Domain.csproj">
-      <Project>{3f8364a9-3d03-4a45-bbaa-f117301eea72}</Project>
-      <Name>Magic.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Controllers\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Controllers\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Controllers\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
