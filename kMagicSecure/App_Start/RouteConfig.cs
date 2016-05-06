@@ -13,6 +13,7 @@ namespace kMagicSecure
 		public static string currentEvent = "SOI";
 		public static int defaultDetail = 0;
 
+
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -85,6 +86,12 @@ namespace kMagicSecure
 					name: "Generic",
 					url: "{controller}/{action}/",
 					defaults: new { controller = "Magic", action = "Index", eventName = currentEvent, round = currentRound, detailedMode = defaultDetail }
+			);
+
+			routes.MapRoute(
+					name: "Default",
+					url: "{eventName}/{round}/{detailMode}",
+					defaults: new { controller = "Magic", action = "Index", eventName = currentEvent, round = currentRound, detailMode = defaultDetail }
 			);
 		}
 	}

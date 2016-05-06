@@ -298,6 +298,11 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Magic\Index.cshtml" />
+    <Content Include="Views\Magic\EditEvent.cshtml" />
+    <Content Include="Views\Magic\ListPlayers.cshtml" />
+    <Content Include="Views\Magic\MagicMatch.cshtml" />
+    <Content Include="Views\Magic\PreviewPairings.cshtml" />
+    <Content Include="Views\Magic\ViewEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
