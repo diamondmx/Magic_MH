@@ -94,7 +94,7 @@ namespace IdentitySample.Models
 			myMessage.Subject = message.Subject;
 			myMessage.Text = message.Body;
 
-			var apiKey = "";
+			var apiKey = System.Configuration.ConfigurationManager.ConnectionStrings["SendGridAPI"].ConnectionString;
 			// create a Web transport, using API Key
 			var transportWeb = new Web(apiKey);
 
