@@ -15,10 +15,11 @@ namespace kMagicSecure.Controllers
 
 		public MagicController()
 		{
-			var dataContext = new Magic.Data.DataContextWrapper(Magic.Data.LocalSetup.Constants.currentConnectionString);
+			var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+      var dataContext = new Magic.Data.DataContextWrapper(connectionString);
 			var eventPlayerRepo = new Magic.Data.EventPlayerRepository(dataContext);
 			var playerRepo = new Magic.Data.PlayerRepository(dataContext);
-			var matchRepo = new Magic.Data.MatchRepository();
+			var matchRepo = new Magic.Data.MatchRepository(dataContext);
 			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo);
 			_eventManager = new EventManager(eventRepo);
 			_matchManager = new MatchManager(matchRepo);
@@ -38,7 +39,7 @@ namespace kMagicSecure.Controllers
 				ViewBag.Round = round;
 				ViewBag.Event = thisEvent;
 				ViewBag.DetailMode = detailMode;
-				return View("MagicMatchList");
+				return View("Index");
 			}
 			catch (Exception ex)
 			{
@@ -68,7 +69,7 @@ namespace kMagicSecure.Controllers
 			if (match == null)
 			{
 				Session["LastError"] = new Exception($"Match {player1} vs {player2} not found in {eventName}:{round}");
-				return View("MagicMatchList", new
+				return View("Index", new
 				{
 					eventName = eventName,
 					round = round

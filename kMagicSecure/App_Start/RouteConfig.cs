@@ -87,12 +87,6 @@ namespace kMagicSecure
 					url: "{controller}/{action}/",
 					defaults: new { controller = "Magic", action = "Index", eventName = currentEvent, round = currentRound, detailedMode = defaultDetail }
 			);
-
-			routes.MapRoute(
-					name: "Default",
-					url: "{eventName}/{round}/{detailMode}",
-					defaults: new { controller = "Magic", action = "Index", eventName = currentEvent, round = currentRound, detailMode = defaultDetail }
-			);
 		}
 	}
 }

@@ -14,3 +14,4 @@ MagicScores2/Magic.Data/LocalSetup.cs
 **/packages/
 packages/Antlr.3.4.1.9004/Antlr.3.4.1.9004.nupkg
 kMagicSecure/ConnectionStrings.config
+.vs/config/applicationhost.config

@@ -1,5 +1,4 @@
-﻿using Magic.Data.LocalSetup;
-using Magic.Domain;
+﻿using Magic.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +7,30 @@ namespace Magic.Data
 {
 	public class MatchRepository : IMatchRepository
 	{
-		public MatchRepository()
-		{
+		private readonly IDataContextWrapper _context;
 
+		public MatchRepository(IDataContextWrapper context)
+		{
+			_context = context;
 		}
 
 		public List<Match> LoadDBMatches(string mtgEvent)
 		{
-			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-			var matchesTable = db.GetTable<dbMatch>().Where(m => m.Event == mtgEvent).ToList();
+			var matchesTable = _context.GetTable<dbMatch>().Where(m => m.Event == mtgEvent).ToList();
 			var results = matchesTable.Select(dbm => new Match(dbm));
 			return results.ToList();
 		}
 
 		public void Update(Match m)
 		{
-			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
-			db.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player1Wins]={m.Player1Wins}, [Player2Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player1]='{m.Player1Name}' AND [Player2]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
-			db.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player2Wins]={m.Player1Wins}, [Player1Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player2]='{m.Player1Name}' AND [Player1]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
+			_context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player1Wins]={m.Player1Wins}, [Player2Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player1]='{m.Player1Name}' AND [Player2]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
+			_context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player2Wins]={m.Player1Wins}, [Player1Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player2]='{m.Player1Name}' AND [Player1]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
 		}
 
 		public void Insert(Match m)
 		{
-			var db = new System.Data.Linq.DataContext(Constants.currentConnectionString);
 			var sql = $"INSERT INTO [Matches](Event,Round,Player1,Player2,Player1Wins,Player2Wins,Draws) VALUES('{m.Event}',{m.Round},'{m.Player1Name}','{m.Player2Name}',{m.Player1Wins},{m.Player2Wins},{m.Draws})";
-			db.ExecuteQuery<dbMatch>(sql);
+			_context.ExecuteQuery<dbMatch>(sql);
 		}
 
 		public void Save(Match m)

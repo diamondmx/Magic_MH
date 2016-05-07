@@ -13,6 +13,7 @@ namespace Magic.Data
 		void ExecuteCommand(string sql);
 		void ExecuteCommand(string sql, object o1, object o2);
 		void ExecuteCommand(string sql, object o1);
+		void ExecuteQuery<T>(string sql);
   }
 
 	public class DataContextWrapper : IDataContextWrapper
@@ -42,6 +43,11 @@ namespace Magic.Data
 		public void ExecuteCommand(string sql, object o1, object o2)
 		{
 			_dataContext.ExecuteCommand(sql, o1, o2);
+		}
+
+		public void ExecuteQuery<T>(string sql)
+		{
+			_dataContext.ExecuteQuery<T>(sql);
 		}
 	}
 }
