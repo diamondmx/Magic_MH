@@ -2,45 +2,45 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
-    Magic.Domain.Event mainEvent = ViewBag.Event;
-    int round = ViewBag.Round;
-    List<Magic.Domain.Player> players = ViewBag.Players;
-    int detailMode = ViewBag.DetailMode;
-    string eventName = ViewBag.eventName;
-    int numMatches = mainEvent.RoundMatchCount(round);
-    int maxMatchesPlayed = mainEvent.Players.Max(p => p.matches.Count(m => m.Round == round));
-    int totalMatchesRemaining = (mainEvent.TotalMatches(round) - mainEvent.TotalMatchesPlayed(round) / 2);
-    TimeSpan timeTillEnd = mainEvent.RoundEndDate - DateTime.Now;
-    int weeksTillEnd = (int)timeTillEnd.TotalDays / 7;
-    int daysTillEnd = (int)timeTillEnd.TotalDays % 7;
-    int hoursTillEnd = (int)timeTillEnd.TotalHours % 24;
-    string endTimeString;
-    int scoreIndex;
+	Magic.Domain.Event mainEvent = ViewBag.Event;
+	int detailMode = ViewBag.DetailMode;
+	int round = ViewBag.Round??mainEvent.CurrentRound;
+	List<Magic.Domain.Player> players = mainEvent.Players;
+	string eventName = mainEvent.name;
+	int numMatches = mainEvent.RoundMatchCount(round);
+	int maxMatchesPlayed = mainEvent.Players.Max(p => p.matches.Count(m => m.Round == round));
+	int totalMatchesRemaining = (mainEvent.TotalMatches(round) - mainEvent.TotalMatchesPlayed(round) / 2);
+	TimeSpan timeTillEnd = mainEvent.RoundEndDate - DateTime.Now;
+	int weeksTillEnd = (int)timeTillEnd.TotalDays / 7;
+	int daysTillEnd = (int)timeTillEnd.TotalDays % 7;
+	int hoursTillEnd = (int)timeTillEnd.TotalHours % 24;
+	string endTimeString;
+	int scoreIndex;
 
-    if (weeksTillEnd > 1)
-    {
-        endTimeString = string.Format("{0} weeks, {1} days", weeksTillEnd, daysTillEnd);
-    }
-    else if (weeksTillEnd > 0)
-    {
-        endTimeString = string.Format("{0} week, {1} days", weeksTillEnd, daysTillEnd);
-    }
-    else if (daysTillEnd > 1)
-    {
-        endTimeString = string.Format("{0} days", daysTillEnd);
-    }
-    else if (daysTillEnd > 0)
-    {
-        endTimeString = string.Format("{0} day", daysTillEnd);
-    }
-    else if (timeTillEnd.TotalMilliseconds > 0)
-    {
-        endTimeString = string.Format("{0} hours", hoursTillEnd);
-    }
-    else
-    {
-        endTimeString = "Finished!";
-    }
+	if (weeksTillEnd > 1)
+	{
+		endTimeString = string.Format("{0} weeks, {1} days", weeksTillEnd, daysTillEnd);
+	}
+	else if (weeksTillEnd > 0)
+	{
+		endTimeString = string.Format("{0} week, {1} days", weeksTillEnd, daysTillEnd);
+	}
+	else if (daysTillEnd > 1)
+	{
+		endTimeString = string.Format("{0} days", daysTillEnd);
+	}
+	else if (daysTillEnd > 0)
+	{
+		endTimeString = string.Format("{0} day", daysTillEnd);
+	}
+	else if (timeTillEnd.TotalMilliseconds > 0)
+	{
+		endTimeString = string.Format("{0} hours", hoursTillEnd);
+	}
+	else
+	{
+		endTimeString = "Finished!";
+	}
 
 
 }

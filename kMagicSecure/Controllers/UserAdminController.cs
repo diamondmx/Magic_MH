@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace IdentitySample.Controllers
 {
+		[RequireHttps]
     [Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {

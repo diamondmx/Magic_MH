@@ -8,6 +8,8 @@ using Magic.Core;
 
 namespace kMagicSecure.Controllers
 {
+	[RequireHttps]
+	[Authorize]
 	public class MagicController : Controller
 	{
 		private readonly IEventManager _eventManager;
@@ -27,13 +29,14 @@ namespace kMagicSecure.Controllers
 
 		//
 		// GET: /Magic/
+		[AllowAnonymous]
 		public ActionResult Index(string eventName, int round, int detailMode = 0)
 		{
 			try
 			{
-				Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
+				Event thisEvent = _eventManager.LoadEvent(eventName);
 
-				ViewBag.Title = String.Format("{0}: Round {1}", eventName, round);
+				ViewBag.Title = string.Format("{0}: Round {1}", eventName, round);
 				ViewBag.Players = thisEvent.Players;
 				ViewBag.EventName = eventName;
 				ViewBag.Round = round;
@@ -44,7 +47,7 @@ namespace kMagicSecure.Controllers
 			catch (Exception ex)
 			{
 				Session["LastError"] = new Exception($"Failed to load event {eventName} - {round}", ex);
-				return RedirectToAction("ViewEvents");
+				return RedirectToAction("Index");
 			}
 		}
 
@@ -106,6 +109,7 @@ namespace kMagicSecure.Controllers
 			return View("MagicMatch");
 		}
 
+		[Authorize(Roles = "Admin")]
 		public ActionResult ViewEvents()
 		{
 			var eventList = _eventManager.LoadAllEvents();
@@ -113,6 +117,7 @@ namespace kMagicSecure.Controllers
 			return View("ViewEvents", eventList);
 		}
 
+		[Authorize(Roles = "Admin")]
 		public ActionResult CreateEvent()
 		{
 			var newEvent = new Magic.Domain.Event();
@@ -127,6 +132,7 @@ namespace kMagicSecure.Controllers
 			return View("EditEvent", newEvent);
 		}
 
+		[Authorize(Roles = "Admin")]
 		public ActionResult EditEvent(string eventName, bool NewEvent, string name, int? currentRound, int? roundMatches, DateTime? startDate, DateTime? roundEndDate)
 		{
 			Magic.Domain.Event thisEvent = null;
@@ -172,11 +178,13 @@ namespace kMagicSecure.Controllers
 			return View("EditEvent", thisEvent);
 		}
 
+		[Authorize(Roles = "Admin")]
 		public ActionResult DeleteEvent(int id)
 		{
 			return View();
 		}
 
+		[Authorize(Roles = "Admin")]
 		public ActionResult ListPlayers(string eventName)
 		{
 			var thisEvent = _eventManager.LoadEvent(eventName);
@@ -184,6 +192,7 @@ namespace kMagicSecure.Controllers
 			return View("ListPlayers", thisEvent);
 		}
 
+		[Authorize(Roles = "Admin")]
 		public ActionResult AddPlayer(string eventName, string playerName)
 		{
 			var thisEvent = _eventManager.LoadEvent(eventName);
@@ -194,6 +203,7 @@ namespace kMagicSecure.Controllers
 			return Redirect(Url.Action("ListPlayers", "Magic", new { eventName = eventName }));
 		}
 
+		[Authorize(Roles = "Admin")]
 		public ActionResult GeneratePairings(string eventName)
 		{
 			var pairingsManager = new PairingsManager(_eventManager);
@@ -204,6 +214,7 @@ namespace kMagicSecure.Controllers
 			return View("PreviewPairings", thisEvent);
 		}
 
+		[Authorize(Roles = "Admin")]
 		public ActionResult SaveMatches()
 		{
 			Event eventToSave = Session["pairedEvent"] as Event;
