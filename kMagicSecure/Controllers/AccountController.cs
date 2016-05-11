@@ -81,8 +81,8 @@ namespace IdentitySample.Controllers
 				case SignInStatus.LockedOut:
 					return View("Lockout");
 				case SignInStatus.RequiresVerification:
-					Session["LastError"] = new Exception($"Accounts must confirm email address to login");
-					return View("~/Views/Magic/Index.cshtml"); 
+					ModelState.AddModelError("", "Accounts must confirm email address to login.");
+					return View(model);
 				case SignInStatus.Failure:
 				default:
 					ModelState.AddModelError("", "Invalid login attempt.");

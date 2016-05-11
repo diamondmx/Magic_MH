@@ -3,7 +3,7 @@
 }
 @{
 	Magic.Domain.Event mainEvent = ViewBag.Event;
-	int detailMode = ViewBag.DetailMode;
+	int detailMode = ViewBag.DetailMode??0;
 	int round = ViewBag.Round??mainEvent.CurrentRound;
 	List<Magic.Domain.Player> players = mainEvent.Players;
 	string eventName = mainEvent.name;

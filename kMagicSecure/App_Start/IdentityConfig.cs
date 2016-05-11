@@ -168,15 +168,21 @@ namespace IdentitySample.Models
 
 		public async override Task<SignInStatus> PasswordSignInAsync(string username, string password, bool isPersistant, bool shouldLockout)
 		{
+			var result = await base.PasswordSignInAsync(username, password, isPersistant, shouldLockout);
+
+			if(result!= SignInStatus.Success)
+			{
+				return result;
+			}
+
 			var user = await UserManager.FindByNameAsync(username);
-			if (!user.EmailConfirmed)
+			if (user?.EmailConfirmed == true)
 			{
-				return SignInStatus.RequiresVerification;
+				return SignInStatus.Success;
 			}
-			else
-			{
-				return await base.PasswordSignInAsync(username, password, isPersistant, shouldLockout);
-			}
+
+			base.AuthenticationManager.SignOut();
+			return SignInStatus.RequiresVerification;
 		}
 
 
