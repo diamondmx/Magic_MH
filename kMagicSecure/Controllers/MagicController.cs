@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Magic.Domain;
 using Magic.Core;
+using Microsoft.AspNet.Identity.Owin;
+using IdentitySample.Models;
 
 namespace kMagicSecure.Controllers
 {
@@ -14,6 +16,19 @@ namespace kMagicSecure.Controllers
 	{
 		private readonly IEventManager _eventManager;
 		private readonly IMatchManager _matchManager;
+
+		private ApplicationUserManager _userManager;
+		public ApplicationUserManager UserManager
+		{
+			get
+			{
+				return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+			}
+			private set
+			{
+				_userManager = value;
+			}
+		}
 
 		public MagicController()
 		{
@@ -35,16 +50,23 @@ namespace kMagicSecure.Controllers
 			try
 			{
 				Event thisEvent = _eventManager.LoadEvent(eventName);
-
+				var userEmail = HttpContext.User.Identity.Name;
+				if (!string.IsNullOrEmpty(userEmail))
+				{
+					ViewBag.CurrentUser = UserManager.FindByNameAsync(HttpContext.User.Identity.Name).Result;
+        }
+				else
+				{
+					ViewBag.CurrentUser = null;
+				}
+				
 				ViewBag.Title = string.Format("{0}: Round {1}", eventName, round);
-				ViewBag.Players = thisEvent.Players;
-				ViewBag.EventName = eventName;
-				ViewBag.Round = round;
 				ViewBag.Event = thisEvent;
+				ViewBag.Round = round;
 				ViewBag.DetailMode = detailMode;
 				return View("Index");
 			}
-			catch (Exception ex)
+			catch (Exception	ex)
 			{
 				Session["LastError"] = new Exception($"Failed to load event {eventName} - {round}", ex);
 				return RedirectToAction("Index");
