@@ -250,6 +250,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ConnectionStrings.config" />
+    <None Include="Properties\PublishProfiles\kmagic - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\kmagic - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\kMagicDevelop - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\kMagicDevelop - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
