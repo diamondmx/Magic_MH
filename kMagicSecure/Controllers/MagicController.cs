@@ -37,7 +37,8 @@ namespace kMagicSecure.Controllers
 			var eventPlayerRepo = new Magic.Data.EventPlayerRepository(dataContext);
 			var playerRepo = new Magic.Data.PlayerRepository(dataContext);
 			var matchRepo = new Magic.Data.MatchRepository(dataContext);
-			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo);
+			var roundPrizeRepo = new Magic.Data.RoundPrizeRepository(dataContext);
+			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo, roundPrizeRepo);
 			_eventManager = new EventManager(eventRepo);
 			_matchManager = new MatchManager(matchRepo);
 		}

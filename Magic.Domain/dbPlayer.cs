@@ -12,5 +12,8 @@ namespace Magic.Domain
 	{
 		[Column(IsPrimaryKey = true)]
 		public string Name;
+
+		[Column()]
+		public string Email;
 	}
 }

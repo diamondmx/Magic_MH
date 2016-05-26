@@ -8,17 +8,19 @@ using System.Threading.Tasks;
 
 namespace Magic.Domain
 {
-	[DebuggerDisplay("{name} m:{matches.Count} s:{Score(0)}")]
+	[DebuggerDisplay("{Name} m:{Matches.Count} s:{Score(0)}")]
 	public class Player
 	{
-		public string name;
-		public List<Match> matches;
-		public int? droppedInRound;
+		public string Name;
+		public List<Match> Matches;
+		public int? DroppedInRound;
+		public string Email;
 
-		public Player(string newName)
+		public Player(string newName, string email=null)
 		{
-			name = newName;
-			matches = new List<Match>();
+			Name = newName;
+			Email = email;
+			Matches = new List<Match>();
 		}
 
 		public int matchesCompleted(int round)
@@ -32,16 +34,16 @@ namespace Magic.Domain
 
 			if(round<=0)
 			{
-				relevantMatches = matches;
+				relevantMatches = Matches;
 			}
 			else
 			{
-				relevantMatches = matches.Where(m => m.Round == round).ToList();
+				relevantMatches = Matches.Where(m => m.Round == round).ToList();
 			}
 
             return relevantMatches.Sum(m =>
             {
-                var nm = m.WithPlayerOneAs(name);
+                var nm = m.WithPlayerOneAs(Name);
                 return MatchScore(nm.Player1Wins, nm.Player2Wins, nm.Draws);
             });
         }
@@ -77,10 +79,10 @@ namespace Magic.Domain
 
 		public List<Match> GetRelevantMatches(int round)
 		{
-			List<Match> relevantMatches = matches;
+			List<Match> relevantMatches = Matches;
 			if (round <= 0)
 			{
-				relevantMatches = matches;
+				relevantMatches = Matches;
 			}
 			else
 			{
@@ -94,7 +96,7 @@ namespace Magic.Domain
 		{
 			var relevantMatches = GetRelevantMatches(round);
 
-			return relevantMatches.Select<Match, Player>(m => (m.Player1.name == name) ? m.Player2 : m.Player1).ToList();
+			return relevantMatches.Select<Match, Player>(m => (m.Player1.Name == Name) ? m.Player2 : m.Player1).ToList();
 		}
 
 		public float OMWP(int round = 0)
@@ -116,7 +118,7 @@ namespace Magic.Domain
 
 			relevantMatches.ForEach(m =>
 			{
-				var normalisedMatch = m.WithPlayerOneAs(name);
+				var normalisedMatch = m.WithPlayerOneAs(Name);
 				gameWins += normalisedMatch.Player1Wins;
 				gameLosses += normalisedMatch.Player2Wins;
 			});
@@ -141,7 +143,7 @@ namespace Magic.Domain
 
 		public bool HasDropped(int currentRound)
 		{
-			if (droppedInRound > 0 && currentRound > droppedInRound)
+			if (DroppedInRound > 0 && currentRound > DroppedInRound)
 				return true;
 
 			return false;

@@ -12,12 +12,14 @@ namespace Magic.Domain
 	{
 		public List<Player> Players = new List<Player>();
 		public List<Match> Matches = new List<Match>();
+		public List<dbRoundPrize> RoundPrizes = new List<dbRoundPrize>();
 		public string name = "";
 		public int rounds = 1;
 		public int CurrentRound = 1;
 		public int RoundMatches = 4;
 		public DateTime RoundEndDate = DateTime.Today;
 		public DateTime EventStartDate = DateTime.Today;
+		
 		private bool _locked = false;
 
 		public dbEvent myDbEvent = null;
@@ -36,11 +38,11 @@ namespace Magic.Domain
 		{
 			if (round > 0)
 			{
-				return Players.Max(p => p.matches.Count(m => m.Round == round));
+				return Players.Max(p => p.Matches.Count(m => m.Round == round));
 			}
 			else
 			{
-				return Players.Max(p => p.matches.Count());
+				return Players.Max(p => p.Matches.Count());
 			}
 		}
 

@@ -49,9 +49,9 @@ namespace Magic.Core
 				if (matchedPlayer == null)
 					return;
 
-				var newMatch = new Domain.Match(player, player.name, matchedPlayer, matchedPlayer.name, eventName, currentRound, 0, 0, 0);
-				player.matches.Add(newMatch);
-				matchedPlayer.matches.Add(newMatch);
+				var newMatch = new Domain.Match(player, player.Name, matchedPlayer, matchedPlayer.Name, eventName, currentRound, 0, 0, 0);
+				player.Matches.Add(newMatch);
+				matchedPlayer.Matches.Add(newMatch);
 				mainEvent.Matches.Add(newMatch);
 
 				// End modify player pairings

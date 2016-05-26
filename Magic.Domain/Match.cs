@@ -14,13 +14,13 @@ namespace Magic.Domain
 		private string _player1Name;
 		public string Player1Name
 		{
-			get { return Player1 != null ? Player1.name : _player1Name; }
+			get { return Player1 != null ? Player1.Name : _player1Name; }
 		}
 		public Player Player2;
 		private string _player2Name;
 		public string Player2Name
 		{
-			get { return Player2 != null ? Player2.name : _player2Name; }
+			get { return Player2 != null ? Player2.Name : _player2Name; }
 		}
 		public int Round;
 		public string Event;

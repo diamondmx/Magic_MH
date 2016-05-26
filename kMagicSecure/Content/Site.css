@@ -106,3 +106,26 @@ input[type="checkbox"].input-validation-error {
 	text-align:center;
 	color:white;
 }
+
+/*tr.loggedInUser{
+	border: 3px solid red;
+}*/
+
+.loggedInUser.keyplayer{
+	border: dashed #9999ff;
+	background-color: #aa77ff;
+}
+
+/*.loggedInUser.opponentplayer{
+	background-color: blue;
+}*/
+
+.prize{
+	background-color: lightblue;
+	text-align:center;
+}
+
+.noprize{
+	background-color: #90D1D8;
+	text-align:center;
+}

@@ -12,15 +12,17 @@ namespace Magic.Data
 	{
 		private readonly IDataContextWrapper _dataContext;
 		private readonly IEventPlayerRepository _eventPlayerRepository;
+		private readonly IRoundPrizeRepository _roundPrizeRepository;
 		private readonly IMatchRepository _matchRepository;
 		private readonly IPlayerRepository _playerRepository;
 
-		public EventRepository(IDataContextWrapper dataContext, IEventPlayerRepository eventPlayerRepo, IMatchRepository matchRepo, IPlayerRepository playerRepo)
+		public EventRepository(IDataContextWrapper dataContext, IEventPlayerRepository eventPlayerRepo, IMatchRepository matchRepo, IPlayerRepository playerRepo, IRoundPrizeRepository roundPrizeRepository)
 		{
 			_dataContext = dataContext;
 			_eventPlayerRepository = eventPlayerRepo;
 			_matchRepository = matchRepo;
 			_playerRepository = playerRepo;
+			_roundPrizeRepository = roundPrizeRepository;
 		}
 
 		public List<Event> LoadAllEvents()
@@ -49,18 +51,20 @@ namespace Magic.Data
 			pop.RoundEndDate = loadedEvent.RoundEndDate;
 
 			var eventPlayers = _eventPlayerRepository.LoadDBEventPlayers(loadedEvent.Name);
+			pop.RoundPrizes = _roundPrizeRepository.LoadDBRoundPrizes(loadedEvent.Name);
+			
 
 			//LoadPlayers
 			pop.Players = new List<Player>();
-			_playerRepository.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => pop.Players.Add(new Player(p.Name)));
+			_playerRepository.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => pop.Players.Add(new Player(p.Name, p.Email)));
 
 			//LoadEventPlayers
 			eventPlayers.Where(ep => ep.Dropped > 0).ToList().ForEach(ep =>
 			{
 				foreach (var p in pop.Players)
 				{
-					if (p.name == ep.Player)
-						p.droppedInRound = ep.Dropped;
+					if (p.Name == ep.Player)
+						p.DroppedInRound = ep.Dropped;
 				}
 			});
 
@@ -81,16 +85,16 @@ namespace Magic.Data
 			{
 				foreach (var m in pop.Matches)
 				{
-					if (m.Player1Name == p.name)
+					if (m.Player1Name == p.Name)
 					{
 						m.Player1 = p;
-						p.matches.Add(m);
+						p.Matches.Add(m);
 					}
 
-					else if (m.Player2Name == p.name)
+					else if (m.Player2Name == p.Name)
 					{
 						m.Player2 = p;
-						p.matches.Add(m);
+						p.Matches.Add(m);
 					}
 				}
 			}
@@ -197,8 +201,8 @@ namespace Magic.Data
 		{
 			var eventName = e.myDbEvent.Name;
 
-			var sqlAddPlayerToPlayers = $"IF NOT EXISTS(SELECT * FROM Players WHERE Players.Name = '{player.name}') INSERT INTO Players(Name) VALUES('{player.name}')";
-			var sqlAddPlayerToEvent = $"IF NOT EXISTS(SELECT * FROM EventPlayers WHERE Player='{player.name}' AND EventName='{eventName}') INSERT INTO EventPlayers(Player, EventName, Dropped) VALUES('{player.name}', '{eventName}', 0)";
+			var sqlAddPlayerToPlayers = $"IF NOT EXISTS(SELECT * FROM Players WHERE Players.Name = '{player.Name}') INSERT INTO Players(Name) VALUES('{player.Name}')";
+			var sqlAddPlayerToEvent = $"IF NOT EXISTS(SELECT * FROM EventPlayers WHERE Player='{player.Name}' AND EventName='{eventName}') INSERT INTO EventPlayers(Player, EventName, Dropped) VALUES('{player.Name}', '{eventName}', 0)";
 
 			try
 			{

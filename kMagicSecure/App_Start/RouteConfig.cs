@@ -9,7 +9,7 @@ namespace kMagicSecure
 {
 	public class RouteConfig
 	{
-		public static int currentRound = 1;
+		public static int currentRound = 2;
 		public static string currentEvent = "SOI";
 		public static int defaultDetail = 0;
 
