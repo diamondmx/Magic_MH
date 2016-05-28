@@ -158,9 +158,14 @@ else
 					}
 				}
 			}
+			@if (detailMode > 0)
+			{
+				<th class="centered"><a href="@Url.Action("Index", null, new { controller = "Magic", round = round, eventName = mainEvent.name, detailMode = detailMode -1 }, Request.Url.Scheme)"><</a></th>
+			}
+
 			@if (detailMode < 3)
 			{
-				<th class="centered"><a href="@Url.Action("Index", null, new { controller = "Magic", round = round, eventName = mainEvent.name, detailMode = detailMode + 1 }, Request.Url.Scheme)">+</a></th>
+				<th class="centered"><a href="@Url.Action("Index", null, new { controller = "Magic", round = round, eventName = mainEvent.name, detailMode = detailMode + 1 }, Request.Url.Scheme)">></a></th>
 			}
 
 		</tr>
