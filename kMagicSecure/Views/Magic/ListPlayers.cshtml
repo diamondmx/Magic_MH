@@ -28,7 +28,7 @@
 @foreach (var item in Model.Players)
 {
     <tr>
-        <td><text>@item.name</text></td>
+        <td><text>@item.Name</text></td>
 			<td>@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
 					@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
 					@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })</td>

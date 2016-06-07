@@ -11,5 +11,6 @@ namespace Magic.Data
     void Save(Match m);
 		void Update(Match m);
 		void UpdateAllMatches(IEnumerable<Match> matches);
-  }
+		List<dbMatch> GetAllMatches(string playerName);
+	}
 }

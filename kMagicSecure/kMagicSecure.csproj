@@ -317,6 +317,7 @@
     <Content Include="Views\RolesAdmin\Details.cshtml" />
     <Content Include="Views\RolesAdmin\Edit.cshtml" />
     <Content Include="Views\RolesAdmin\Index.cshtml" />
+    <Content Include="Views\Magic\PlayerStats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

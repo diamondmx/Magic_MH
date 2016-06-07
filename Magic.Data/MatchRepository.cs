@@ -106,5 +106,12 @@ namespace Magic.Data
 		{
 			matches.ToList().ForEach(m => Save(m));
 		}
+
+		public List<dbMatch> GetAllMatches(string playerName)
+		{
+			var matchesTable = _context.GetTable<dbMatch>().Where(m => m.Player1 == playerName || m.Player2 == playerName).ToList();
+			var results = matchesTable.Select(m => m.WithPlayerOneAs(playerName));
+			return results.ToList();
+		}
 	}
 }

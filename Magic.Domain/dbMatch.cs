@@ -38,5 +38,33 @@ namespace Magic.Domain
 			this.Player2Wins = m.Player2Wins;
 			this.Draws = m.Draws;
 		}
+
+		public dbMatch WithPlayerOneAs(string PlayerOneName)
+		{
+			if(Player1 == PlayerOneName)
+			{
+				var newMatch = new dbMatch();
+				newMatch.Copy(this);
+				return newMatch;
+			}
+			else if(Player2 != PlayerOneName)
+			{
+				throw new ArgumentException("Player not found in match, can't set player as PlayerOne");
+			}
+			else
+			{
+				var newMatch = new dbMatch()
+				{
+					Player1 = Player2,
+					Player2 = Player1,
+					Event = Event,
+					Round = Round,
+					Player1Wins = Player2Wins,
+					Player2Wins = Player1Wins,
+					Draws = Draws
+				};
+				return newMatch;
+			}
+		}
 	}
 }

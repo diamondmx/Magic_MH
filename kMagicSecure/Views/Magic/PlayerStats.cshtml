@@ -1,0 +1,35 @@
+﻿@model List<Magic.Domain.PlayerScoreSummary>
+@{
+    ViewBag.Title = "PlayerStats";
+}
+
+<h2>PlayerStats</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Player</th>
+			<th>MW</th>
+			<th>ML</th>
+			<th>MD</th>
+			<th>MW%</th>
+			<th>GW</th>
+			<th>GL</th>
+			<th>GD</th>
+			<th>GW%</th>
+		</tr>
+	</thead>
+@foreach (var score in Model)
+{
+	<tr>
+		<td>@score.Name</td>
+		<td>@score.MatchWins</td>
+		<td>@score.MatchLosses</td>
+		<td>@score.MatchDraws</td>
+		<td>@score.MatchWinPercentage</td>
+		<td>@score.GameWins</td>
+		<td>@score.GameLosses</td>
+		<td>@score.GameDraws</td>
+		<td>@score.GameWinPercentage</td>
+	</tr>
+}
+</table>

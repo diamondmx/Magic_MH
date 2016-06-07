@@ -74,7 +74,7 @@ namespace kMagicSecure.Controllers
 			}
 		}
 
-		public List<SelectListItem> GetDropdownWithSelected(int max, int selected)
+		private List<SelectListItem> GetDropdownWithSelected(int max, int selected)
 		{
 			var output = new List<SelectListItem>();
 			for (int i = 0; i <= max; i++)
@@ -244,6 +244,13 @@ namespace kMagicSecure.Controllers
 			_matchManager.UpdateAllMatches(eventToSave.Matches, eventToSave.CurrentRound);
 
 			return RedirectToAction("Index", new { eventName = eventToSave.name, round = eventToSave.CurrentRound });
+		}
+
+		[AllowAnonymous]
+		public ActionResult PlayerStats(string playerName)
+		{
+			List<PlayerScoreSummary> playerStatistics = _matchManager.GetPlayerStatistics(playerName);
+			return View("PlayerStats", playerStatistics);
 		}
 	}
 }
