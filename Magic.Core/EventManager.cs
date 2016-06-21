@@ -11,6 +11,7 @@ namespace Magic.Core
 		void SaveEvent(Event thisEvent);
 		void CreateEvent(Event thisEvent);
 		void AddPlayer(Event thisEvent, Player newPlayer);
+		dbEvent GetCurrentEvent();
 	}
 
 	public class EventManager : IEventManager
@@ -45,6 +46,11 @@ namespace Magic.Core
 		public void AddPlayer(Event thisEvent, Player newPlayer)
 		{
 			_eventRepository.AddPlayer(thisEvent, newPlayer);
+		}
+
+		public dbEvent GetCurrentEvent()
+		{
+			return _eventRepository.GetCurrentEvent();
 		}
   }
 }

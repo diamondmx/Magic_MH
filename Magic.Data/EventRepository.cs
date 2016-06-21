@@ -214,5 +214,13 @@ namespace Magic.Data
 				throw;
 			}
 		}
+
+		public dbEvent GetCurrentEvent()
+		{
+			var result = _dataContext.GetTable<dbEvent>().OrderByDescending(e => e.StartDate).First();
+			result.dbName = result.Name;
+
+			return result;
+		}
 	}
 }

@@ -43,6 +43,13 @@ namespace kMagicSecure.Controllers
 			_matchManager = new MatchManager(matchRepo);
 		}
 
+		[AllowAnonymous]
+		public ActionResult Default()
+		{
+			dbEvent currentEvent = _eventManager.GetCurrentEvent();
+			return Index(currentEvent.Name, currentEvent.CurrentRound);
+		}
+
 		//
 		// GET: /Magic/
 		[AllowAnonymous]

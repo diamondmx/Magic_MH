@@ -19,6 +19,11 @@ namespace kMagicSecure
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			routes.MapRoute(
+				name: "DefaultMatchList",
+				url: "Magic/Default",
+				defaults: new { controller = "Magic", action = "Default" });
+
+			routes.MapRoute(
 				name: "PlayerStats",
 				url: "Magic/PlayerStats/{playerName}",
 				defaults: new { controller = "Magic", action = "PlayerStats" }
@@ -91,7 +96,7 @@ namespace kMagicSecure
 			routes.MapRoute(
 					name: "Generic",
 					url: "{controller}/{action}/",
-					defaults: new { controller = "Magic", action = "Index", eventName = currentEvent, round = currentRound, detailedMode = defaultDetail }
+					defaults: new { controller = "Magic", action = "Default" }
 			);
 		}
 	}
