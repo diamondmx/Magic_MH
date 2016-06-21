@@ -96,7 +96,7 @@ namespace kMagicSecure.Controllers
 		{
 			Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
 
-			var match = thisEvent.Matches.FirstOrDefault(m => (m.Round == round) && (m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2));
+			var match = thisEvent.Matches.FirstOrDefault(m => (m.Round == round) && ((m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2)));
 			ViewBag.Match = match;
 
 			if (match == null)
