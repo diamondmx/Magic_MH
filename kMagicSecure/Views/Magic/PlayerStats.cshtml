@@ -18,18 +18,18 @@
 			<th>GW%</th>
 		</tr>
 	</thead>
-@foreach (var score in Model)
+@foreach (var score in Model.OrderByDescending(m=>m.MatchWinPercentage))
 {
 	<tr>
-		<td>@score.Name</td>
-		<td>@score.MatchWins</td>
-		<td>@score.MatchLosses</td>
-		<td>@score.MatchDraws</td>
-		<td>@score.MatchWinPercentage</td>
-		<td>@score.GameWins</td>
-		<td>@score.GameLosses</td>
-		<td>@score.GameDraws</td>
-		<td>@score.GameWinPercentage</td>
+		<td>@Html.DisplayFor(item => score.Name)</td>
+		<td>@Html.DisplayFor(item => score.MatchWins)</td>
+		<td>@Html.DisplayFor(item => score.MatchLosses)</td>
+		<td>@Html.DisplayFor(item => score.MatchDraws)</td>
+		<td>@Html.DisplayFor(item => score.MatchWinPercentage)</td>
+		<td>@Html.DisplayFor(item => score.GameWins)</td>
+		<td>@Html.DisplayFor(item => score.GameLosses)</td>
+		<td>@Html.DisplayFor(item => score.GameDraws)</td>
+		<td>@Html.DisplayFor(item => score.GameWinPercentage)</td>
 	</tr>
 }
 </table>
