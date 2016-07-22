@@ -53,7 +53,21 @@
 
 @if (round > 0)
 {
-	<h2>Players - @eventName - Round @round</h2>
+	<h2>Players - @eventName</h2> <br/>
+	<h2>
+		Round
+		@for(int i=1;i<=mainEvent.CurrentRound;i++)
+		{
+			if(round==i)
+			{
+				<text>[@round]</text>
+			}
+			else
+			{
+				<text>@Html.ActionLink(i.ToString(), "Index", new { controller = "Magic", action = "Index", eventName = mainEvent.name, round = i })</text>
+	}
+}
+	</h2>
 }
 else
 {
