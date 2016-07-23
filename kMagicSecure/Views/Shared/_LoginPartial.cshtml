@@ -5,6 +5,13 @@
 	{
 		@Html.AntiForgeryToken()
 		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+				<a href="#" data-toggle="dropdown" class="dropdown-toggle">Other<b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li>@Html.ActionLink("Event Archive", "EventArchiveList", new { controller = "Magic", action = "EventArchiveList" })</li>
+					<li>@Html.ActionLink("PlayerStats", "PlayerStats", new { controller = "Magic", action = "PlayerStats", playerName = "" })</li>
+				</ul>
+			</li>
 			@if (User.IsInRole("Admin"))
 			{
 				<li class="dropdown">

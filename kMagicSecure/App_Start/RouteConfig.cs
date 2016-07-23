@@ -30,6 +30,12 @@ namespace kMagicSecure
 			);
 
 			routes.MapRoute(
+				name: "PlayerStats2",
+				url: "Magic/PlayerStats/",
+				defaults: new { controller = "Magic", action = "PlayerStats" }
+			);
+
+			routes.MapRoute(
 				name: "Register",
 				url: "Account/Register",
 				defaults: new { controller = "Account", action = "Register", id = "registerLink" }
@@ -74,6 +80,11 @@ namespace kMagicSecure
 								name: "ViewEvents",
 								url: "Magic/ViewEvents",
 								defaults: new { controller = "Magic", action = "ViewEvents" });
+
+			routes.MapRoute(
+								name: "EventArchiveList",
+								url: "Magic/EventArchiveList",
+								defaults: new { controller = "Magic", action = "EventArchiveList" });
 
 			routes.MapRoute(
 								name: "EditEvent",

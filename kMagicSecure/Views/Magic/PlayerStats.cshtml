@@ -3,6 +3,15 @@
     ViewBag.Title = "PlayerStats";
 }
 
+@{ 
+	
+}																		 
+@using (Html.BeginForm("PlayerStats", "Magic", FormMethod.Get))
+{
+	@Html.DropDownList("playerName")
+	<input type="submit" value="Change Player" />
+}
+
 <h2>PlayerStats</h2>
 <table>
 	<thead>
@@ -18,7 +27,7 @@
 			<th>GW%</th>
 		</tr>
 	</thead>
-@foreach (var score in Model.OrderByDescending(m=>m.MatchWinPercentage))
+@foreach (var score in Model.OrderBy(m=>m.Name=="Total").ThenByDescending(m=>m.MatchWinPercentage))
 {
 	<tr>
 		<td>@Html.DisplayFor(item => score.Name)</td>

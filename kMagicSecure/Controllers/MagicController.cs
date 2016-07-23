@@ -16,6 +16,7 @@ namespace kMagicSecure.Controllers
 	{
 		private readonly IEventManager _eventManager;
 		private readonly IMatchManager _matchManager;
+		private readonly IPlayerManager _playerManager;
 
 		private ApplicationUserManager _userManager;
 		public ApplicationUserManager UserManager
@@ -39,6 +40,7 @@ namespace kMagicSecure.Controllers
 			var matchRepo = new Magic.Data.MatchRepository(dataContext);
 			var roundPrizeRepo = new Magic.Data.RoundPrizeRepository(dataContext);
 			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo, roundPrizeRepo);
+			_playerManager = new PlayerManager(playerRepo);
 			_eventManager = new EventManager(eventRepo);
 			_matchManager = new MatchManager(matchRepo);
 		}
@@ -145,6 +147,13 @@ namespace kMagicSecure.Controllers
 			var eventList = _eventManager.LoadAllEvents();
 
 			return View("ViewEvents", eventList);
+		}
+
+		public ActionResult EventArchiveList()
+		{
+			var eventList = _eventManager.LoadAllEvents();
+
+			return View("EventArchiveList", eventList);
 		}
 
 		[Authorize(Roles = "Admin")]
@@ -256,7 +265,19 @@ namespace kMagicSecure.Controllers
 		[AllowAnonymous]
 		public ActionResult PlayerStats(string playerName)
 		{
+			List<Player> allPlayers = _playerManager.GetAllPlayers();
+
+			var playerList = allPlayers.Select(p => new SelectListItem { Text = p.Name, Value = p.Name });
+
+			if (playerName == "" || playerName == null)
+			{
+				var currentPlayer = allPlayers.FirstOrDefault(p=>p.Email==User.Identity.Name);
+				playerName = currentPlayer?.Name ?? allPlayers.OrderBy(p=>p.Name).First().Name;
+			}
 			List<PlayerScoreSummary> playerStatistics = _matchManager.GetPlayerStatistics(playerName);
+
+			ViewBag.playerName = playerList;
+			
 			return View("PlayerStats", playerStatistics);
 		}
 	}

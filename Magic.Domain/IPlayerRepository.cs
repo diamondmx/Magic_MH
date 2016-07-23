@@ -1,4 +1,5 @@
 ﻿using Magic.Domain;
+using System.Collections.Generic;
 
 namespace Magic.Data
 {
@@ -6,5 +7,6 @@ namespace Magic.Data
 	{
 		System.Collections.Generic.List<dbPlayer> LoadDBPlayers();
 		void Save();
+		List<Player> GetAllPlayers();
 	}
 }
