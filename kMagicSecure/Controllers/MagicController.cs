@@ -277,7 +277,7 @@ namespace kMagicSecure.Controllers
 			List<PlayerScoreSummary> playerStatistics = _matchManager.GetPlayerStatistics(playerName);
 
 			ViewBag.playerName = playerList;
-			ViewBag.CurrentUser = currentPlayer.Name;
+			ViewBag.CurrentUser = playerName;
 			
 			return View("PlayerStats", playerStatistics);
 		}
