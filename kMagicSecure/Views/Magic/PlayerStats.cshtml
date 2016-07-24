@@ -42,3 +42,11 @@
 	</tr>
 }
 </table>
+
+@section scripts{
+	@Scripts.Render("~/Scripts/PlayerStats.js")
+	<script type="text/javascript">
+		var name = "@ViewBag.CurrentUser";
+		SetPlayerNameDropdown( name );
+	</script>
+}

@@ -268,15 +268,16 @@ namespace kMagicSecure.Controllers
 			List<Player> allPlayers = _playerManager.GetAllPlayers();
 
 			var playerList = allPlayers.Select(p => new SelectListItem { Text = p.Name, Value = p.Name });
+			var currentPlayer = allPlayers.FirstOrDefault(p => p.Email == User.Identity.Name);
 
 			if (playerName == "" || playerName == null)
 			{
-				var currentPlayer = allPlayers.FirstOrDefault(p=>p.Email==User.Identity.Name);
 				playerName = currentPlayer?.Name ?? allPlayers.OrderBy(p=>p.Name).First().Name;
 			}
 			List<PlayerScoreSummary> playerStatistics = _matchManager.GetPlayerStatistics(playerName);
 
 			ViewBag.playerName = playerList;
+			ViewBag.CurrentUser = currentPlayer.Name;
 			
 			return View("PlayerStats", playerStatistics);
 		}
