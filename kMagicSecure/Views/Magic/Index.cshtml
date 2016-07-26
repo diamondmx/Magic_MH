@@ -56,23 +56,36 @@
 	<h2>Players - @eventName</h2> <br/>
 	<h2>
 		Round
-		@for(int i=1;i<=mainEvent.CurrentRound;i++)
+		@for(int i=0;i<=4;i++)
+			{
+				string roundText = i.ToString();
+				switch(i)
+				{
+					case 0:
+						roundText = "*";
+						break;
+					case 4:
+						roundText = "Top 8";
+						break;
+				}
+
+
+
+				if(round==i)
+				{
+        <text>[@roundText]</text>
+	          }
+				else
+				{
+        <text>@Html.ActionLink(roundText, "Index", new { controller = "Magic", action = "Index", eventName = mainEvent.name, round = i })</text>
+        }
+			}
+  </h2>
+}
+		else
 		{
-			if(round==i)
-			{
-				<text>[@round]</text>
-			}
-			else
-			{
-				<text>@Html.ActionLink(i.ToString(), "Index", new { controller = "Magic", action = "Index", eventName = mainEvent.name, round = i })</text>
-			}
-		}
-	</h2>
-}
-else
-{
-	<h2>Players - @eventName - Event Overview</h2>
-}
+  <h2>Players - @eventName - Event Overview</h2>
+    }
 
 <h3>Round Ends: @string.Format("{0} - {1}", mainEvent.RoundEndDate.ToString(), endTimeString)</h3>
 
