@@ -255,6 +255,7 @@
     <None Include="Properties\PublishProfiles\kMagicDevelop - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\kMagicDevelop - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\PlayerStats.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -317,6 +318,8 @@
     <Content Include="Views\RolesAdmin\Details.cshtml" />
     <Content Include="Views\RolesAdmin\Edit.cshtml" />
     <Content Include="Views\RolesAdmin\Index.cshtml" />
+    <Content Include="Views\Magic\PlayerStats.cshtml" />
+    <Content Include="Views\Magic\EventArchiveList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

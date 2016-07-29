@@ -27,5 +27,11 @@ namespace Magic.Data
 			//var sqlUpdate = String.Format("UPDATE Players SET CurrentRound={0}, Rounds={1}, RoundMatches={2} WHERE Name='{3}'", currentRound, rounds, roundMatches, Name);
 			//db.ExecuteCommand(sqlUpdate);
 		}
+
+		public List<Player> GetAllPlayers()
+		{
+			var dbPlayers = LoadDBPlayers();
+			return dbPlayers.Select(dbp => new Player(dbp)).ToList();
+		}
 	}
 }

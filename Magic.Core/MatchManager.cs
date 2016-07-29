@@ -13,7 +13,8 @@ namespace Magic.Core
 	{
 		void Update(Match m);
 		void UpdateAllMatches(List<Match> matches, int round);
-  }
+		List<PlayerScoreSummary> GetPlayerStatistics(string playerName);
+	}
 
 	public class MatchManager : IMatchManager
 	{
@@ -47,6 +48,68 @@ namespace Magic.Core
 			}
 
 			_matchRepository.UpdateAllMatches(relevantMatches);
+		}
+
+		public List<PlayerScoreSummary> GetPlayerStatistics(string playerName)
+		{
+			var matches = _matchRepository.GetAllMatches(playerName);
+
+			List<PlayerScoreSummary> playerScores = matches.GroupBy(m=>m.Player2).Select(lm=> 
+				new PlayerScoreSummary{
+					Name = lm.Key,
+					GameWins = lm.Sum(m=>m.Player1Wins),
+					GameDraws = lm.Sum(m=>m.Draws),
+					GameLosses = lm.Sum(m=>m.Player2Wins),
+					MatchWins = lm.Count(m=>ParseMatchResult(m)==MatchResult.Win),
+					MatchLosses = lm.Count(m => ParseMatchResult(m) == MatchResult.Loss),
+					MatchDraws = lm.Count(m => ParseMatchResult(m) == MatchResult.Draw)
+				}
+			).ToList();
+
+			var totalScores = new PlayerScoreSummary
+			{
+				Name = "Total",
+				GameWins = matches.Sum(m => m.Player1Wins),
+				GameDraws = matches.Sum(m => m.Draws),
+				GameLosses = matches.Sum(m => m.Player2Wins),
+				MatchWins = matches.Count(m => ParseMatchResult(m) == MatchResult.Win),
+				MatchLosses = matches.Count(m => ParseMatchResult(m) == MatchResult.Loss),
+				MatchDraws = matches.Count(m => ParseMatchResult(m) == MatchResult.Draw)
+			};
+
+			playerScores.Add(totalScores);
+
+			return playerScores;
+		}
+
+		private enum MatchResult
+		{
+			Win,
+			Loss,
+			Draw,
+			Incomplete
+		}
+
+		private MatchResult ParseMatchResult(dbMatch m)
+		{
+			return ParseMatchResult(m.Player1Wins, m.Player2Wins, m.Draws);
+		}
+
+		private MatchResult ParseMatchResult(int p1wins, int p2wins, int draws)
+		{
+			if ((p1wins + draws >= 2) || (p2wins + draws >= 2)) // Match Complete
+			{
+				if (p1wins > p2wins)
+					return MatchResult.Win;
+				else if (p2wins > p1wins)
+					return MatchResult.Loss;
+				else
+					return MatchResult.Draw;
+			}
+			else
+			{
+				return MatchResult.Incomplete; // Match incomplete
+			}
 		}
 	}
 }

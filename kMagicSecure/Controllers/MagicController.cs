@@ -16,6 +16,7 @@ namespace kMagicSecure.Controllers
 	{
 		private readonly IEventManager _eventManager;
 		private readonly IMatchManager _matchManager;
+		private readonly IPlayerManager _playerManager;
 
 		private ApplicationUserManager _userManager;
 		public ApplicationUserManager UserManager
@@ -39,8 +40,16 @@ namespace kMagicSecure.Controllers
 			var matchRepo = new Magic.Data.MatchRepository(dataContext);
 			var roundPrizeRepo = new Magic.Data.RoundPrizeRepository(dataContext);
 			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo, roundPrizeRepo);
+			_playerManager = new PlayerManager(playerRepo);
 			_eventManager = new EventManager(eventRepo);
 			_matchManager = new MatchManager(matchRepo);
+		}
+
+		[AllowAnonymous]
+		public ActionResult Default()
+		{
+			dbEvent currentEvent = _eventManager.GetCurrentEvent();
+			return Index(currentEvent.Name, currentEvent.CurrentRound);
 		}
 
 		//
@@ -74,7 +83,7 @@ namespace kMagicSecure.Controllers
 			}
 		}
 
-		public List<SelectListItem> GetDropdownWithSelected(int max, int selected)
+		private List<SelectListItem> GetDropdownWithSelected(int max, int selected)
 		{
 			var output = new List<SelectListItem>();
 			for (int i = 0; i <= max; i++)
@@ -89,7 +98,7 @@ namespace kMagicSecure.Controllers
 		{
 			Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
 
-			var match = thisEvent.Matches.FirstOrDefault(m => (m.Round == round) && (m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2));
+			var match = thisEvent.Matches.FirstOrDefault(m => (m.Round == round) && ((m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2)));
 			ViewBag.Match = match;
 
 			if (match == null)
@@ -138,6 +147,13 @@ namespace kMagicSecure.Controllers
 			var eventList = _eventManager.LoadAllEvents();
 
 			return View("ViewEvents", eventList);
+		}
+
+		public ActionResult EventArchiveList()
+		{
+			var eventList = _eventManager.LoadAllEvents();
+
+			return View("EventArchiveList", eventList);
 		}
 
 		[Authorize(Roles = "Admin")]
@@ -244,6 +260,26 @@ namespace kMagicSecure.Controllers
 			_matchManager.UpdateAllMatches(eventToSave.Matches, eventToSave.CurrentRound);
 
 			return RedirectToAction("Index", new { eventName = eventToSave.name, round = eventToSave.CurrentRound });
+		}
+
+		[AllowAnonymous]
+		public ActionResult PlayerStats(string playerName)
+		{
+			List<Player> allPlayers = _playerManager.GetAllPlayers();
+
+			var playerList = allPlayers.Select(p => new SelectListItem { Text = p.Name, Value = p.Name });
+			var currentPlayer = allPlayers.FirstOrDefault(p => p.Email == User.Identity.Name);
+
+			if (playerName == "" || playerName == null)
+			{
+				playerName = currentPlayer?.Name ?? allPlayers.OrderBy(p=>p.Name).First().Name;
+			}
+			List<PlayerScoreSummary> playerStatistics = _matchManager.GetPlayerStatistics(playerName);
+
+			ViewBag.playerName = playerList;
+			ViewBag.CurrentUser = playerName;
+			
+			return View("PlayerStats", playerStatistics);
 		}
 	}
 }

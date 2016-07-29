@@ -1,0 +1,52 @@
+﻿@model List<Magic.Domain.PlayerScoreSummary>
+@{
+    ViewBag.Title = "PlayerStats";
+}
+
+@{ 
+	
+}																		 
+@using (Html.BeginForm("PlayerStats", "Magic", FormMethod.Get))
+{
+	@Html.DropDownList("playerName")
+	<input type="submit" value="Change Player" />
+}
+
+<h2>PlayerStats</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Player</th>
+			<th>MW</th>
+			<th>ML</th>
+			<th>MD</th>
+			<th>MW%</th>
+			<th>GW</th>
+			<th>GL</th>
+			<th>GD</th>
+			<th>GW%</th>
+		</tr>
+	</thead>
+@foreach (var score in Model.OrderBy(m=>m.Name=="Total").ThenByDescending(m=>m.MatchWinPercentage))
+{
+	<tr>
+		<td>@Html.DisplayFor(item => score.Name)</td>
+		<td>@Html.DisplayFor(item => score.MatchWins)</td>
+		<td>@Html.DisplayFor(item => score.MatchLosses)</td>
+		<td>@Html.DisplayFor(item => score.MatchDraws)</td>
+		<td>@Html.DisplayFor(item => score.MatchWinPercentage)</td>
+		<td>@Html.DisplayFor(item => score.GameWins)</td>
+		<td>@Html.DisplayFor(item => score.GameLosses)</td>
+		<td>@Html.DisplayFor(item => score.GameDraws)</td>
+		<td>@Html.DisplayFor(item => score.GameWinPercentage)</td>
+	</tr>
+}
+</table>
+
+@section scripts{
+	@Scripts.Render("~/Scripts/PlayerStats.js")
+	<script type="text/javascript">
+		var name = "@ViewBag.CurrentUser";
+		SetPlayerNameDropdown( name );
+	</script>
+}

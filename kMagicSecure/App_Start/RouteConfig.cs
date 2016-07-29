@@ -19,6 +19,23 @@ namespace kMagicSecure
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			routes.MapRoute(
+				name: "DefaultMatchList",
+				url: "Magic/Default",
+				defaults: new { controller = "Magic", action = "Default" });
+
+			routes.MapRoute(
+				name: "PlayerStats",
+				url: "Magic/PlayerStats/{playerName}",
+				defaults: new { controller = "Magic", action = "PlayerStats" }
+			);
+
+			routes.MapRoute(
+				name: "PlayerStats2",
+				url: "Magic/PlayerStats/",
+				defaults: new { controller = "Magic", action = "PlayerStats" }
+			);
+
+			routes.MapRoute(
 				name: "Register",
 				url: "Account/Register",
 				defaults: new { controller = "Account", action = "Register", id = "registerLink" }
@@ -65,6 +82,11 @@ namespace kMagicSecure
 								defaults: new { controller = "Magic", action = "ViewEvents" });
 
 			routes.MapRoute(
+								name: "EventArchiveList",
+								url: "Magic/EventArchiveList",
+								defaults: new { controller = "Magic", action = "EventArchiveList" });
+
+			routes.MapRoute(
 								name: "EditEvent",
 								url: "Magic/EditEvent/{eventName}",
 								defaults: new { controller = "Magic", action = "EditEvent", eventName = UrlParameter.Optional }
@@ -85,7 +107,7 @@ namespace kMagicSecure
 			routes.MapRoute(
 					name: "Generic",
 					url: "{controller}/{action}/",
-					defaults: new { controller = "Magic", action = "Index", eventName = currentEvent, round = currentRound, detailedMode = defaultDetail }
+					defaults: new { controller = "Magic", action = "Default" }
 			);
 		}
 	}

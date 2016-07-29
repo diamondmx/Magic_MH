@@ -16,6 +16,14 @@ namespace Magic.Domain
 		public int? DroppedInRound;
 		public string Email;
 
+		public Player(dbPlayer p)
+		{
+			Name = p.Name;
+			Matches = new List<Match>();
+			DroppedInRound = 0;
+			Email = p.Email;
+		}
+
 		public Player(string newName, string email=null)
 		{
 			Name = newName;

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Magic.Domain.Event>
+
+@{
+	ViewBag.Title = "EventArchiveList";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Event Archive</h2>
+
+<table class="table">
+	<tr>
+		<th>
+			Name
+		</th>
+		<th>
+			Round
+		</th>
+		<th>
+			Players
+		</th>
+	</tr>
+
+	@foreach (var item in Model.OrderBy(ev => ev.EventStartDate))
+	{
+		<tr>
+			<td>
+				@Html.ActionLink(item.name, "Index", new { controller = "Magic", action = "Index", eventName = item.name, round = 1 })
+			</td>
+			<td>
+				@Html.ActionLink(item.CurrentRound.ToString(), "Index", new { controller = "Magic", action = "Index", eventName = item.name, round = item.CurrentRound })
+			</td>
+			<td>
+				@item.Players.Count
+			</td>
+		</tr>
+	}
+
+</table>

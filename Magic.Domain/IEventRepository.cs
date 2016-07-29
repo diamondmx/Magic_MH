@@ -16,5 +16,6 @@ namespace Magic.Data
 		List<Event> LoadAllEvents();
 		void CreateEvent(Event createEvent);
 		void AddPlayer(Event thisEvent, Player newPlayer);
-  }
+		dbEvent GetCurrentEvent();
+	}
 }

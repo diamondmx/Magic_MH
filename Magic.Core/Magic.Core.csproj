@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="EventManager.cs" />
     <Compile Include="MatchManager.cs" />
+    <Compile Include="PlayerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
