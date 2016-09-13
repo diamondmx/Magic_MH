@@ -295,7 +295,7 @@ namespace kMagicSecure.Controllers
 			
 			return View("PlayerStats", playerStatistics);
 		}
-		[AllowAnonymous]
+		[Authorize(Roles="Admin")]
 		public ActionResult PrizeSetup(string eventName, int round)
 		{
 			ViewBag.EventName = eventName;
@@ -379,6 +379,5 @@ namespace kMagicSecure.Controllers
 
 			return roundPrizeList;
 		}
-
 	}
 }
