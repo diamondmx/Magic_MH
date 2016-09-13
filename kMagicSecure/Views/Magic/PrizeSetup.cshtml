@@ -1,0 +1,88 @@
+﻿@model List<Magic.Domain.dbRoundPrize>
+
+@{
+	ViewBag.Title = "PrizeSetup";
+	var round = ViewBag.Round;
+	var eventName = ViewBag.EventName;
+}
+
+<h2>PrizeSetup</h2>
+<h2>
+	Round
+	@for (int i = 0; i <= 4; i++)
+	{
+		string roundText = i.ToString();
+		switch (i)
+		{
+			case 0:
+				roundText = "*";
+				break;
+			case 4:
+				roundText = "Top 8";
+				break;
+		}
+
+
+
+		if (round == i)
+		{
+			<text>[@roundText]</text>
+		}
+		else
+		{
+			<text>@Html.ActionLink(roundText, "PrizeSetup", new { controller = "Magic", action = "PrizeSetup", eventName = eventName, round = i })</text>
+		}
+	}
+</h2>
+
+
+	@using (Html.BeginForm("PrizeSetup", "Magic", FormMethod.Post))
+	{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Place</th>
+				<th>Prize</th>
+				<th>Other</th>
+			</tr>
+		</thead>
+		<tbody id="PrizeTableBody">
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@(Html.TextBox("Position", item.Position))	
+					</td>
+					<td>
+						@(Html.TextBox("Packs", item.Packs))
+					</td>
+					<td>
+						@(Html.TextBox("Other", item.Other))
+					</td>
+					<td>
+						@(Html.Hidden("EventName", item.EventName))
+					</td>
+					<td>
+						@(Html.Hidden("Round", item.Round))
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<button id="addRow" type="button">+</button>
+	<button id="removeRow" type="button">-</button>
+	<input type="submit" value="Submit">
+
+}
+	@section scripts{
+		@Scripts.Render("~/Scripts/PrizeSetup.js")
+		<script type="text/javascript">
+			$("#addRow").click(function () {
+				addRow('@ViewBag.EventName', @ViewBag.Round);
+			})
+
+			$("#removeRow").click(function () {
+				removeLastRow();
+			})
+		</script>
+	}

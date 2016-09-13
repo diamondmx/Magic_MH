@@ -48,6 +48,7 @@
     <Compile Include="dbMatch.cs" />
     <Compile Include="dbPlayer.cs" />
     <Compile Include="Event.cs" />
+    <Compile Include="EventNotFoundException.cs" />
     <Compile Include="IEventPlayerRepository.cs" />
     <Compile Include="IEventRepository.cs" />
     <Compile Include="IMatchRepository.cs" />

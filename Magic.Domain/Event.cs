@@ -34,16 +34,37 @@ namespace Magic.Domain
 			return false;
 		}
 
-		public int RoundMatchCount(int round)
+		public int MaxMatchesPlayed(int round)
 		{
-			if (round > 0)
+			try
 			{
 				return Players.Max(p => p.Matches.Count(m => m.Round == round));
 			}
-			else
+			catch(Exception ex)
 			{
-				return Players.Max(p => p.Matches.Count());
+				return 4;
 			}
+			
+		}
+
+		public int RoundMatchCount(int round)
+		{
+			try
+			{
+				if (round > 0)
+				{
+					return Players.Max(p => p.Matches.Count(m => m.Round == round));
+				}
+				else
+				{
+					return Players.Max(p => p.Matches.Count());
+				}
+			}
+			catch(Exception ex)
+			{
+				return 0;
+			}
+			
 		}
 
 		public int TotalMatches(int round)

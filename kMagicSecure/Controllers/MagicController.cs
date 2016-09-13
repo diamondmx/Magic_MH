@@ -17,6 +17,7 @@ namespace kMagicSecure.Controllers
 		private readonly IEventManager _eventManager;
 		private readonly IMatchManager _matchManager;
 		private readonly IPlayerManager _playerManager;
+		private readonly IPrizeManager _prizeManager;
 
 		private ApplicationUserManager _userManager;
 		public ApplicationUserManager UserManager
@@ -43,6 +44,7 @@ namespace kMagicSecure.Controllers
 			_playerManager = new PlayerManager(playerRepo);
 			_eventManager = new EventManager(eventRepo);
 			_matchManager = new MatchManager(matchRepo);
+			_prizeManager = new PrizeManager(roundPrizeRepo);
 		}
 
 		[AllowAnonymous]
@@ -75,6 +77,18 @@ namespace kMagicSecure.Controllers
 				ViewBag.Round = round;
 				ViewBag.DetailMode = detailMode;
 				return View("Index");
+			}
+			catch(EventNotFoundException ex)
+			{
+				if(Session["LastError"]?.ToString().CompareTo(ex.Message)==0)
+				{
+					return RedirectToAction("Error");
+				}
+				else
+				{
+					Session["LastError"] = ex.Message;
+					return RedirectToAction("Index");
+				}
 			}
 			catch (Exception	ex)
 			{
@@ -281,5 +295,90 @@ namespace kMagicSecure.Controllers
 			
 			return View("PlayerStats", playerStatistics);
 		}
+		[AllowAnonymous]
+		public ActionResult PrizeSetup(string eventName, int round)
+		{
+			ViewBag.EventName = eventName;
+			ViewBag.Round = round;
+
+			var eventNames = Request.Form["EventName"];
+			var prizeList = new List<dbRoundPrize>();
+			if (eventNames?.Length>0)
+			{
+				try
+				{
+					prizeList = ParsePrizeFormValues(Request.Form["EventName"], Request.Form["Round"], Request.Form["Position"], Request.Form["Packs"], Request.Form["Other"]);
+					_prizeManager.SavePrizes(prizeList);
+				}
+				catch(InvalidOperationException ex)
+				{
+					Session["LastError"] = $"Not Saved: {ex.Message}\n{ex.StackTrace}";
+				}
+			}
+			else
+			{
+				var thisEvent = _eventManager.LoadEvent(eventName);
+				prizeList = thisEvent.RoundPrizes.Where(rp => rp.Round == round).ToList();
+			}
+			
+			return View("PrizeSetup", prizeList);
+		}
+
+		private List<dbRoundPrize> ParsePrizeFormValues(string eventNames, string rounds, string position, string packs, string others)
+		{
+			char delimiter = ',';
+
+			string[] eventNameList = eventNames.Split(delimiter);
+				string[] roundStringList = rounds.Split(delimiter);
+			List<int> roundList = roundStringList.ToList().Select(r => int.Parse(r)).ToList();
+					string[] packStringList = packs.Split(delimiter);
+			List<int> packList = packStringList.ToList().Select(r => int.Parse(r)).ToList();
+				string[] positionStringList = position.Split(delimiter);
+			List<int> positionList = positionStringList.ToList().Select(r => int.Parse(r)).ToList();
+			string[] otherList = others.Split(delimiter);
+
+			var counts = new List<int>
+			{
+				eventNameList.Length,
+				roundList.Count(),
+				positionList.Count(),
+				packList.Count(),
+				otherList.Length
+			};
+
+			var minCount = counts.Min();
+			if (counts.Max() != minCount)
+				throw new InvalidOperationException("Invalid number of elements recieved - do not use , in other or eventNameColumn");
+
+			if (eventNameList.Count(en => en == eventNameList[0]) != minCount)
+				throw new InvalidOperationException("EventNames do not match, all event names must be identical");
+
+			if (roundList.Count(r => r == roundList.First()) != minCount)
+				throw new InvalidOperationException("Rounds do not match, all rounds must be identical");
+
+			if (positionList.Distinct().Count() != minCount)
+				throw new InvalidOperationException("Positions are not distinct, all positions must be distinct");
+
+			var roundPrizeList = new List<dbRoundPrize>();
+
+			int round = roundList.First();
+			string eventName = eventNameList.First();
+
+
+			for(int i=0;i<minCount;i++)
+			{
+				roundPrizeList.Add(new dbRoundPrize
+				{
+					EventName = eventName,
+					Round = round,
+					Position = positionList[i],
+					Packs = packList[i],
+					Other = otherList[i]
+				});
+			}
+
+			return roundPrizeList;
+		}
+
 	}
 }
