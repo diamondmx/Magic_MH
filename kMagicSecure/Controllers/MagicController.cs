@@ -59,9 +59,19 @@ namespace kMagicSecure.Controllers
 		[AllowAnonymous]
 		public ActionResult Index(string eventName, int round, int detailMode = 0)
 		{
+			if(eventName=="DEFAULT")
+			{
+				return Default();
+			}
+
 			try
 			{
 				Event thisEvent = _eventManager.LoadEvent(eventName);
+				if(round==-1)
+				{
+					round = thisEvent.CurrentRound;
+				}
+
 				var userEmail = HttpContext.User.Identity.Name;
 				if (!string.IsNullOrEmpty(userEmail))
 				{
@@ -93,7 +103,7 @@ namespace kMagicSecure.Controllers
 			catch (Exception	ex)
 			{
 				Session["LastError"] = new Exception($"Failed to load event {eventName} - {round}", ex);
-				return RedirectToAction("Index");
+				return Default();
 			}
 		}
 

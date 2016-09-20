@@ -9,11 +9,6 @@ namespace kMagicSecure
 {
 	public class RouteConfig
 	{
-		public static int currentRound = 2;
-		public static string currentEvent = "SOI";
-		public static int defaultDetail = 0;
-
-
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -22,11 +17,6 @@ namespace kMagicSecure
 				name: "PrizeSetup",
 				url: "Magic/PrizeSetup",
 				defaults: new { controller = "Magic", action = "PrizeSetup" });
-
-			routes.MapRoute(
-				name: "DefaultMatchList",
-				url: "Magic/Default",
-				defaults: new { controller = "Magic", action = "Default" });
 
 			routes.MapRoute(
 				name: "PlayerStats",
@@ -98,15 +88,20 @@ namespace kMagicSecure
 				);
 
 			routes.MapRoute(
+				name: "DefaultMatchList",
+				url: "Magic/Default",
+				defaults: new { controller = "Magic", action = "Default" });
+
+			routes.MapRoute(
 					name: "Default",
 					url: "Magic/{eventName}/{round}/{detailMode}",
-					defaults: new { controller = "Magic", action = "Index", eventName = currentEvent, round = currentRound, detailMode = defaultDetail }
+					defaults: new { controller = "Magic", action = "Index", eventName = "DEFAULT", round = -1, detailMode = 0}
 					);
 
 			routes.MapRoute(
 					name: "Details",
 					url: "Magic/Match/{eventName}/{round}/{player1}/{player2}",
-					defaults: new { controller = "Magic", action = "Details", eventName = currentEvent, round = currentRound, player1wins = UrlParameter.Optional }
+					defaults: new { controller = "Magic", action = "Details"}
 			);
 
 			routes.MapRoute(
