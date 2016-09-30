@@ -9,11 +9,17 @@
 </head>
 <body>
 	@{
-		Exception lastError = (Exception)Session["LastError"];
-		if (lastError != null)
-		{
+		try {
+			Exception lastError = (Exception)Session["LastError"];
+			if (lastError != null)
+			{
 			<div class="errorTitle">ERROR: @lastError.Message</div>
-			Session["LastError"] = null;
+				Session["LastError"] = null;
+			}
+		}
+		catch (Exception)
+		{
+			<div class="errorTitle">ERROR: Unknown Error.</div>
 		}
 	}
 

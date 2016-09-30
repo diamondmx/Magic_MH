@@ -153,7 +153,11 @@ namespace Magic.Data
 
 		public dbEvent LoadDBEvent(string eventName)
 		{
-			var result = _dataContext.GetTable<dbEvent>().First(e => e.Name == eventName);
+			var result = _dataContext.GetTable<dbEvent>().FirstOrDefault(e => e.Name == eventName);
+			if(result==null)
+			{
+				throw new EventNotFoundException(eventName);
+			}
 			result.dbName = result.Name;
 			return result;
 		}

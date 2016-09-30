@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Magic.Domain
+{
+	public class EventNotFoundException : Exception
+	{
+		public EventNotFoundException(string eventName):base("Event not found - " + eventName)
+		{
+			this.Data.Add("EventName", eventName);
+		}
+	}
+}

@@ -250,9 +250,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ConnectionStrings.config" />
-    <None Include="Properties\PublishProfiles\kmagic - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\kmagic - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\kMagicDevelop - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\kMagicDevelop - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\PlayerStats.js" />
@@ -265,6 +263,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\PrizeSetup.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\site.js" />
@@ -320,6 +319,8 @@
     <Content Include="Views\RolesAdmin\Index.cshtml" />
     <Content Include="Views\Magic\PlayerStats.cshtml" />
     <Content Include="Views\Magic\EventArchiveList.cshtml" />
+    <Content Include="Views\Magic\Error.cshtml" />
+    <Content Include="Views\Magic\PrizeSetup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

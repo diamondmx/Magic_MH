@@ -10,5 +10,6 @@ namespace Magic.Data
 	public interface IRoundPrizeRepository
 	{
 		List<dbRoundPrize> LoadDBRoundPrizes(string eventName);
+		void SaveDBRoundPrizes(List<dbRoundPrize> input);
 	}
 }
