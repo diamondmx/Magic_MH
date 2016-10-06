@@ -207,6 +207,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="3rdParty\FeedResult.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="AspNetExtensions\kMagicUserValidator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\MagicController.cs" />
+    <Compile Include="Controllers\MagicHttpController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
@@ -268,6 +270,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="SqlScripts\AddGameLog.sql" />
     <Content Include="SqlScripts\AddPrizes.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -321,9 +324,11 @@
     <Content Include="Views\Magic\EventArchiveList.cshtml" />
     <Content Include="Views\Magic\Error.cshtml" />
     <Content Include="Views\Magic\PrizeSetup.cshtml" />
+    <Content Include="Views\Magic\GameLogRSS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\MagicHttp\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

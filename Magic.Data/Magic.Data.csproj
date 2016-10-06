@@ -44,6 +44,7 @@
     <Compile Include="DataContextWrapper.cs" />
     <Compile Include="EventPlayerRepository.cs" />
     <Compile Include="EventRepository.cs" />
+    <Compile Include="GameLog.cs" />
     <Compile Include="MatchRepository.cs" />
     <Compile Include="PlayerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
