@@ -15,5 +15,6 @@ MagicScores2/Magic.Data/LocalSetup.cs
 packages/Antlr.3.4.1.9004/Antlr.3.4.1.9004.nupkg
 kMagicSecure/ConnectionStrings.config
 .vs/config/applicationhost.config
+BOO Draft/boo2 pictures/
 *.pubxml
 *.user

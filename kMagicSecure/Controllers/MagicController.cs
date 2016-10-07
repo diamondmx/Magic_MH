@@ -7,6 +7,8 @@ using Magic.Domain;
 using Magic.Core;
 using Microsoft.AspNet.Identity.Owin;
 using IdentitySample.Models;
+using System.ServiceModel.Syndication;
+using kMagicSecure._3rdParty;
 
 namespace kMagicSecure.Controllers
 {
@@ -38,7 +40,8 @@ namespace kMagicSecure.Controllers
       var dataContext = new Magic.Data.DataContextWrapper(connectionString);
 			var eventPlayerRepo = new Magic.Data.EventPlayerRepository(dataContext);
 			var playerRepo = new Magic.Data.PlayerRepository(dataContext);
-			var matchRepo = new Magic.Data.MatchRepository(dataContext);
+			var gameLog = new Magic.Data.GameLog(dataContext);
+			var matchRepo = new Magic.Data.MatchRepository(dataContext, gameLog);
 			var roundPrizeRepo = new Magic.Data.RoundPrizeRepository(dataContext);
 			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo, roundPrizeRepo);
 			_playerManager = new PlayerManager(playerRepo);

@@ -8,10 +8,12 @@ namespace Magic.Data
 	public class MatchRepository : IMatchRepository
 	{
 		private readonly IDataContextWrapper _context;
+		private readonly IGameLog _gameLog;
 
-		public MatchRepository(IDataContextWrapper context)
+		public MatchRepository(IDataContextWrapper context, IGameLog gameLog)
 		{
 			_context = context;
+			_gameLog = gameLog;
 		}
 
 		public List<Match> LoadDBMatches(string mtgEvent)
@@ -22,8 +24,10 @@ namespace Magic.Data
 		}
 
 		public void Update(Match m)
-		{
-			_context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player1Wins]={m.Player1Wins}, [Player2Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player1]='{m.Player1Name}' AND [Player2]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
+		{ 
+			_gameLog.Add($"Match updated to : {m.Player1Name} v {m.Player2Name} : {m.Player1Wins}-{m.Player2Wins}-{m.Draws}", "Mark Hill", $"{m.Event}", m);
+
+      _context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player1Wins]={m.Player1Wins}, [Player2Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player1]='{m.Player1Name}' AND [Player2]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
 			_context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player2Wins]={m.Player1Wins}, [Player1Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player2]='{m.Player1Name}' AND [Player1]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
 		}
 

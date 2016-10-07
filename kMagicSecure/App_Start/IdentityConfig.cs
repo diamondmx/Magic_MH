@@ -12,8 +12,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Net;
 using System.Net.Mail;
-using SendGrid;
 using kMagicSecure.AspNetExtensions;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace IdentitySample.Models
 {
@@ -85,22 +86,18 @@ namespace IdentitySample.Models
 	{
 		public MailAddress FromAddress = new MailAddress("mhill@kcura.com", "kMagic");
 
-		public Task SendAsync(IdentityMessage message)
+		public async Task SendAsync(IdentityMessage message)
 		{
-
-			// Create the email object first, then add the properties.
-			SendGridMessage myMessage = new SendGridMessage();
-			myMessage.AddTo(message.Destination);
-			myMessage.From = FromAddress;
-			myMessage.Subject = message.Subject;
-			myMessage.Text = message.Body;
-
 			var apiKey = System.Configuration.ConfigurationManager.ConnectionStrings["SendGridAPI"].ConnectionString;
-			// create a Web transport, using API Key
-			var transportWeb = new Web(apiKey);
+			dynamic sg = new SendGridAPIClient(apiKey);
 
-			// Send the email, which returns an awaitable task.
-			return transportWeb.DeliverAsync(myMessage);
+			Email from = new Email(email: FromAddress.Address, name: FromAddress.DisplayName);
+			string subject = message.Subject;
+			Email to = new Email(message.Destination);
+			Content content = new Content("text/plain", message.Body);
+			Mail mail = new Mail(from, subject, to, content);
+
+			dynamic response = await sg.client.mail.send.post(requestBody: mail.Get());
 		}
 	}
 
