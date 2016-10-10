@@ -266,7 +266,9 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\kmagic - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\kmagic.pubxml" />
     <None Include="Properties\PublishProfiles\kMagicDevelop - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\kMagicDevelop.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
