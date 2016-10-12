@@ -14,6 +14,6 @@ namespace Magic.Domain
 		[Column] public string User;
 		[Column(Name = "Event")] public string EventName;
 		[Column] public object Details;
-		//[Column] public readonly DateTime Timestamp;
+		[Column] public DateTime Timestamp;
 	}
 }
