@@ -25,10 +25,10 @@ namespace kMagicSecure.Controllers
 		{
 			var data = _gameLog.GetAll();
 
-			var feedItems = data.Select(gle => {
+			var feedItems = data.OrderByDescending(gle=>gle.Timestamp).Select(gle => {
 				var item = new SyndicationItem() { Title = new TextSyndicationContent(gle.Description) };
 				item.Authors.Add(new SyndicationPerson(gle.User));
-				item.PublishDate = DateTime.UtcNow;
+				item.PublishDate = gle.Timestamp;
 				//var link = HtmlHelper.GenerateLink
 				//item.Links.Add()
 

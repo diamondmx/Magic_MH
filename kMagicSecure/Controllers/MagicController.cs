@@ -20,6 +20,7 @@ namespace kMagicSecure.Controllers
 		private readonly IMatchManager _matchManager;
 		private readonly IPlayerManager _playerManager;
 		private readonly IPrizeManager _prizeManager;
+		private readonly Magic.Data.IGameLog _gameLog;
 
 		private ApplicationUserManager _userManager;
 		public ApplicationUserManager UserManager
@@ -40,8 +41,8 @@ namespace kMagicSecure.Controllers
       var dataContext = new Magic.Data.DataContextWrapper(connectionString);
 			var eventPlayerRepo = new Magic.Data.EventPlayerRepository(dataContext);
 			var playerRepo = new Magic.Data.PlayerRepository(dataContext);
-			var gameLog = new Magic.Data.GameLog(dataContext);
-			var matchRepo = new Magic.Data.MatchRepository(dataContext, gameLog);
+			_gameLog = new Magic.Data.GameLog(dataContext);
+			var matchRepo = new Magic.Data.MatchRepository(dataContext, _gameLog);
 			var roundPrizeRepo = new Magic.Data.RoundPrizeRepository(dataContext);
 			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo, roundPrizeRepo);
 			_playerManager = new PlayerManager(playerRepo);
@@ -50,10 +51,21 @@ namespace kMagicSecure.Controllers
 			_prizeManager = new PrizeManager(roundPrizeRepo);
 		}
 
+		private void SetPlayerContext()
+		{
+			_gameLog.SetPlayerContext(HttpContext?.User?.Identity?.Name);
+		}
+
+		private void Setup()
+		{
+			SetPlayerContext();
+    }
+
 		[AllowAnonymous]
 		public ActionResult Default()
 		{
-			dbEvent currentEvent = _eventManager.GetCurrentEvent();
+			Setup();
+      dbEvent currentEvent = _eventManager.GetCurrentEvent();
 			return Index(currentEvent.Name, currentEvent.CurrentRound);
 		}
 
@@ -62,7 +74,8 @@ namespace kMagicSecure.Controllers
 		[AllowAnonymous]
 		public ActionResult Index(string eventName, int round, int detailMode = 0)
 		{
-			if(eventName=="DEFAULT")
+			Setup();
+      if (eventName=="DEFAULT")
 			{
 				return Default();
 			}
@@ -123,7 +136,8 @@ namespace kMagicSecure.Controllers
 
 		public ActionResult Details(string eventName, int round, string player1, string player2, int? player1wins, int? player2wins, int? draws)
 		{
-			Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
+			Setup();
+      Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
 
 			var match = thisEvent.Matches.FirstOrDefault(m => (m.Round == round) && ((m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2)));
 			ViewBag.Match = match;
@@ -171,13 +185,15 @@ namespace kMagicSecure.Controllers
 		[Authorize(Roles = "Admin")]
 		public ActionResult ViewEvents()
 		{
-			var eventList = _eventManager.LoadAllEvents();
+			Setup();
+      var eventList = _eventManager.LoadAllEvents();
 
 			return View("ViewEvents", eventList);
 		}
 
 		public ActionResult EventArchiveList()
 		{
+			Setup();
 			var eventList = _eventManager.LoadAllEvents();
 
 			return View("EventArchiveList", eventList);
@@ -186,6 +202,7 @@ namespace kMagicSecure.Controllers
 		[Authorize(Roles = "Admin")]
 		public ActionResult CreateEvent()
 		{
+			Setup();
 			var newEvent = new Magic.Domain.Event();
 
 			var currentRoundDropdown = GetDropdownWithSelected(4, 1);
@@ -201,6 +218,7 @@ namespace kMagicSecure.Controllers
 		[Authorize(Roles = "Admin")]
 		public ActionResult EditEvent(string eventName, bool NewEvent, string name, int? currentRound, int? roundMatches, DateTime? startDate, DateTime? roundEndDate)
 		{
+			Setup();
 			Magic.Domain.Event thisEvent = null;
 			if (NewEvent == false)
 			{
@@ -247,12 +265,14 @@ namespace kMagicSecure.Controllers
 		[Authorize(Roles = "Admin")]
 		public ActionResult DeleteEvent(int id)
 		{
+			Setup();
 			return View();
 		}
 
 		[Authorize(Roles = "Admin")]
 		public ActionResult ListPlayers(string eventName)
 		{
+			Setup();
 			var thisEvent = _eventManager.LoadEvent(eventName);
 
 			return View("ListPlayers", thisEvent);
@@ -261,6 +281,7 @@ namespace kMagicSecure.Controllers
 		[Authorize(Roles = "Admin")]
 		public ActionResult AddPlayer(string eventName, string playerName)
 		{
+			Setup();
 			var thisEvent = _eventManager.LoadEvent(eventName);
 
 			var newPlayer = new Player(playerName);
@@ -272,6 +293,7 @@ namespace kMagicSecure.Controllers
 		[Authorize(Roles = "Admin")]
 		public ActionResult GeneratePairings(string eventName)
 		{
+			Setup();
 			var pairingsManager = new PairingsManager(_eventManager);
 
 			var thisEvent = pairingsManager.LoadDatabase(eventName);
@@ -283,6 +305,7 @@ namespace kMagicSecure.Controllers
 		[Authorize(Roles = "Admin")]
 		public ActionResult SaveMatches()
 		{
+			Setup();
 			Event eventToSave = Session["pairedEvent"] as Event;
 			_matchManager.UpdateAllMatches(eventToSave.Matches, eventToSave.CurrentRound);
 
@@ -292,6 +315,7 @@ namespace kMagicSecure.Controllers
 		[AllowAnonymous]
 		public ActionResult PlayerStats(string playerName)
 		{
+			Setup();
 			List<Player> allPlayers = _playerManager.GetAllPlayers();
 
 			var playerList = allPlayers.Select(p => new SelectListItem { Text = p.Name, Value = p.Name });
@@ -311,6 +335,7 @@ namespace kMagicSecure.Controllers
 		[Authorize(Roles="Admin")]
 		public ActionResult PrizeSetup(string eventName, int round)
 		{
+			Setup();
 			ViewBag.EventName = eventName;
 			ViewBag.Round = round;
 

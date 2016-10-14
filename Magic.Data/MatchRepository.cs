@@ -25,7 +25,7 @@ namespace Magic.Data
 
 		public void Update(Match m)
 		{ 
-			_gameLog.Add($"Match updated to : {m.Player1Name} v {m.Player2Name} : {m.Player1Wins}-{m.Player2Wins}-{m.Draws}", "Mark Hill", $"{m.Event}", m);
+			_gameLog.Add($"Match updated to : {m.Player1Name} v {m.Player2Name} : {m.Player1Wins}-{m.Player2Wins}-{m.Draws}", $"{m.Event}", m);
 
       _context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player1Wins]={m.Player1Wins}, [Player2Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player1]='{m.Player1Name}' AND [Player2]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
 			_context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player2Wins]={m.Player1Wins}, [Player1Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player2]='{m.Player1Name}' AND [Player1]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");

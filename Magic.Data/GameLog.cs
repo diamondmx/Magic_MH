@@ -10,12 +10,14 @@ namespace Magic.Data
 {
 	public interface IGameLog
 	{
-		void Add(string description, string user, string eventName, object details);
-	}
+		void Add(string description, string eventName, object details);
+		void SetPlayerContext(string playerName);
+  }
 
 	public class GameLog : IGameLog
 	{
 		IDataContextWrapper _dataContext;
+		string _playerContext = "Not-Set";
 
 		public GameLog(IDataContextWrapper dataContext)
 		{
@@ -27,15 +29,27 @@ namespace Magic.Data
 			return _dataContext.GetTable<GameLogEntry>();
 		}
 
-		public void Add(string description, string user, string eventName, object details)
+		public void SetPlayerContext(string playerName)
+		{
+			if(_playerContext != null)
+			{
+				_playerContext = playerName;
+			}
+			else
+			{
+				_playerContext = "Not-Set";
+			}
+			
+		}
+
+		public void Add(string description, string eventName, object details)
 		{
 			var newEntry = new GameLogEntry
 			{
 				Description = description,
-				User = user,
+				User = _playerContext,
 				Details = details
 			};
-			
 			
 			//string detailsJson = new JavaScriptSerializer().Serialize(newEntry.Details);
 
