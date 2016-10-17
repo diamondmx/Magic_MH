@@ -6,7 +6,15 @@ if (typeof jQuery == 'undefined')
 }		
 
 var matchDlg = $("#matchDialog");
-matchDlg.dialog({ autoOpen: false });
+matchDlg.dialog(
+	{
+		autoOpen: false,
+		position: {
+			my: "center",
+			at: "center",
+			of: $("body"),
+			within: $("body")
+		}});
 
 setupAllMatchPopups();
 
