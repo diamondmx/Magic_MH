@@ -17,9 +17,10 @@
 				Session["LastError"] = null;
 			}
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
 			<div class="errorTitle">ERROR: Unknown Error.</div>
+			Session["LastError"] = null;
 		}
 	}
 
