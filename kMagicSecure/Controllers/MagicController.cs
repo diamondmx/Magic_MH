@@ -112,7 +112,7 @@ namespace kMagicSecure.Controllers
 				}
 				else
 				{
-					Session["LastError"] = ex.Message;
+					Session["LastError"] = ex;
 					return RedirectToAction("Index");
 				}
 			}
@@ -350,7 +350,7 @@ namespace kMagicSecure.Controllers
 				}
 				catch(InvalidOperationException ex)
 				{
-					Session["LastError"] = $"Not Saved: {ex.Message}\n{ex.StackTrace}";
+					Session["LastError"] = new Exception($"Not Saved: {ex.Message}\n{ex.StackTrace}");
 				}
 			}
 			else
