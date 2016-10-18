@@ -13,7 +13,7 @@ namespace Magic.Core
 	{
 		void Update(Match m);
 		void UpdateAllMatches(List<Match> matches, int round);
-		List<PlayerScoreSummary> GetPlayerStatistics(string playerName);
+		List<PlayerScoreItem> GetPlayerStatistics(string playerName);
 	}
 
 	public class MatchManager : IMatchManager
@@ -50,12 +50,12 @@ namespace Magic.Core
 			_matchRepository.UpdateAllMatches(relevantMatches);
 		}
 
-		public List<PlayerScoreSummary> GetPlayerStatistics(string playerName)
+		public List<PlayerScoreItem> GetPlayerStatistics(string playerName)
 		{
 			var matches = _matchRepository.GetAllMatches(playerName);
 
-			List<PlayerScoreSummary> playerScores = matches.GroupBy(m=>m.Player2).Select(lm=> 
-				new PlayerScoreSummary{
+			List<PlayerScoreItem> playerScores = matches.GroupBy(m=>m.Player2).Select(lm=> 
+				new PlayerScoreItem{
 					Name = lm.Key,
 					GameWins = lm.Sum(m=>m.Player1Wins),
 					GameDraws = lm.Sum(m=>m.Draws),
@@ -66,7 +66,7 @@ namespace Magic.Core
 				}
 			).ToList();
 
-			var totalScores = new PlayerScoreSummary
+			var totalScores = new PlayerScoreItem
 			{
 				Name = "Total",
 				GameWins = matches.Sum(m => m.Player1Wins),

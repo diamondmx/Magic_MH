@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Magic.Domain
 {
-	public class PlayerScoreSummary
+	public class PlayerScoreItem
 	{
 		public string Name;
 		public int GameWins;

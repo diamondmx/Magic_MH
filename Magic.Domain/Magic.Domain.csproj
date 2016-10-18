@@ -62,7 +62,7 @@
     <Compile Include="IRoundPrizeRepository.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="PlayerScoreSummary.cs" />
+    <Compile Include="PlayerScoreItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
