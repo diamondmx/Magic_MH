@@ -66,5 +66,18 @@ namespace Magic.Domain
 				return newMatch;
 			}
 		}
+
+		public bool HasWon(string playerName)
+		{
+			var normalizedMatch = WithPlayerOneAs(playerName);
+
+			if ((Player1Wins + Draws >= 2) || (Player2Wins + Draws >= 2)) // Match Complete
+			{
+				if (Player1Wins > Player2Wins)
+					return true;
+			}
+
+			return false;
+		}
 	}
 }

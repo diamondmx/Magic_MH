@@ -13,7 +13,7 @@ namespace Magic.Core
 	{
 		void Update(Match m);
 		void UpdateAllMatches(List<Match> matches, int round);
-		List<PlayerScoreItem> GetPlayerStatistics(string playerName);
+		PlayerScoreSummary GetPlayerStatistics(string playerName);
 	}
 
 	public class MatchManager : IMatchManager
@@ -50,7 +50,7 @@ namespace Magic.Core
 			_matchRepository.UpdateAllMatches(relevantMatches);
 		}
 
-		public List<PlayerScoreItem> GetPlayerStatistics(string playerName)
+		public PlayerScoreSummary GetPlayerStatistics(string playerName)
 		{
 			var matches = _matchRepository.GetAllMatches(playerName);
 
@@ -77,9 +77,25 @@ namespace Magic.Core
 				MatchDraws = matches.Count(m => ParseMatchResult(m) == MatchResult.Draw)
 			};
 
-			playerScores.Add(totalScores);
+			var topEightGroups = matches.Where(m => m.Round == 4).GroupBy(m => m.Event);
+			var wins = 0;
+			foreach (var group in topEightGroups)
+			{
+				if (group.All(m => m.HasWon(playerName)))
+					wins++;
+			}
 
-			return playerScores;
+			
+
+			var summary = new PlayerScoreSummary
+			{
+				OpponentScoreItems = playerScores,
+				Totals = totalScores,
+				LeagueTopEights = topEightGroups.Count(),
+				LeagueWins = wins
+			};
+
+			return summary;
 		}
 
 		private enum MatchResult

@@ -325,7 +325,7 @@ namespace kMagicSecure.Controllers
 			{
 				playerName = currentPlayer?.Name ?? allPlayers.OrderBy(p=>p.Name).First().Name;
 			}
-			List<PlayerScoreItem> playerStatistics = _matchManager.GetPlayerStatistics(playerName);
+			PlayerScoreSummary playerStatistics = _matchManager.GetPlayerStatistics(playerName);
 
 			ViewBag.playerName = playerList;
 			ViewBag.CurrentUser = playerName;

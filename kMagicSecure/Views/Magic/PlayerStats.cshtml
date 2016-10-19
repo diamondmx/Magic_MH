@@ -1,10 +1,10 @@
-﻿@model List<Magic.Domain.PlayerScoreItem>
+﻿@model Magic.Domain.PlayerScoreSummary
 @{
-    ViewBag.Title = "PlayerStats";
+	ViewBag.Title = "PlayerStats";
 }
 
 @{ 
-	
+
 }																		 
 @using (Html.BeginForm("PlayerStats", "Magic", FormMethod.Get))
 {
@@ -12,8 +12,8 @@
 	<input type="submit" value="Change Player" />
 }
 
-<h2>PlayerStats</h2>
-<table>
+<h2> Totals </h2>
+<table class="matchTable" border="1">
 	<thead>
 		<tr>
 			<th>Player</th>
@@ -27,7 +27,54 @@
 			<th>GW%</th>
 		</tr>
 	</thead>
-@foreach (var score in Model.OrderBy(m=>m.Name=="Total").ThenByDescending(m=>m.MatchWinPercentage))
+	@{
+		var total = Model.Totals;
+		<tr>
+			<td>@Html.DisplayFor(item => total.Name)</td>
+			<td>@Html.DisplayFor(item => total.MatchWins)</td>
+			<td>@Html.DisplayFor(item => total.MatchLosses)</td>
+			<td>@Html.DisplayFor(item => total.MatchDraws)</td>
+			<td>@Html.DisplayFor(item => total.MatchWinPercentage)</td>
+			<td>@Html.DisplayFor(item => total.GameWins)</td>
+			<td>@Html.DisplayFor(item => total.GameLosses)</td>
+			<td>@Html.DisplayFor(item => total.GameDraws)</td>
+			<td>@Html.DisplayFor(item => total.GameWinPercentage)</td>
+		</tr>
+	}
+</table>
+
+<h2>Top Finishes</h2>
+
+<table class="matchTable" border="1">
+	<tr>
+		<td>League Top 8's</td>
+		<td>@Model.LeagueTopEights</td>
+	</tr>
+	<tr>
+		<td>League Wins</td>
+		<td>@Model.LeagueWins</td>
+	</tr>
+</table>
+
+
+
+<h2>PlayerStats</h2>
+<table class="matchTable" border="1">
+	<thead>
+		<tr>
+			<th>Player</th>
+			<th>MW</th>
+			<th>ML</th>
+			<th>MD</th>
+			<th>MW%</th>
+			<th>GW</th>
+			<th>GL</th>
+			<th>GD</th>
+			<th>GW%</th>
+		</tr>
+	</thead>
+	
+@foreach (var score in Model.OpponentScoreItems.OrderByDescending(m => m.MatchWinPercentage))
 {
 	<tr>
 		<td>@Html.DisplayFor(item => score.Name)</td>
