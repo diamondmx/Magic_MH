@@ -37,10 +37,11 @@ namespace kMagicSecure.Controllers
 
 		public MagicController()
 		{
-			var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+			var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["kMagicSnapshot"].ConnectionString;
       var dataContext = new Magic.Data.DataContextWrapper(connectionString);
 			var eventPlayerRepo = new Magic.Data.EventPlayerRepository(dataContext);
 			var playerRepo = new Magic.Data.PlayerRepository(dataContext);
+			var playerPrizeRepo = new Magic.Data.PlayerPrizeRepository(dataContext);
 			_gameLog = new Magic.Data.GameLog(dataContext);
 			var matchRepo = new Magic.Data.MatchRepository(dataContext, _gameLog);
 			var roundPrizeRepo = new Magic.Data.RoundPrizeRepository(dataContext);
@@ -102,6 +103,7 @@ namespace kMagicSecure.Controllers
 				ViewBag.Event = thisEvent;
 				ViewBag.Round = round;
 				ViewBag.DetailMode = detailMode;
+				ViewBag.UnclaimedPrizes = 3;
 				return View("Index");
 			}
 			catch(EventNotFoundException ex)

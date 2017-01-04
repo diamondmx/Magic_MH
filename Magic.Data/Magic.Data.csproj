@@ -52,6 +52,7 @@
     <Compile Include="EventRepository.cs" />
     <Compile Include="GameLog.cs" />
     <Compile Include="MatchRepository.cs" />
+    <Compile Include="PlayerPrizeRepository.cs" />
     <Compile Include="PlayerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoundPrizeRepository.cs" />
