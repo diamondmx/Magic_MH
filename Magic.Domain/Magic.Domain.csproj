@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseAccessException.cs" />
     <Compile Include="dbEvent.cs" />
     <Compile Include="dbEventPlayer.cs" />
     <Compile Include="dbRoundPrize.cs" />
@@ -59,7 +58,6 @@
     <Compile Include="IEventPlayerRepository.cs" />
     <Compile Include="IEventRepository.cs" />
     <Compile Include="IMatchRepository.cs" />
-    <Compile Include="IPlayerPrizeRepository.cs" />
     <Compile Include="IPlayerRepository.cs" />
     <Compile Include="IRoundPrizeRepository.cs" />
     <Compile Include="Match.cs" />
