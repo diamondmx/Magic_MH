@@ -40,7 +40,7 @@ namespace Magic.Domain
 			{
 				return Players.Max(p => p.Matches.Count(m => m.Round == round));
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				return 4;
 			}
@@ -60,7 +60,7 @@ namespace Magic.Domain
 					return Players.Max(p => p.Matches.Count());
 				}
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				return 0;
 			}

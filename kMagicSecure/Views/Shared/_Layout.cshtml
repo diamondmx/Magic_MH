@@ -38,7 +38,6 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li>@Html.ActionLink("RMZ", "Index", new { controller = "Magic", action = "Index", eventName = "RMZ", round = 1 })</li>
 					<li class="dropdown">
 						<a href="#" data-toggle="dropdown" class="dropdown-toggle">OGW<b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -78,6 +77,16 @@
 							<li>@Html.ActionLink("KLD(3)", "Index", new { controller = "Magic", action = "Index", eventName = "KLD", round = 3 })</li>
 							<li>@Html.ActionLink("KLD(*)", "Index", new { controller = "Magic", action = "Index", eventName = "KLD", round = 0 })</li>
 							<li>@Html.ActionLink("KLD(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "KLD", round = 4 })</li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle">AER<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>@Html.ActionLink("AER(1)", "Index", new { controller = "Magic", action = "Index", eventName = "AER", round = 1 })</li>
+							<li>@Html.ActionLink("AER(2)", "Index", new { controller = "Magic", action = "Index", eventName = "AER", round = 2 })</li>
+							<li>@Html.ActionLink("AER(3)", "Index", new { controller = "Magic", action = "Index", eventName = "AER", round = 3 })</li>
+							<li>@Html.ActionLink("AER(*)", "Index", new { controller = "Magic", action = "Index", eventName = "AER", round = 0 })</li>
+							<li>@Html.ActionLink("AER(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "AER", round = 4 })</li>
 						</ul>
 					</li>
 				</ul>
