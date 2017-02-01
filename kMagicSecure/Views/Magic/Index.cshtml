@@ -18,6 +18,7 @@
 	IdentitySample.Models.ApplicationUser user = ViewBag.CurrentUser;
 	string endTimeString;
 	int scoreIndex;
+	int unclaimedPrizes = ViewBag.UnclaimedPrizes;
 
 	if (weeksTillEnd > 1)
 	{
@@ -43,13 +44,17 @@
 	{
 		endTimeString = "Finished!";
 	}
-
-
 }
 
 @{
 	var userName = user == null ? "Not logged in" : user.Email;
 }
+
+@if (unclaimedPrizes > 0)
+{
+	<h2>You have @unclaimedPrizes unclaimed prizes</h2>
+}
+
 
 @if (round > 0)
 {

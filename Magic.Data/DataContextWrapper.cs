@@ -14,6 +14,7 @@ namespace Magic.Data
 		void ExecuteCommand(string sql, object o1, object o2);
 		void ExecuteCommand(string sql, object o1);
 		void ExecuteQuery<T>(string sql);
+		DataContext DEBUG_GetDataContext();
   }
 
 	public class DataContextWrapper : IDataContextWrapper
@@ -23,6 +24,11 @@ namespace Magic.Data
 		public DataContextWrapper(string connectionString)
 		{
 			_dataContext = new DataContext(connectionString);
+		}
+
+		public DataContext DEBUG_GetDataContext()
+		{
+			return _dataContext;
 		}
 
 		public List<T> GetTable<T>() where T : class
