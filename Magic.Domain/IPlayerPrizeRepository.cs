@@ -8,6 +8,7 @@ namespace Magic.Domain
 {
 	public interface IPlayerPrizeRepository
 	{
-		List<dbRoundPrize> GetAwardedPrizes(string playerName);
+		List<dbPlayerPrize> GetAwardedPrizes(string playerName);
+		void MarkRecieved(List<dbPlayerPrize> acknowledgedList);
 	}
 }

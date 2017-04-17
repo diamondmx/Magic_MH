@@ -12,5 +12,6 @@ namespace Magic.Domain
 		public PlayerScoreItem Totals;
 		public int LeagueTopEights;
 		public int LeagueWins;
+		public int LeaguesUndefeatedInMatches;
 	}
 }

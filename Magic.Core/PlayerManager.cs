@@ -11,7 +11,8 @@ namespace Magic.Core
 	public interface IPlayerManager
 	{
 		List<Player> GetAllPlayers();
-	}
+		Player GetPlayerByEmail(string email);
+  }
 
 	public class PlayerManager : IPlayerManager
 	{
@@ -25,6 +26,12 @@ namespace Magic.Core
 		public List<Player> GetAllPlayers()
 		{
 			return _playerRepo.GetAllPlayers();
+		}
+
+		public Player GetPlayerByEmail(string email)
+		{
+			var player = _playerRepo.GetAllPlayers().FirstOrDefault(p => p.Email == email);
+			return player;
 		}
 	}
 }

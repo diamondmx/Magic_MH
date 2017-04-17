@@ -120,8 +120,6 @@ namespace Magic.Data
 			}
 		}
 
-
-
 		public void CreateEvent(Event createEvent)
 		{
 			createEvent.myDbEvent = new dbEvent()

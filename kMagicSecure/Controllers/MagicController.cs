@@ -37,8 +37,8 @@ namespace kMagicSecure.Controllers
 
 		public MagicController()
 		{
-			var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["kMagicSnapshot"].ConnectionString;
-      var dataContext = new Magic.Data.DataContextWrapper(connectionString);
+			var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+			var dataContext = new Magic.Data.DataContextWrapper(connectionString);
 			var eventPlayerRepo = new Magic.Data.EventPlayerRepository(dataContext);
 			var playerRepo = new Magic.Data.PlayerRepository(dataContext);
 			var playerPrizeRepo = new Magic.Data.PlayerPrizeRepository(dataContext);
@@ -48,8 +48,8 @@ namespace kMagicSecure.Controllers
 			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo, roundPrizeRepo);
 			_playerManager = new PlayerManager(playerRepo);
 			_eventManager = new EventManager(eventRepo);
-			_matchManager = new MatchManager(matchRepo);
-			_prizeManager = new PrizeManager(roundPrizeRepo);
+			_matchManager = new MatchManager(matchRepo, eventRepo);
+			_prizeManager = new PrizeManager(roundPrizeRepo, playerPrizeRepo);
 		}
 
 		private void SetPlayerContext()
@@ -60,13 +60,13 @@ namespace kMagicSecure.Controllers
 		private void Setup()
 		{
 			SetPlayerContext();
-    }
+		}
 
 		[AllowAnonymous]
 		public ActionResult Default()
 		{
 			Setup();
-      dbEvent currentEvent = _eventManager.GetCurrentEvent();
+			dbEvent currentEvent = _eventManager.GetCurrentEvent();
 			return Index(currentEvent.Name, currentEvent.CurrentRound);
 		}
 
@@ -76,7 +76,7 @@ namespace kMagicSecure.Controllers
 		public ActionResult Index(string eventName, int round, int detailMode = 0)
 		{
 			Setup();
-      if (eventName=="DEFAULT")
+			if (eventName == "DEFAULT")
 			{
 				return Default();
 			}
@@ -84,7 +84,7 @@ namespace kMagicSecure.Controllers
 			try
 			{
 				Event thisEvent = _eventManager.LoadEvent(eventName);
-				if(round==-1)
+				if (round == -1)
 				{
 					round = thisEvent.CurrentRound;
 				}
@@ -92,23 +92,26 @@ namespace kMagicSecure.Controllers
 				var userEmail = HttpContext.User.Identity.Name;
 				if (!string.IsNullOrEmpty(userEmail))
 				{
-					ViewBag.CurrentUser = UserManager.FindByNameAsync(HttpContext.User.Identity.Name).Result;
-        }
+					ApplicationUser currentUser = UserManager.FindByNameAsync(HttpContext.User.Identity.Name).Result;
+					ViewBag.CurrentUser = currentUser;
+
+					 ViewBag.CurrentPlayer = _playerManager.GetPlayerByEmail(currentUser.Email);
+					ViewBag.PlayerPrizeInfo = _prizeManager.GetUncollectedPlayerPrizes(ViewBag.CurrentPlayer.Name);
+				}
 				else
 				{
 					ViewBag.CurrentUser = null;
 				}
-				
+
 				ViewBag.Title = string.Format("{0}: Round {1}", eventName, round);
 				ViewBag.Event = thisEvent;
 				ViewBag.Round = round;
 				ViewBag.DetailMode = detailMode;
-				ViewBag.UnclaimedPrizes = 3;
 				return View("Index");
 			}
-			catch(EventNotFoundException ex)
+			catch (EventNotFoundException ex)
 			{
-				if(Session["LastError"]?.ToString().CompareTo(ex.Message)==0)
+				if (Session["LastError"]?.ToString().CompareTo(ex.Message) == 0)
 				{
 					return RedirectToAction("Error");
 				}
@@ -118,7 +121,7 @@ namespace kMagicSecure.Controllers
 					return RedirectToAction("Index");
 				}
 			}
-			catch (Exception	ex)
+			catch (Exception ex)
 			{
 				Session["LastError"] = new Exception($"Failed to load event {eventName} - {round}", ex);
 				return Default();
@@ -134,6 +137,60 @@ namespace kMagicSecure.Controllers
 			}
 
 			return output;
+		}
+
+		public ActionResult RecievedPrizes()
+		{
+			ApplicationUser currentUser = UserManager.FindByNameAsync(HttpContext.User.Identity.Name).Result;
+			var currentPlayer = _playerManager.GetPlayerByEmail(currentUser.Email);
+			List<dbPlayerPrize> acknowledgedList;
+
+			try
+			{
+				acknowledgedList = ParsePlayerPrizeForm(Request.Form["prizeEvent"], Request.Form["prizeRound"], Request.Form["prizePosition"], Request.Form["prizePacks"], Request.Form["prizeRecieved"], currentPlayer.Name);
+			}
+			catch (Exception ex)
+			{
+				throw new Exception("Error: Failed to parse prize reciept. Try again.");
+			}
+
+			try
+			{
+				_prizeManager.AcknowledgeRecievedAll(currentPlayer.Name, acknowledgedList);
+			}
+			catch(Exception ex)
+			{
+				throw new Exception("Error: Failed to save prize reciept. Try again.");
+			}
+			
+			return Default();
+		}
+
+		private List<dbPlayerPrize> ParsePlayerPrizeForm(string eventName, string round, string position, string packs, string recieved, string player)
+		{
+			var prizeList = new List<dbPlayerPrize>();
+
+			var eventNameList = eventName.Split(new char[]{','});
+			var roundList = round.Split(new char[] {',' }).Select(item=>int.Parse(item)).ToList();
+			var positionList = position.Split(new char[] { ',' }).Select(item => int.Parse(item)).ToList();
+			var packsList = packs.Split(new char[] { ',' }).Select(item => int.Parse(item)).ToList();
+			var recievedList = recieved.Split(new char[] { ',' }).Select(item => int.Parse(item)).ToList();
+			
+			for (int i = 0; i < eventNameList.Count(); i++)
+			{
+				prizeList.Add(new dbPlayerPrize()
+				{
+					EventName = eventNameList[i],
+					Round = roundList[i],
+					Position = positionList[i],
+					Packs = packsList[i],
+					Recieved = recievedList[i],
+					Player = player
+				});
+			}
+			
+
+		return prizeList;
 		}
 
 		public ActionResult Details(string eventName, int round, string player1, string player2, int? player1wins, int? player2wins, int? draws)

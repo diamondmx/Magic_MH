@@ -13,6 +13,16 @@ namespace kMagicSecure
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+			//routes.MapRoute(
+			//	name: "IP",
+			//	url: "IP/GetSourceData",
+			//	defaults: new { controller = "IP", action = "GetSourceData" });
+
+			routes.MapRoute(
+				name: "RecievedPrizes",
+				url: "Magic/RecievedPrizes",
+        defaults: new { controller = "Magic", action = "RecievedPrizes" });
+
 			routes.MapRoute(
 				name: "RSS",
 				url: "Magic/RSS",

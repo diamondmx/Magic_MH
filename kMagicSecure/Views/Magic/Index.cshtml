@@ -18,11 +18,12 @@
 	IdentitySample.Models.ApplicationUser user = ViewBag.CurrentUser;
 	string endTimeString;
 	int scoreIndex;
-	int unclaimedPrizes = ViewBag.UnclaimedPrizes;
+	IEnumerable<Magic.Domain.dbPlayerPrize> playerPrizeInfo = ViewBag.PlayerPrizeInfo;
 
 	if (weeksTillEnd > 1)
 	{
 		endTimeString = string.Format("{0} weeks, {1} days", weeksTillEnd, daysTillEnd);
+		
 	}
 	else if (weeksTillEnd > 0)
 	{
@@ -50,16 +51,31 @@
 	var userName = user == null ? "Not logged in" : user.Email;
 }
 
-@if (unclaimedPrizes > 0)
+@if (playerPrizeInfo?.Any()==true)
 {
-	<h2>You have @unclaimedPrizes unclaimed prizes</h2>
+	using (Html.BeginForm("RecievedPrizes", "Magic", FormMethod.Post))
+	{
+		<h2>@Magic.Core.PrizeManager.FormatPrizeInfo(playerPrizeInfo)</h2>
+
+		foreach (var prizeInfoItem in playerPrizeInfo)
+		{
+			<input type="hidden" name="prizeEvent" value="@prizeInfoItem.EventName" />
+			<input type="hidden" name="prizeRound" value="@prizeInfoItem.Round" />
+			<input type="hidden" name="prizePosition" value="@prizeInfoItem.Position" />
+			<input type="hidden" name="prizePacks" value="@prizeInfoItem.Packs" />
+			<input type="hidden" name="prizeRecieved" value="@prizeInfoItem.Recieved" />
+		}
+		<div>
+			<input type="submit" value="I've recieved these prizes" class="btn btn-default" />
+		</div>
+		
+	}
 }
 
 
 @if (round > 0)
 {
 	<h2>Players - @eventName</h2> <br/>
-	
 }
 		else
 		{

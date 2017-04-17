@@ -19,10 +19,12 @@ namespace Magic.Core
 	public class MatchManager : IMatchManager
 	{
 		private IMatchRepository _matchRepository;
+		private IEventRepository _eventRepository;
 
-		public MatchManager(IMatchRepository matchRepo)
+		public MatchManager(IMatchRepository matchRepo, IEventRepository eventRepo)
 		{
 			_matchRepository = matchRepo;
+			_eventRepository = eventRepo;
 		}
 		
 		public void Update(Match m)
@@ -85,14 +87,33 @@ namespace Magic.Core
 					wins++;
 			}
 
-			
+			var leaguesUndefeatedSwissMatches = 0;
+			var events = _eventRepository.LoadAllDBEvents();
+			var leagueGroups = matches.Where(m => ((m.Round==1||m.Round==2|m.Round==3) && (m.Player1 == playerName || m.Player2 == playerName))).GroupBy(m => m.Event);
+			foreach(var group in leagueGroups)
+			{
+				if(!group.All(m=>m.Event == group.First().Event))
+				{
+					throw new Exception("Group matches don't all meet expectations");
+				}
+
+				var thisEvent = events.Single(e => e.Name == group.First().Event);
+				var swissRounds = thisEvent.RoundMatches * thisEvent.Rounds;
+
+				if(group.All(m=>m.HasWon(playerName)))
+				{
+					leaguesUndefeatedSwissMatches += 1;
+				}
+
+			}
 
 			var summary = new PlayerScoreSummary
 			{
 				OpponentScoreItems = playerScores,
 				Totals = totalScores,
 				LeagueTopEights = topEightGroups.Count(),
-				LeagueWins = wins
+				LeagueWins = wins,
+				LeaguesUndefeatedInMatches = leaguesUndefeatedSwissMatches
 			};
 
 			return summary;

@@ -53,6 +53,7 @@
     <Compile Include="dbRoundPrize.cs" />
     <Compile Include="dbMatch.cs" />
     <Compile Include="dbPlayer.cs" />
+    <Compile Include="dbPlayerPrize.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="EventNotFoundException.cs" />
     <Compile Include="GameLogEntry.cs" />
