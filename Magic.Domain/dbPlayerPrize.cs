@@ -11,18 +11,13 @@ namespace Magic.Domain
 	public class dbPlayerPrize
 	{
 		[Column] public string Player;
-
 		[Column] public string EventName;
-
 		[Column] public int Round;
-
 		[Column] public int Position;
-
 		[Column] public int Packs;
-
 		[Column] public int Recieved;
-
 		[Column] public string Notes;
+		[Column] public bool Complete;
 
 		public override bool Equals(object obj)
 		{

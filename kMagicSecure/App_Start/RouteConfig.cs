@@ -19,6 +19,26 @@ namespace kMagicSecure
 			//	defaults: new { controller = "IP", action = "GetSourceData" });
 
 			routes.MapRoute(
+				name: "AdminMarkRecieved",
+				url: "Magic/AdminMarkRecieved/",
+				defaults: new { controller = "Magic", action = "AdminMarkRecieved" });
+
+			routes.MapRoute(
+				name: "ShowPrizes",
+				url: "Magic/ShowPrizes/{unclaimedOnly}",
+				defaults: new { controller = "Magic", action = "ShowPrizes", unclaimedOnly = false });
+
+			routes.MapRoute(
+				name: "AssignPrizesConfirmation",
+				url: "Magic/AssignPrizesConfirmation/{prizeAssignmentTag}",
+				defaults: new { controller = "Magic", action = "AssignPrizesConfirmation" });
+
+			routes.MapRoute(
+				name: "AssignPrizes",
+				url: "Magic/AssignPrizes/{EventName}/{Round}",
+				defaults: new { controller = "Magic", action = "AssignPrizes" });
+
+			routes.MapRoute(
 				name: "RecievedPrizes",
 				url: "Magic/RecievedPrizes",
         defaults: new { controller = "Magic", action = "RecievedPrizes" });

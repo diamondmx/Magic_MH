@@ -1,7 +1,13 @@
-﻿@model Magic.Domain.Event
+﻿@model IEnumerable<Magic.Domain.dbPlayerPrize>
+
+@{ 
+
+	var eventName = ViewBag.EventName;
+	var round = ViewBag.Round;
+		}
 
 @{
-    Layout = null;
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -9,10 +15,21 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>View</title>
+    <title>@eventName - @round</title>
 </head>
+
 <body>
     <div> 
+			@foreach (var prize in Model)
+			{
+				<p>
+					<text>@prize.Position</text>
+					<text>@prize.Player</text>
+					<text>@prize.Packs</text>
+				</p>
+			}
+			
+			@Html.ActionLink("AssignPrizesConfirmation", "AssignPrizesConfirmation", new { controller = "Magic", action = "AssignPrizesConfirmation", prizeAssignmentTag = ViewBag.prizeAssignmentTag })
     </div>
 </body>
 </html>

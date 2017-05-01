@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="EventManager.cs" />
     <Compile Include="MatchManager.cs" />
+    <Compile Include="PlayerComparerByScoreAndTiebreakers.cs" />
     <Compile Include="PlayerManager.cs" />
     <Compile Include="PrizeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

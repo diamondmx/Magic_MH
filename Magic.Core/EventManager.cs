@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Magic.Domain;
 using Magic.Data;
+using System.Linq;
 
 namespace Magic.Core
 {
@@ -12,15 +13,18 @@ namespace Magic.Core
 		void CreateEvent(Event thisEvent);
 		void AddPlayer(Event thisEvent, Player newPlayer);
 		dbEvent GetCurrentEvent();
-	}
+		List<dbPlayerPrize> GetPrizeAssignments(Event thisEvent, int round);
+  }
 
 	public class EventManager : IEventManager
 	{
 		private readonly IEventRepository _eventRepository;
+		private readonly IRoundPrizeRepository _roundPrizeRepository;
 
-		public EventManager(IEventRepository eventRepo)
+		public EventManager(IEventRepository eventRepo, IRoundPrizeRepository roundPrizeRepo)
 		{
 			_eventRepository = eventRepo;
+			_roundPrizeRepository = roundPrizeRepo;
 		}
 
 		public Event LoadEvent(string eventName)
@@ -51,6 +55,38 @@ namespace Magic.Core
 		public dbEvent GetCurrentEvent()
 		{
 			return _eventRepository.GetCurrentEvent();
+		}
+
+		public List<dbPlayerPrize> GetPrizeAssignments(Event thisEvent, int round)
+		{
+			var prizeAssignments = new List<dbPlayerPrize>();
+			var sortedPlayers = thisEvent.Players.OrderByDescending(p => p.Score(round)).ThenByDescending(p => p.OMWP(round)).ThenByDescending(p => p.GWP(round)).ThenByDescending(p => p.OGWP(round));
+
+			var prizes = _roundPrizeRepository.LoadDBRoundPrizes(thisEvent.name);
+
+			prizeAssignments = sortedPlayers.Select((p, index) =>
+			{
+				var thisPrize = prizes.FirstOrDefault(prize => prize.EventName == thisEvent.name && prize.Round == round && prize.Position == index+1);
+				if(thisPrize!=null)
+				{
+					return new dbPlayerPrize
+					{
+						EventName = thisEvent.name,
+						Notes = thisPrize.Other,
+						Position = index+1,
+						Packs = thisPrize.Packs,
+						Round = round,
+						Player = p.Name,
+						Recieved = 0
+					};
+				}
+				else
+				{
+					return null;
+				}
+      }).OfType<dbPlayerPrize>().ToList();
+			
+			return prizeAssignments;
 		}
   }
 }

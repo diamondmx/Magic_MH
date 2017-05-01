@@ -241,6 +241,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Magic\Data\Logger.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -365,6 +366,7 @@
     <Content Include="Views\Magic\PrizeSetup.cshtml" />
     <Content Include="Views\Magic\GameLogRSS.cshtml" />
     <Content Include="Views\Magic\AssignPrizes.cshtml" />
+    <Content Include="Views\Magic\ViewAssignedPrizes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

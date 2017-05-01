@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Magic.Domain.dbPlayerPrize>
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	var eventName = ViewBag.EventName;
+	var round = ViewBag.Round;
+	var sortedPrizes = Model.OrderBy(p => p.EventName).ThenBy(p => p.Round).ThenBy(p => p.Position);
+}
+
+<h2>View Assigned Prizes</h2>
+
+@foreach (var prize in sortedPrizes)
+{
+	using (Html.BeginForm("", ""))
+	{
+			<input disabled type="text" name="eventName" value="@prize.EventName"/>
+			<input disabled type="text" name ="Position" value="@prize.Position"/>
+			<input disabled type="text" name="player" value ="@prize.Player"/>
+			<input disabled type="text" name="packs" value="@prize.Packs"/>
+			<input disabled type="text" name="recieved" value="@prize.Recieved" /> 
+			<input disabled type="checkbox" name="complete" checked=@prize.Complete />
+			@Html.ActionLink("Recieved Prizes", "AdminMarkRecieved", new { eventName=prize.EventName, round=prize.Round, position=prize.Position, player=prize.Player, packs=prize.Packs, recieved=prize.Recieved })
+	}
+}

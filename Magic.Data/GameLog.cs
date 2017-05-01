@@ -24,7 +24,7 @@ namespace Magic.Data
 			_dataContext = dataContext;
 		}
 
-		public List<GameLogEntry> GetAll()
+		public IEnumerable<GameLogEntry> GetAll()
 		{
 			return _dataContext.GetTable<GameLogEntry>();
 		}

@@ -9,11 +9,12 @@ namespace Magic.Data
 {
 	public interface IDataContextWrapper
 	{
-		List<T> GetTable<T>() where T : class;
-		void ExecuteCommand(string sql);
-		void ExecuteCommand(string sql, object o1, object o2);
-		void ExecuteCommand(string sql, object o1);
-		void ExecuteQuery<T>(string sql);
+		IEnumerable<T> GetTable<T>() where T : class;
+		int ExecuteCommand(string sql);
+		int ExecuteCommand(string obj, params object[] parameters);
+		//int ExecuteCommand(string sql, object o1, object o2);
+		//int ExecuteCommand(string sql, object o1);
+		IEnumerable<T> ExecuteQuery<T>(string sql);
 		DataContext DEBUG_GetDataContext();
   }
 
@@ -31,29 +32,34 @@ namespace Magic.Data
 			return _dataContext;
 		}
 
-		public List<T> GetTable<T>() where T : class
+		public IEnumerable<T> GetTable<T>() where T : class
 		{
-			return _dataContext.GetTable<T>().ToList();
+			return _dataContext.GetTable<T>();
 		}
 
-		public void ExecuteCommand(string sql)
+		public int ExecuteCommand(string sql)
 		{
-			_dataContext.ExecuteCommand(sql);
+			return _dataContext.ExecuteCommand(sql);
 		}
 
-		public void ExecuteCommand(string sql, object o1)
+		public int ExecuteCommand(string sql, params object[] parameters)
 		{
-			_dataContext.ExecuteCommand(sql, o1);
+			return _dataContext.ExecuteCommand(sql, parameters);
 		}
 
-		public void ExecuteCommand(string sql, object o1, object o2)
-		{
-			_dataContext.ExecuteCommand(sql, o1, o2);
-		}
+		//public int ExecuteCommand(string sql, object o1)
+		//{
+		//	return _dataContext.ExecuteCommand(sql, o1);
+		//}
 
-		public void ExecuteQuery<T>(string sql)
+		//public int ExecuteCommand(string sql, object o1, object o2)
+		//{
+		//	return _dataContext.ExecuteCommand(sql, o1, o2);
+		//}
+
+		public IEnumerable<T> ExecuteQuery<T>(string sql)
 		{
-			_dataContext.ExecuteQuery<T>(sql);
+			return _dataContext.ExecuteQuery<T>(sql);
 		}
 	}
 }

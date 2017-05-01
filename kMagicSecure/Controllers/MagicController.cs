@@ -47,7 +47,7 @@ namespace kMagicSecure.Controllers
 			var roundPrizeRepo = new Magic.Data.RoundPrizeRepository(dataContext);
 			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo, roundPrizeRepo);
 			_playerManager = new PlayerManager(playerRepo);
-			_eventManager = new EventManager(eventRepo);
+			_eventManager = new EventManager(eventRepo, roundPrizeRepo);
 			_matchManager = new MatchManager(matchRepo, eventRepo);
 			_prizeManager = new PrizeManager(roundPrizeRepo, playerPrizeRepo);
 		}
@@ -239,6 +239,64 @@ namespace kMagicSecure.Controllers
 			ViewBag.draws = drawsDropdown;
 
 			return View("MagicMatch");
+		}
+
+		[Authorize(Roles = "Admin")]
+		public ActionResult AssignPrizes(string eventName, int round)
+		{
+			ViewBag.Round = round;
+			ViewBag.EventName = eventName;
+			var prizeAssignmentTag = "playerPrizes" + eventName + round;
+			ViewBag.PrizeAssignmentTag = prizeAssignmentTag;
+      var thisEvent =  _eventManager.LoadEvent(eventName);
+			List<dbPlayerPrize> prizeAssignments = _eventManager.GetPrizeAssignments(thisEvent, round);
+
+			Session.Add(prizeAssignmentTag, prizeAssignments);
+
+			return View("AssignPrizes", prizeAssignments);
+		}
+
+		[Authorize(Roles = "Admin")]
+		public ActionResult AdminMarkRecieved(string player, string eventName, int round, int position, int packs, int recieved)
+		{
+			dbPlayerPrize prize = new dbPlayerPrize()
+			{
+				Player = player,
+				EventName = eventName,
+				Round = round,
+				Position = position,
+				Packs = packs,
+				Recieved = recieved
+			};
+
+			_prizeManager.AcknowledgeRecievedAll(player, new List<dbPlayerPrize> { prize });
+
+			return Default();
+		}
+
+		[Authorize(Roles = "Admin")]
+		public ActionResult AssignPrizesConfirmation(string prizeAssignmentTag)
+		{
+			try
+			{
+				var prizeAssignments = Session[prizeAssignmentTag] as List<dbPlayerPrize>;
+				_prizeManager.AssignPrizes(prizeAssignments);
+
+				return Default();
+
+			}
+			catch(Exception ex)
+			{
+				//Session["LastError"] = new Exception($"Failed to assign prizes for {prizeAssignmentTag}", ex);
+				return Default();
+			}
+		}
+
+		[Authorize(Roles = "Admin")]
+		public ActionResult ShowPrizes(bool unclaimedOnly = true)
+		{
+			var model = _prizeManager.GetAllPlayerPrizes();
+			return View("ViewAssignedPrizes", model);
 		}
 
 		[Authorize(Roles = "Admin")]

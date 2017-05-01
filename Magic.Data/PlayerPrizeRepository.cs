@@ -16,7 +16,7 @@ namespace Magic.Data
 			_dataContext = dataContext;
 		}
 
-		public List<dbPlayerPrize> GetAwardedPrizes(string playerName)
+		public List<dbPlayerPrize> GetAllAwardedPrizes()
 		{
 			var playerPrizes = _dataContext.GetTable<Magic.Domain.dbPlayerPrize>();
 			return playerPrizes.ToList();
@@ -29,12 +29,33 @@ namespace Magic.Data
 			foreach(var prize in acknowledgedList)
 			{
 				sqlBuilder.Append($"UPDATE [PlayerPrizes] SET Recieved = {prize.Packs}, Complete = 1 WHERE ");
-				sqlBuilder.Append($" ('{prize.EventName}'=EventName AND '{prize.Round}'=Round AND '{prize.Position}'=Position AND '{prize.Packs}'=Packs AND '{prize.Recieved}'=Recieved);");
+				sqlBuilder.Append($" ('{prize.EventName}'=EventName AND '{prize.Player}'=Player AND '{prize.Round}'=Round AND '{prize.Position}'=Position AND '{prize.Packs}'=Packs AND '{prize.Recieved}'=Recieved);");
+      }
+			
+			var outputString = sqlBuilder.ToString();
+			_dataContext.ExecuteCommand(outputString);
+		}
+
+		public void AssignPrizes(List<dbPlayerPrize> assignedPrizes)
+		{
+			StringBuilder sqlBuilder = new StringBuilder();
+
+			sqlBuilder.Append("INSERT INTO [dbo].[PlayerPrizes] ([Player],[EventName],[Round],[Position],[Packs],[Recieved],[Notes],[Complete]) VALUES");
+
+			foreach(var prize in assignedPrizes)
+			{
+				sqlBuilder.Append($"('{prize.Player}', '{prize.EventName}',{prize.Round}, {prize.Position}, {prize.Packs}, 0, NULL, 0),");
       }
 
-			var outputstring = sqlBuilder.ToString();
+			var outputString = sqlBuilder.ToString();
+			outputString = outputString.Remove(outputString.Length - 1, 1);
 
-			_dataContext.ExecuteCommand(outputstring);
+			// above removes the last character (a comma) from the string
+			// str "ABCDEF" Length 6, index of F==5, (start 5, count 1) => remove F.
+
+			_dataContext.ExecuteCommand(outputString);
 		}
+
+
 	}
 }

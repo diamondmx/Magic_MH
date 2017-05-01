@@ -39,6 +39,7 @@
           @Html.ActionLink("Players", "ListPlayers", new { controller = "Magic", action = "ListPlayers", eventName = item.name }) |
 					@Html.ActionLink("GeneratePairings", "GeneratePairings", new { controller = "Magic", action = "GeneratePairings", eventName = item.name }) |
 					@Html.ActionLink("PrizeSetup", "PrizeSetup", new { controller = "Magic", action = "PrizeSetup", eventName = item.name, round = item.CurrentRound })
+					@Html.ActionLink("AssignPrizes", "AssignPrizes", new { controller = "Magic", action = "AssignPrizes", eventName = item.name, round = item.CurrentRound })
         </td>
     </tr>
 }

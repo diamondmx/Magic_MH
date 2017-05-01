@@ -14,6 +14,8 @@ namespace Magic.Core
 		IEnumerable<dbPlayerPrize> GetPlayerPrizes(string playerName);
 		void AcknowledgeRecievedAll(string name, List<dbPlayerPrize> acknowledgedList);
 		IEnumerable<dbPlayerPrize> GetUncollectedPlayerPrizes(string playerName);
+		void AssignPrizes(List<dbPlayerPrize> prizeAssignments);
+		IEnumerable<dbPlayerPrize> GetAllPlayerPrizes();
 	}
 
 	public class PrizeManager : IPrizeManager
@@ -40,7 +42,12 @@ namespace Magic.Core
 
 		public IEnumerable<dbPlayerPrize> GetPlayerPrizes(string playerName)
 		{
-			return _playerPrizeRepo.GetAwardedPrizes(playerName).Where(p => p.Player == playerName);
+			return _playerPrizeRepo.GetAllAwardedPrizes().Where(p => p.Player == playerName);
+		}
+
+		public IEnumerable<dbPlayerPrize> GetAllPlayerPrizes()
+		{
+			return _playerPrizeRepo.GetAllAwardedPrizes();
 		}
 
 		public static string FormatPrizeInfo(IEnumerable<dbPlayerPrize> prizes)
@@ -78,6 +85,11 @@ namespace Magic.Core
 
 			_playerPrizeRepo.MarkRecieved(acknowledgedList);
 
+		}
+
+		public void AssignPrizes(List<dbPlayerPrize> prizeAssignments)
+		{
+			_playerPrizeRepo.AssignPrizes(prizeAssignments);
 		}
 	}
 }
