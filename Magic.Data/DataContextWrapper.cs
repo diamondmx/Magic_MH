@@ -12,8 +12,6 @@ namespace Magic.Data
 		IEnumerable<T> GetTable<T>() where T : class;
 		int ExecuteCommand(string sql);
 		int ExecuteCommand(string obj, params object[] parameters);
-		//int ExecuteCommand(string sql, object o1, object o2);
-		//int ExecuteCommand(string sql, object o1);
 		IEnumerable<T> ExecuteQuery<T>(string sql);
 		DataContext DEBUG_GetDataContext();
   }
@@ -46,16 +44,6 @@ namespace Magic.Data
 		{
 			return _dataContext.ExecuteCommand(sql, parameters);
 		}
-
-		//public int ExecuteCommand(string sql, object o1)
-		//{
-		//	return _dataContext.ExecuteCommand(sql, o1);
-		//}
-
-		//public int ExecuteCommand(string sql, object o1, object o2)
-		//{
-		//	return _dataContext.ExecuteCommand(sql, o1, o2);
-		//}
 
 		public IEnumerable<T> ExecuteQuery<T>(string sql)
 		{
