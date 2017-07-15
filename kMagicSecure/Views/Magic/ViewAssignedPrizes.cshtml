@@ -13,12 +13,13 @@
 {
 	using (Html.BeginForm("", ""))
 	{
+			<input disabled type="text" name="playerID" value="@prize.PlayerID"
 			<input disabled type="text" name="eventName" value="@prize.EventName"/>
 			<input disabled type="text" name ="Position" value="@prize.Position"/>
 			<input disabled type="text" name="player" value ="@prize.Player"/>
 			<input disabled type="text" name="packs" value="@prize.Packs"/>
 			<input disabled type="text" name="recieved" value="@prize.Recieved" /> 
 			<input disabled type="checkbox" name="complete" checked=@prize.Complete />
-			@Html.ActionLink("Recieved Prizes", "AdminMarkRecieved", new { eventName=prize.EventName, round=prize.Round, position=prize.Position, player=prize.Player, packs=prize.Packs, recieved=prize.Recieved })
+			@Html.ActionLink("Recieved Prizes", "AdminMarkRecieved", new { eventName=prize.EventName, round=prize.Round, position=prize.Position, playerID=prize.PlayerID, packs=prize.Packs, recieved=prize.Recieved })
 	}
 }

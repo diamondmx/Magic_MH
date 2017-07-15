@@ -29,7 +29,7 @@ namespace Magic.Data
 			foreach(var prize in acknowledgedList)
 			{
 				sqlBuilder.Append($"UPDATE [PlayerPrizes] SET Recieved = {prize.Packs}, Complete = 1 WHERE ");
-				sqlBuilder.Append($" ('{prize.EventName}'=EventName AND '{prize.Player}'=Player AND '{prize.Round}'=Round AND '{prize.Position}'=Position AND '{prize.Packs}'=Packs AND '{prize.Recieved}'=Recieved);");
+				sqlBuilder.Append($" ('{prize.EventName}'=EventName AND '{prize.PlayerID}'=PlayerID AND '{prize.Round}'=Round AND '{prize.Position}'=Position AND '{prize.Packs}'=Packs AND '{prize.Recieved}'=Recieved);");
       }
 			
 			var outputString = sqlBuilder.ToString();
@@ -40,11 +40,11 @@ namespace Magic.Data
 		{
 			StringBuilder sqlBuilder = new StringBuilder();
 
-			sqlBuilder.Append("INSERT INTO [dbo].[PlayerPrizes] ([Player],[EventName],[Round],[Position],[Packs],[Recieved],[Notes],[Complete]) VALUES");
+			sqlBuilder.Append("INSERT INTO [dbo].[PlayerPrizes] ([PlayerID], [Player],[EventName],[Round],[Position],[Packs],[Recieved],[Notes],[Complete]) VALUES");
 
 			foreach(var prize in assignedPrizes)
 			{
-				sqlBuilder.Append($"('{prize.Player}', '{prize.EventName}',{prize.Round}, {prize.Position}, {prize.Packs}, 0, NULL, 0),");
+				sqlBuilder.Append($"('{prize.PlayerID}, {prize.Player}', '{prize.EventName}',{prize.Round}, {prize.Position}, {prize.Packs}, 0, NULL, 0),");
       }
 
 			var outputString = sqlBuilder.ToString();

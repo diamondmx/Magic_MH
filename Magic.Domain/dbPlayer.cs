@@ -10,6 +10,9 @@ namespace Magic.Domain
 	[Table(Name = "Players")]
 	public class dbPlayer
 	{
+		[Column()]
+		public int ID;
+
 		[Column(IsPrimaryKey = true)]
 		public string Name;
 

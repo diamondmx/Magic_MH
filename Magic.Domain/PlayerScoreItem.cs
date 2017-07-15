@@ -9,6 +9,7 @@ namespace Magic.Domain
 {
 	public class PlayerScoreItem
 	{
+		public int PlayerID;
 		public string Name;
 		public int GameWins;
 		public int GameLosses;

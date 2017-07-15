@@ -16,7 +16,7 @@
     </tr>
 
 @foreach (Magic.Domain.Player player in Model.Players) {
-	var relevantMatches = player.Matches.Where(m => m.Round == Model.CurrentRound).Select(m=>m.WithPlayerOneAs(player.Name));
+	var relevantMatches = player.Matches.Where(m => m.Round == Model.CurrentRound).Select(m=>m.WithPlayerOneAs(player.ID));
     <tr>
         <td>
 					@player.Name (@player.Score(0)) <text>vs</text>

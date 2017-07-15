@@ -77,6 +77,7 @@ namespace Magic.Core
 						Packs = thisPrize.Packs,
 						Round = round,
 						Player = p.Name,
+						PlayerID = p.ID,
 						Recieved = 0
 					};
 				}

@@ -10,6 +10,15 @@ namespace Magic.Data
 {
 	public class PlayerRepository : IPlayerRepository
 	{
+		private List<dbPlayer> PlayerList
+		{
+			get
+			{
+				var playersTable = _dataContext.GetTable<dbPlayer>().ToList();
+				return playersTable;
+			}
+		}
+
 		private readonly IDataContextWrapper _dataContext;
 		public PlayerRepository(IDataContextWrapper dataContext)
 		{
@@ -18,20 +27,32 @@ namespace Magic.Data
 
 		public List<dbPlayer> LoadDBPlayers()
 		{
-			var playersTable = _dataContext.GetTable<dbPlayer>().ToList();
-			return playersTable;
+			return PlayerList;
 		}
 
-		public void Save()
+		public void Save(dbPlayer oldPlayer, dbPlayer newPlayer)
 		{
-			//var sqlUpdate = String.Format("UPDATE Players SET CurrentRound={0}, Rounds={1}, RoundMatches={2} WHERE Name='{3}'", currentRound, rounds, roundMatches, Name);
-			//db.ExecuteCommand(sqlUpdate);
+			var sqlUpdate = String.Format("UPDATE Players SET Name='{0}', Email='{1}' WHERE Name='{2}', Email='{3}'", newPlayer.Name, newPlayer.Email, oldPlayer.Name, oldPlayer.Email);
+			//_dataContext.ExecuteCommand(sqlUpdate);
 		}
 
 		public List<Player> GetAllPlayers()
 		{
 			var dbPlayers = LoadDBPlayers();
 			return dbPlayers.Select(dbp => new Player(dbp)).ToList();
+		}
+
+		public string GetPlayerName(int playerID)
+		{
+			var foundPlayer = PlayerList.FirstOrDefault(p => p.ID == playerID);
+			if(foundPlayer!= null)
+			{
+				return foundPlayer.Name;
+			}
+			else
+			{
+				return null;
+			}
 		}
 	}
 }

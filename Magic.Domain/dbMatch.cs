@@ -11,9 +11,13 @@ namespace Magic.Domain
 	public class dbMatch
 	{
 		[Column()]
-		public string Player1;
+		public int Player1ID;
 		[Column()]
-		public string Player2;
+		public int Player2ID;
+		[Column()]
+		protected string Player1;
+		[Column()]
+		protected string Player2;
 		[Column()]
 		public int Round;
 		[Column()]
@@ -30,6 +34,8 @@ namespace Magic.Domain
 
 		public void Copy(dbMatch m)
 		{
+			this.Player1ID = m.Player1ID;
+			this.Player2ID = m.Player2ID;
 			this.Player1 = m.Player1;
 			this.Player2 = m.Player2;
 			this.Event = m.Event;
@@ -39,15 +45,15 @@ namespace Magic.Domain
 			this.Draws = m.Draws;
 		}
 
-		public dbMatch WithPlayerOneAs(string PlayerOneName)
+		public dbMatch WithPlayerOneAs(int playerID)
 		{
-			if(Player1 == PlayerOneName)
+			if(Player1ID == playerID)
 			{
 				var newMatch = new dbMatch();
 				newMatch.Copy(this);
 				return newMatch;
 			}
-			else if(Player2 != PlayerOneName)
+			else if(Player2ID != playerID)
 			{
 				throw new ArgumentException("Player not found in match, can't set player as PlayerOne");
 			}
@@ -55,6 +61,8 @@ namespace Magic.Domain
 			{
 				var newMatch = new dbMatch()
 				{
+					Player1ID = Player1ID,
+					Player2ID = Player2ID,
 					Player1 = Player2,
 					Player2 = Player1,
 					Event = Event,
@@ -67,9 +75,9 @@ namespace Magic.Domain
 			}
 		}
 
-		public bool HasWon(string playerName)
+		public bool HasWon(int playerID)
 		{
-			var normalizedMatch = WithPlayerOneAs(playerName);
+			var normalizedMatch = WithPlayerOneAs(playerID);
 
 			if ((Player1Wins + Draws >= 2) || (Player2Wins + Draws >= 2)) // Match Complete
 			{

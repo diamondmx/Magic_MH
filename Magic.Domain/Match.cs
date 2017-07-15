@@ -29,15 +29,19 @@ namespace Magic.Domain
 		public int Draws;
 		public bool IsPreview;
 
+		public int Player1ID;
+		public int Player2ID;
+
 		public dbMatch myDbMatch;
 
 		public Match()
 		{ }
 
-		public Match(string p1, string p2, string eventName, int round, int p1wins, int p2wins, int draws)
+		public Match(int p1, int p2, string eventName, int round, int p1wins, int p2wins, int draws)
 		{
-			_player1Name = p1;
-			_player2Name = p2;
+			Player1ID = p1;
+			Player2ID = p2;
+
 			Event = eventName;
 			Round = round;
 			Player1Wins = p1wins;
@@ -45,12 +49,14 @@ namespace Magic.Domain
 			Draws = draws;
 		}
 
-		public Match(Player p1, string player1name, Player p2, string player2name, string eventName, int round, int p1wins, int p2wins, int draws)
+		public Match(Player p1, string player1name, Player p2, string player2name, int p1id, int p2id, string eventName, int round, int p1wins, int p2wins, int draws)
 		{
 			Player1 = p1;
 			_player1Name = player1name;
 			Player2 = p2;
 			_player2Name = player2name;
+			Player1ID = p1id;
+			Player2ID = p2id;
 			Event = eventName;
 			Round = round;
 			Player1Wins = p1wins;
@@ -69,7 +75,7 @@ namespace Magic.Domain
 		}
 
 		public Match(dbMatch m)
-						: this(m.Player1, m.Player2, m.Event, m.Round, m.Player1Wins, m.Player2Wins, m.Draws)
+						: this(m.Player1ID, m.Player2ID, m.Event, m.Round, m.Player1Wins, m.Player2Wins, m.Draws)
 		{
 			myDbMatch = m;
 		}
@@ -99,26 +105,26 @@ namespace Magic.Domain
 
 		public Match Flipped()
 		{
-			return new Match(p1: Player2, player1name: Player2Name, p2: Player1, player2name: Player1Name, p1wins: Player2Wins, p2wins: Player1Wins, eventName: Event, round: Round, draws: Draws);
+			return new Match(p1id: Player2ID, p2id: Player1ID, p1: Player2, player1name: Player2Name, p2: Player1, player2name: Player1Name, p1wins: Player2Wins, p2wins: Player1Wins, eventName: Event, round: Round, draws: Draws);
 		}
 
-		public Match WithPlayerOneAs(string name)
+		public Match WithPlayerOneAs(int playerID)
 		{
-			if (Player1Name.ToLower() == name.ToLower())
+			if (Player1ID == playerID)
 				return this;
-			else if (Player2Name.ToLower() == name.ToLower())
+			else if (Player2ID == playerID)
 				return this.Flipped();
 			else
 				throw new InvalidOperationException("Bad Parameter for Flipped(): Name did not match either player in match");
 		}
 
-		public bool DidPlayerWin(string name)
+		public bool DidPlayerWin(int playerID)
 		{
-			if (Player1Name == name)
+			if (Player1ID == playerID)
 			{
 				return Player1Wins > Player2Wins;
 			}
-			else if (Player2Name == name)
+			else if (Player2ID == playerID)
 			{
 				return Player2Wins > Player1Wins;
 			}
@@ -128,9 +134,9 @@ namespace Magic.Domain
 			}
 		}
 
-		public void SetPlayerOneTo(string name)
+		public void SetPlayerOneTo(int playerID)
 		{
-			Copy(WithPlayerOneAs(name));
+			Copy(WithPlayerOneAs(playerID));
 		}
 	}
 }

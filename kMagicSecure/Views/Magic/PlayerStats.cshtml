@@ -6,13 +6,13 @@
 @{ 
 
 }																		 
-@using (Html.BeginForm("PlayerStats", "Magic", FormMethod.Get))
+@using (Html.BeginForm("PlayerStats", "Magic", FormMethod.Post))
 {
-	@Html.DropDownList("playerName")
+	@Html.DropDownList("playerID")
 	<input type="submit" value="Change Player" />
 }
 
-<h2> Totals </h2>
+<h2> Totals (@ViewBag.CurrentUser) </h2>
 <table class="matchTable" border="1">
 	<thead>
 		<tr>
