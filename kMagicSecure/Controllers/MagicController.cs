@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity.Owin;
 using IdentitySample.Models;
 using System.ServiceModel.Syndication;
 using kMagicSecure._3rdParty;
+using System.Threading;
+using System.Diagnostics;
 
 namespace kMagicSecure.Controllers
 {
@@ -48,7 +50,7 @@ namespace kMagicSecure.Controllers
 			var eventRepo = new Magic.Data.EventRepository(dataContext, eventPlayerRepo, matchRepo, playerRepo, roundPrizeRepo);
 			_playerManager = new PlayerManager(playerRepo);
 			_eventManager = new EventManager(eventRepo, roundPrizeRepo);
-			_matchManager = new MatchManager(matchRepo, eventRepo);
+			_matchManager = new MatchManager(matchRepo, eventRepo, playerRepo);
 			_prizeManager = new PrizeManager(roundPrizeRepo, playerPrizeRepo);
 		}
 
@@ -59,7 +61,21 @@ namespace kMagicSecure.Controllers
 
 		private void Setup()
 		{
+			var falsevar = false;
+
+			if(falsevar)
+			{
+				System.Threading.Tasks.Task.Run(() => OverrideAdminUser());
+			}
+			
 			SetPlayerContext();
+		}
+
+		private void OverrideAdminUser()
+		{
+			//ApplicationUser adminUser = UserManager.FindByNameAsync("mhill@kcura.com").Result;
+			//var resetToken = UserManager.GeneratePasswordResetTokenAsync(adminUser.Id).Result;
+			//var resetResult = UserManager.ResetPasswordAsync(adminUser.Id, resetToken, "TESTpassword9956$").Result;
 		}
 
 		[AllowAnonymous]
@@ -96,7 +112,10 @@ namespace kMagicSecure.Controllers
 					ViewBag.CurrentUser = currentUser;
 
 					 ViewBag.CurrentPlayer = _playerManager.GetPlayerByEmail(currentUser.Email);
-					ViewBag.PlayerPrizeInfo = _prizeManager.GetUncollectedPlayerPrizes(ViewBag.CurrentPlayer.Name);
+					if((ViewBag.CurrentPlayer != null) && (_prizeManager != null))
+					{
+						ViewBag.PlayerPrizeInfo = _prizeManager.GetUncollectedPlayerPrizes(ViewBag.CurrentPlayer.ID);
+					}
 				}
 				else
 				{
@@ -111,22 +130,25 @@ namespace kMagicSecure.Controllers
 			}
 			catch (EventNotFoundException ex)
 			{
-				if (Session["LastError"]?.ToString().CompareTo(ex.Message) == 0)
-				{
-					return RedirectToAction("Error");
-				}
-				else
-				{
-					Session["LastError"] = ex;
-					return RedirectToAction("Index");
-				}
-			}
-			catch (Exception ex)
-			{
-				Session["LastError"] = new Exception($"Failed to load event {eventName} - {round}", ex);
-				return Default();
+				throw;
+			//	if (Session["LastError"]?.ToString().CompareTo(ex.Message) == 0)
+			//	{
+			//		return RedirectToAction("Error");
+			//	}
+			//	else
+			//	{
+			//		Session["LastError"] = ex;
+			//		return RedirectToAction("Index");
+			//	}
+			//}
+			//catch (Exception ex)
+			//{
+			//	Session["LastError"] = new Exception($"Failed to load event {eventName} - {round}", ex);
+			//	return Default();
 			}
 		}
+
+
 
 		private List<SelectListItem> GetDropdownWithSelected(int max, int selected)
 		{
@@ -147,7 +169,7 @@ namespace kMagicSecure.Controllers
 
 			try
 			{
-				acknowledgedList = ParsePlayerPrizeForm(Request.Form["prizeEvent"], Request.Form["prizeRound"], Request.Form["prizePosition"], Request.Form["prizePacks"], Request.Form["prizeRecieved"], currentPlayer.Name);
+				acknowledgedList = ParsePlayerPrizeForm(Request.Form["prizePlayerID"], Request.Form["prizeEvent"], Request.Form["prizeRound"], Request.Form["prizePosition"], Request.Form["prizePacks"], Request.Form["prizeRecieved"], currentPlayer.Name);
 			}
 			catch (Exception ex)
 			{
@@ -156,7 +178,7 @@ namespace kMagicSecure.Controllers
 
 			try
 			{
-				_prizeManager.AcknowledgeRecievedAll(currentPlayer.Name, acknowledgedList);
+				_prizeManager.AcknowledgeRecievedAll(currentPlayer.ID, acknowledgedList);
 			}
 			catch(Exception ex)
 			{
@@ -166,11 +188,12 @@ namespace kMagicSecure.Controllers
 			return Default();
 		}
 
-		private List<dbPlayerPrize> ParsePlayerPrizeForm(string eventName, string round, string position, string packs, string recieved, string player)
+		private List<dbPlayerPrize> ParsePlayerPrizeForm(string playerID, string eventName, string round, string position, string packs, string recieved, string player)
 		{
 			var prizeList = new List<dbPlayerPrize>();
 
 			var eventNameList = eventName.Split(new char[]{','});
+			var playerIDList = playerID.Split(new char[] { ',' }).Select(item => int.Parse(item)).ToList();
 			var roundList = round.Split(new char[] {',' }).Select(item=>int.Parse(item)).ToList();
 			var positionList = position.Split(new char[] { ',' }).Select(item => int.Parse(item)).ToList();
 			var packsList = packs.Split(new char[] { ',' }).Select(item => int.Parse(item)).ToList();
@@ -180,6 +203,7 @@ namespace kMagicSecure.Controllers
 			{
 				prizeList.Add(new dbPlayerPrize()
 				{
+					PlayerID = playerID[i],
 					EventName = eventNameList[i],
 					Round = roundList[i],
 					Position = positionList[i],
@@ -257,11 +281,11 @@ namespace kMagicSecure.Controllers
 		}
 
 		[Authorize(Roles = "Admin")]
-		public ActionResult AdminMarkRecieved(string player, string eventName, int round, int position, int packs, int recieved)
+		public ActionResult AdminMarkRecieved(int playerID, string eventName, int round, int position, int packs, int recieved)
 		{
 			dbPlayerPrize prize = new dbPlayerPrize()
 			{
-				Player = player,
+				PlayerID = playerID,
 				EventName = eventName,
 				Round = round,
 				Position = position,
@@ -269,7 +293,7 @@ namespace kMagicSecure.Controllers
 				Recieved = recieved
 			};
 
-			_prizeManager.AcknowledgeRecievedAll(player, new List<dbPlayerPrize> { prize });
+			_prizeManager.AcknowledgeRecievedAll(playerID, new List<dbPlayerPrize> { prize });
 
 			return Default();
 		}
@@ -401,7 +425,7 @@ namespace kMagicSecure.Controllers
 			Setup();
 			var thisEvent = _eventManager.LoadEvent(eventName);
 
-			var newPlayer = new Player(playerName);
+			var newPlayer = new Player(playerName, null, 0);
 			_eventManager.AddPlayer(thisEvent, newPlayer);
 
 			return Redirect(Url.Action("ListPlayers", "Magic", new { eventName = eventName }));
@@ -430,25 +454,31 @@ namespace kMagicSecure.Controllers
 		}
 
 		[AllowAnonymous]
-		public ActionResult PlayerStats(string playerName)
+		public ActionResult PlayerStats(int playerID)
 		{
 			Setup();
-			List<Player> allPlayers = _playerManager.GetAllPlayers();
+			List<Player> allPlayers = _playerManager.GetAllPlayers().OrderBy(p=>p.Name).ToList();
 
-			var playerList = allPlayers.Select(p => new SelectListItem { Text = p.Name, Value = p.Name });
+			var playerList = allPlayers.Select(p => new SelectListItem { Text = p.Name, Value = p.ID.ToString() }); // CHANGED THIS to ID FROM Name
 			var currentPlayer = allPlayers.FirstOrDefault(p => p.Email == User.Identity.Name);
 
-			if (playerName == "" || playerName == null)
+			if (playerID <= 0 && currentPlayer?.ID > 0)
 			{
-				playerName = currentPlayer?.Name ?? allPlayers.OrderBy(p=>p.Name).First().Name;
+				playerID = currentPlayer.ID;
 			}
-			PlayerScoreSummary playerStatistics = _matchManager.GetPlayerStatistics(playerName);
+			else if (playerID <= 0 && currentPlayer?.ID <= 0)
+			{
+				playerID = allPlayers.FirstOrDefault()?.ID ?? 0;
+			}
 
-			ViewBag.playerName = playerList;
-			ViewBag.CurrentUser = playerName;
+			PlayerScoreSummary playerStatistics = _matchManager.GetPlayerStatistics(playerID);
+
+			ViewBag.playerID = playerList;
+			ViewBag.CurrentUser = allPlayers.First(p => p.ID == playerID).Name;
 			
 			return View("PlayerStats", playerStatistics);
 		}
+
 		[Authorize(Roles="Admin")]
 		public ActionResult PrizeSetup(string eventName, int round)
 		{

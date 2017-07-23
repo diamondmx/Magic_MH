@@ -56,14 +56,14 @@ namespace Magic.Data
 
 			//LoadPlayers
 			pop.Players = new List<Player>();
-			_playerRepository.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => pop.Players.Add(new Player(p.Name, p.Email)));
+			_playerRepository.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => pop.Players.Add(new Player(p.Name, p.Email, p.ID)));
 
 			//LoadEventPlayers
 			eventPlayers.Where(ep => ep.Dropped > 0).ToList().ForEach(ep =>
 			{
 				foreach (var p in pop.Players)
 				{
-					if (p.Name == ep.Player)
+					if (p.ID == ep.PlayerID)
 						p.DroppedInRound = ep.Dropped;
 				}
 			});
@@ -71,6 +71,11 @@ namespace Magic.Data
 			//LoadMatches
 			pop.Matches = new List<Match>();
 			_matchRepository.LoadDBMatches(pop.name).Where(m => m.Event == loadedEvent.Name).ToList().ForEach(m => pop.Matches.Add(m));
+
+			foreach(Match m in pop.Matches)
+			{
+				_matchRepository.PopulateMatch(pop.Players, m);
+			}
 
 			foreach (var match in pop.Matches)
 			{
@@ -85,13 +90,13 @@ namespace Magic.Data
 			{
 				foreach (var m in pop.Matches)
 				{
-					if (m.Player1Name == p.Name)
+					if (m.Player1ID == p.ID)
 					{
 						m.Player1 = p;
 						p.Matches.Add(m);
 					}
 
-					else if (m.Player2Name == p.Name)
+					else if (m.Player2ID == p.ID)
 					{
 						m.Player2 = p;
 						p.Matches.Add(m);
@@ -203,13 +208,13 @@ namespace Magic.Data
 		{
 			var eventName = e.myDbEvent.Name;
 
-			var sqlAddPlayerToPlayers = $"IF NOT EXISTS(SELECT * FROM Players WHERE Players.Name = '{player.Name}') INSERT INTO Players(Name) VALUES('{player.Name}')";
-			var sqlAddPlayerToEvent = $"IF NOT EXISTS(SELECT * FROM EventPlayers WHERE Player='{player.Name}' AND EventName='{eventName}') INSERT INTO EventPlayers(Player, EventName, Dropped) VALUES('{player.Name}', '{eventName}', 0)";
+			var sqlAddPlayerToPlayersQuery = "IF NOT EXISTS(SELECT * FROM Players WHERE Players.Name = {0}) BEGIN INSERT INTO Players(Name) VALUES({0}) END SELECT ID FROM Players WHERE Name = {0}";
+			var sqlAddPlayerToEvent = "IF NOT EXISTS(SELECT * FROM EventPlayers WHERE PlayerID={2} AND EventName={1}) INSERT INTO EventPlayers(PlayerID, Player, EventName, Dropped) VALUES({2}, {0}, {1}, 0)";
 
 			try
 			{
-				_dataContext.ExecuteCommand(sqlAddPlayerToPlayers);
-				_dataContext.ExecuteCommand(sqlAddPlayerToEvent);
+				player.ID = _dataContext.ExecuteQuery<int>(sqlAddPlayerToPlayersQuery, player.Name).Single();
+				_dataContext.ExecuteCommand(sqlAddPlayerToEvent, player.Name, e.name, player.ID);
 			}
 			catch (Exception)
 			{

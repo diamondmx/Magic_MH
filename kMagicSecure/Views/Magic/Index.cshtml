@@ -59,6 +59,7 @@
 
 		foreach (var prizeInfoItem in playerPrizeInfo)
 		{
+			<input type="hidden" name="playerID" value="@prizeInfoItem.PlayerID" />
 			<input type="hidden" name="prizeEvent" value="@prizeInfoItem.EventName" />
 			<input type="hidden" name="prizeRound" value="@prizeInfoItem.Round" />
 			<input type="hidden" name="prizePosition" value="@prizeInfoItem.Position" />
@@ -135,7 +136,7 @@
 			<td>@string.Format("{0}", p.Name)</td>
 			@foreach (Magic.Domain.Match m in p.Matches.Where(m => m.Round == round))
 			{
-				var normalizedMatch = m.WithPlayerOneAs(p.Name);
+				var normalizedMatch = m.WithPlayerOneAs(p.ID);
 				var matchResult = "";
 				if (normalizedMatch.Player1Wins == 0 && normalizedMatch.Player2Wins == 0 && normalizedMatch.Draws <= 1)
 				{ matchResult = ""; }

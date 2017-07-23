@@ -1,7 +1,11 @@
 ﻿using IdentitySample.Models;
+using Magic.Domain;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -13,13 +17,28 @@ namespace IdentitySample.Controllers
 	[Authorize]
 	public class ManageController : Controller
 	{
+		private Magic.Data.IDataContextWrapper _dataContext = null;
+		private Magic.Core.IPlayerManager _playerManager = null;
+		private TelemetryClient _telemetryClient = null;
+
 		public ManageController()
 		{
+			Setup();
 		}
 
 		public ManageController(ApplicationUserManager userManager)
 		{
 			UserManager = userManager;
+			Setup();
+		}
+
+		private void Setup()
+		{
+			var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+			_dataContext = new Magic.Data.DataContextWrapper(connectionString);
+			var playerRepo = new Magic.Data.PlayerRepository(_dataContext);
+			_playerManager = new Magic.Core.PlayerManager(playerRepo);
+			_telemetryClient = new TelemetryClient();
 		}
 
 		private ApplicationUserManager _userManager;
@@ -39,19 +58,24 @@ namespace IdentitySample.Controllers
 		// GET: /Account/Index
 		public async Task<ActionResult> Index(ManageMessageId? message)
 		{
+			_telemetryClient.TrackTrace(new TraceTelemetry("ManageController::Index"));
 			ViewBag.StatusMessage =
 					message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
 					: message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
 					: message == ManageMessageId.Error ? "An error has occurred."
 					: message == ManageMessageId.AddPhoneSuccess ? "The phone number was added."
 					: message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+					: message == ManageMessageId.SetDisplayNameSuccess ? "Your display name was updated"
 					: "";
 
 			var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 			var confirmed = user.EmailConfirmed;
+			var player = _playerManager.GetPlayerByEmail(user.Email);
+			
 
 			var model = new IndexViewModel
 			{
+				DisplayName = player.Name,
 				HasPassword = HasPassword(),
 				PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
 				TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
@@ -62,61 +86,75 @@ namespace IdentitySample.Controllers
 			return View(model);
 		}
 
-		//
-		// GET: /Account/RemoveLogin
-		public ActionResult RemoveLogin()
-		{
-			var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
-			ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
-			return View(linkedAccounts);
-		}
-
-		//
-		// GET: /Account/AddPhoneNumber
-		public ActionResult AddPhoneNumber()
-		{
-			return View();
-		}
-
-		//
-		// POST: /Account/AddPhoneNumber
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
+		public async Task<ActionResult> SetPlayerName(IndexViewModel model)
 		{
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
-			// Generate the token and send it
-			var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
-			if (UserManager.SmsService != null)
-			{
-				var message = new IdentityMessage
-				{
-					Destination = model.Number,
-					Body = "Your security code is: " + code
-				};
-				await UserManager.SmsService.SendAsync(message);
-			}
-			return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
-		}
-
-		//
-		// GET: /Account/RemovePhoneNumber
-		public async Task<ActionResult> RemovePhoneNumber()
-		{
-			var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
-			if (!result.Succeeded)
-			{
-				return RedirectToAction("Index", new { Message = ManageMessageId.Error });
-			}
+			_telemetryClient.TrackTrace(new TraceTelemetry("Start DisplayName set"));
 			var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-			if (user != null)
+
+			// Check Mode: Pair Player or Change Name
+			var allPlayers = _playerManager.GetAllPlayers();
+			if(allPlayers.Any(p=>p.Email==user.Email))
 			{
-				await SignInAsync(user, isPersistent: false);
+				try
+				{
+					_telemetryClient.TrackTrace(new TraceTelemetry("Mode: Changing DisplayName"));
+
+					var oldPlayerObj = allPlayers.First(p => p.Email == user.Email);
+
+					var oldPlayer = new dbPlayer
+					{
+						Name = oldPlayerObj.Name,
+						Email = oldPlayerObj.Email
+					};
+					var newPlayer = new dbPlayer
+					{
+						Name = model.NewDisplayName,
+						Email = oldPlayerObj.Email
+					};
+
+					_playerManager.UpdatePlayer(oldPlayer, newPlayer);
+
+					return await Index(ManageMessageId.SetDisplayNameSuccess);
+				}
+				catch(Exception ex)
+				{
+					_telemetryClient.TrackException(ex);
+					return await Index(ManageMessageId.Error);
+				}
 			}
-			return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
+			else
+			{
+				try
+				{
+					_telemetryClient.TrackTrace(new TraceTelemetry("Mode: Pairing DisplayName"));
+					var oldPlayerObj = allPlayers.First(p => p.Name == model.DisplayName);
+
+					var oldPlayer = new dbPlayer
+					{
+						Name = oldPlayerObj.Name,
+						Email = oldPlayerObj.Email
+					};
+
+					var newPlayer = new dbPlayer
+					{
+						Name = oldPlayer.Name,
+						Email = user.Email
+					};
+
+					_playerManager.UpdatePlayer(oldPlayer, newPlayer);
+
+					return await Index(ManageMessageId.SetDisplayNameSuccess);
+				}
+				catch(Exception ex)
+				{
+					_telemetryClient.TrackException(ex);
+					return await Index(ManageMessageId.Error);
+				}
+			}
+
+			return RedirectToAction("Index",	new { message = ManageMessageId.SetDisplayNameSuccess});
 		}
 
 		//
@@ -132,6 +170,7 @@ namespace IdentitySample.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
 		{
+			_telemetryClient.TrackTrace(new TraceTelemetry("ChangePassword"));
 			if (!ModelState.IsValid)
 			{
 				return View(model);
@@ -163,6 +202,7 @@ namespace IdentitySample.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
 		{
+			_telemetryClient.TrackTrace(new TraceTelemetry("SetPassword"));
 			if (ModelState.IsValid)
 			{
 				var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
@@ -218,23 +258,14 @@ namespace IdentitySample.Controllers
 			return false;
 		}
 
-		private bool HasPhoneNumber()
-		{
-			var user = UserManager.FindById(User.Identity.GetUserId());
-			if (user != null)
-			{
-				return user.PhoneNumber != null;
-			}
-			return false;
-		}
-
 		public enum ManageMessageId
 		{
 			AddPhoneSuccess,
 			ChangePasswordSuccess,
 			SetPasswordSuccess,
 			RemovePhoneSuccess,
-			Error
+			Error,
+			SetDisplayNameSuccess
 		}
 
 		#endregion

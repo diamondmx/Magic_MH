@@ -11,6 +11,7 @@ namespace Magic.Domain
 	public class dbPlayerPrize
 	{
 		[Column] public string Player;
+		[Column] public int PlayerID;
 		[Column] public string EventName;
 		[Column] public int Round;
 		[Column] public int Position;

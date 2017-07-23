@@ -55,7 +55,7 @@ namespace kMagicSecure
 
 			routes.MapRoute(
 				name: "PlayerStats",
-				url: "Magic/PlayerStats/{playerName}",
+				url: "Magic/PlayerStats/{playerID}",
 				defaults: new { controller = "Magic", action = "PlayerStats" }
 			);
 
@@ -142,8 +142,7 @@ namespace kMagicSecure
 			routes.MapRoute(
 					name: "Generic",
 					url: "{controller}/{action}/",
-					defaults: new { controller = "Magic", action = "Default" }
-			);
+					defaults: new { controller = "Magic", action = "Default" });
 		}
 	}
 }

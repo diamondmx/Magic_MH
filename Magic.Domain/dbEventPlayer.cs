@@ -16,6 +16,9 @@ namespace Magic.Domain
 		[Column()]
 		public string Player;
 
+		[Column]
+		public int PlayerID;
+
 		[Column()]
 		public int Dropped;
 	}

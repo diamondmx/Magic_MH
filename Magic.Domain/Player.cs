@@ -11,6 +11,7 @@ namespace Magic.Domain
 	[DebuggerDisplay("{Name} m:{Matches.Count} s:{Score(0)}")]
 	public class Player
 	{
+		public int ID;
 		public string Name;
 		public List<Match> Matches;
 		public int? DroppedInRound;
@@ -18,14 +19,16 @@ namespace Magic.Domain
 
 		public Player(dbPlayer p)
 		{
+			ID = p.ID;
 			Name = p.Name;
 			Matches = new List<Match>();
 			DroppedInRound = 0;
 			Email = p.Email;
 		}
 
-		public Player(string newName, string email=null)
+		public Player(string newName, string email, int id)
 		{
+			ID = id;
 			Name = newName;
 			Email = email;
 			Matches = new List<Match>();
@@ -51,7 +54,7 @@ namespace Magic.Domain
 
             return relevantMatches.Sum(m =>
             {
-                var nm = m.WithPlayerOneAs(Name);
+                var nm = m.WithPlayerOneAs(ID);
                 return MatchScore(nm.Player1Wins, nm.Player2Wins, nm.Draws);
             });
         }
@@ -104,7 +107,7 @@ namespace Magic.Domain
 		{
 			var relevantMatches = GetRelevantMatches(round);
 
-			return relevantMatches.Select<Match, Player>(m => (m.Player1.Name == Name) ? m.Player2 : m.Player1).ToList();
+			return relevantMatches.Select<Match, Player>(m => (m.Player1.ID == ID) ? m.Player2 : m.Player1).ToList();
 		}
 
 		public float OMWP(int round = 0)
@@ -126,7 +129,7 @@ namespace Magic.Domain
 
 			relevantMatches.ForEach(m =>
 			{
-				var normalisedMatch = m.WithPlayerOneAs(Name);
+				var normalisedMatch = m.WithPlayerOneAs(ID);
 				gameWins += normalisedMatch.Player1Wins;
 				gameLosses += normalisedMatch.Player2Wins;
 			});

@@ -18,7 +18,8 @@ namespace Magic.Data
 
 		public List<Match> LoadDBMatches(string mtgEvent)
 		{
-			var matchesTable = _context.GetTable<dbMatch>().Where(m => m.Event == mtgEvent).ToList();
+			var matchesTable = _context.GetTable<dbMatch>().ToList();
+			var matchesTable2 = matchesTable.Where(m => m.Event == mtgEvent).ToList();
 			var results = matchesTable.Select(dbm => new Match(dbm));
 			return results.ToList();
 		}
@@ -33,13 +34,13 @@ namespace Magic.Data
 
 		public void Insert(Match m)
 		{
-			var sql = $"INSERT INTO [Matches](Event,Round,Player1,Player2,Player1Wins,Player2Wins,Draws) VALUES('{m.Event}',{m.Round},'{m.Player1Name}','{m.Player2Name}',{m.Player1Wins},{m.Player2Wins},{m.Draws})";
+			var sql = $"INSERT INTO [Matches](Event,Round,Player1ID, Player2ID, Player1,Player2,Player1Wins,Player2Wins,Draws) VALUES('{m.Event}',{m.Round},{m.Player1ID}, {m.Player2ID}, '{m.Player1Name}','{m.Player2Name}',{m.Player1Wins},{m.Player2Wins},{m.Draws})";
 			_context.ExecuteQuery<dbMatch>(sql);
 		}
 
 		public void Save(Match m)
 		{
-			if (MatchExists(m.Event, m.Round, m.Player1Name, m.Player2Name))
+			if (MatchExists(m.Event, m.Round, m.Player1ID, m.Player2ID))
 				Update(m);
 			else
 				Insert(m);
@@ -58,20 +59,20 @@ namespace Magic.Data
 			return true;
 		}
 
-		public bool MatchExists(string eventName, int round, string p1, string p2)
+		public bool MatchExists(string eventName, int round, int p1, int p2)
 		{
 			var allMatches = LoadDBMatches(eventName);
 			var eventMatches = allMatches.Where(m => m.Event == eventName).ToList();
 			var roundMatches = eventMatches.Where(m => m.Round == round).ToList();
 
-			var matchesAsP1 = roundMatches.Where(m => m.Player1Name == p1 && m.Player2Name == p2);
+			var matchesAsP1 = roundMatches.Where(m => m.Player1ID == p1 && m.Player2ID== p2);
 			if (matchesAsP1.Any())
 			{
 				return true;
 			}
 			else
 			{
-				var matchesAsP2 = roundMatches.Where(m => m.Player1Name == p2 && m.Player2Name == p1);
+				var matchesAsP2 = roundMatches.Where(m => m.Player1ID == p2 && m.Player2ID == p1);
 				if (matchesAsP2.Any())
 				{
 					return true;
@@ -111,11 +112,20 @@ namespace Magic.Data
 			matches.ToList().ForEach(m => Save(m));
 		}
 
-		public List<dbMatch> GetAllMatches(string playerName)
+		public List<dbMatch> GetAllMatches(int playerID)
 		{
-			var matchesTable = _context.GetTable<dbMatch>().Where(m => m.Player1 == playerName || m.Player2 == playerName).ToList();
-			var results = matchesTable.Select(m => m.WithPlayerOneAs(playerName));
+			var matchesTable = _context.GetTable<dbMatch>().Where(m => m.Player1ID == playerID || m.Player2ID == playerID).ToList();
+			var results = matchesTable.Select(m => m.WithPlayerOneAs(playerID));
 			return results.ToList();
+		}
+
+		public void PopulateMatch(List<Player> players, Match m)
+		{
+			m.Player1 = players.FirstOrDefault(p => p.ID == m.Player1ID);
+			m.Player2 = players.FirstOrDefault(p => p.ID == m.Player2ID);
+
+			if (m.Player1 == null || m.Player2 == null)
+				throw new Exception("Player in match not found");
 		}
 	}
 }

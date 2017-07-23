@@ -12,7 +12,9 @@ namespace Magic.Core
 	{
 		List<Player> GetAllPlayers();
 		Player GetPlayerByEmail(string email);
-  }
+		bool UpdatePlayer(dbPlayer oldPlayer, dbPlayer newPlayer);
+
+	}
 
 	public class PlayerManager : IPlayerManager
 	{
@@ -32,6 +34,20 @@ namespace Magic.Core
 		{
 			var player = _playerRepo.GetAllPlayers().FirstOrDefault(p => p.Email == email);
 			return player;
+		}
+
+		public bool UpdatePlayer(dbPlayer oldPlayer, dbPlayer newPlayer)
+		{
+			try
+			{
+				_playerRepo.Save(oldPlayer, newPlayer);
+				return true;
+			}
+			catch(Exception ex)
+			{
+				return false;
+			}
+			
 		}
 	}
 }

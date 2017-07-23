@@ -13,18 +13,20 @@ namespace Magic.Core
 	{
 		void Update(Match m);
 		void UpdateAllMatches(List<Match> matches, int round);
-		PlayerScoreSummary GetPlayerStatistics(string playerName);
+		PlayerScoreSummary GetPlayerStatistics(int playerID);
 	}
 
 	public class MatchManager : IMatchManager
 	{
 		private IMatchRepository _matchRepository;
 		private IEventRepository _eventRepository;
+		private IPlayerRepository _playerRepository;
 
-		public MatchManager(IMatchRepository matchRepo, IEventRepository eventRepo)
+		public MatchManager(IMatchRepository matchRepo, IEventRepository eventRepo, IPlayerRepository playerRepo)
 		{
 			_matchRepository = matchRepo;
 			_eventRepository = eventRepo;
+			_playerRepository = playerRepo;
 		}
 		
 		public void Update(Match m)
@@ -52,13 +54,14 @@ namespace Magic.Core
 			_matchRepository.UpdateAllMatches(relevantMatches);
 		}
 
-		public PlayerScoreSummary GetPlayerStatistics(string playerName)
+		public PlayerScoreSummary GetPlayerStatistics(int playerID)
 		{
-			var matches = _matchRepository.GetAllMatches(playerName);
+			var matches = _matchRepository.GetAllMatches(playerID);
 
-			List<PlayerScoreItem> playerScores = matches.GroupBy(m=>m.Player2).Select(lm=> 
+			List<PlayerScoreItem> playerScores = matches.GroupBy(m=>m.Player2ID).Select(lm=> 
 				new PlayerScoreItem{
-					Name = lm.Key,
+					PlayerID = lm.Key,
+					Name = _playerRepository.GetPlayerName(lm.Key),
 					GameWins = lm.Sum(m=>m.Player1Wins),
 					GameDraws = lm.Sum(m=>m.Draws),
 					GameLosses = lm.Sum(m=>m.Player2Wins),
@@ -70,6 +73,7 @@ namespace Magic.Core
 
 			var totalScores = new PlayerScoreItem
 			{
+				PlayerID = 0,
 				Name = "Total",
 				GameWins = matches.Sum(m => m.Player1Wins),
 				GameDraws = matches.Sum(m => m.Draws),
@@ -83,13 +87,13 @@ namespace Magic.Core
 			var wins = 0;
 			foreach (var group in topEightGroups)
 			{
-				if (group.All(m => m.HasWon(playerName)))
+				if (group.All(m => m.HasWon(playerID)))
 					wins++;
 			}
 
 			var leaguesUndefeatedSwissMatches = 0;
 			var events = _eventRepository.LoadAllDBEvents();
-			var leagueGroups = matches.Where(m => ((m.Round==1||m.Round==2|m.Round==3) && (m.Player1 == playerName || m.Player2 == playerName))).GroupBy(m => m.Event);
+			var leagueGroups = matches.Where(m => ((m.Round==1||m.Round==2|m.Round==3) && (m.Player1ID == playerID || m.Player2ID == playerID))).GroupBy(m => m.Event);
 			foreach(var group in leagueGroups)
 			{
 				if(!group.All(m=>m.Event == group.First().Event))
@@ -100,7 +104,7 @@ namespace Magic.Core
 				var thisEvent = events.Single(e => e.Name == group.First().Event);
 				var swissRounds = thisEvent.RoundMatches * thisEvent.Rounds;
 
-				if(group.All(m=>m.HasWon(playerName)))
+				if(group.All(m=>m.HasWon(playerID)))
 				{
 					leaguesUndefeatedSwissMatches += 1;
 				}

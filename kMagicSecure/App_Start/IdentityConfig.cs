@@ -84,7 +84,7 @@ namespace IdentitySample.Models
 
 	public class SendGridEmailService : IIdentityMessageService
 	{
-		public MailAddress FromAddress = new MailAddress("mhill@kcura.com", "kMagic");
+		public MailAddress FromAddress = new MailAddress("NOREPLY@NOADDRESS.com", "kMagic_MHill");
 
 		public async Task SendAsync(IdentityMessage message)
 		{
