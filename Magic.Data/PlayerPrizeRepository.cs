@@ -44,7 +44,7 @@ namespace Magic.Data
 
 			foreach(var prize in assignedPrizes)
 			{
-				sqlBuilder.Append($"('{prize.PlayerID}, {prize.Player}', '{prize.EventName}',{prize.Round}, {prize.Position}, {prize.Packs}, 0, NULL, 0),");
+				sqlBuilder.Append($"('{prize.PlayerID}', '{prize.Player}', '{prize.EventName}',{prize.Round}, {prize.Position}, {prize.Packs}, 0, NULL, 0),");
       }
 
 			var outputString = sqlBuilder.ToString();
