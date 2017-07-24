@@ -5,21 +5,43 @@
 	var eventName = ViewBag.EventName;
 	var round = ViewBag.Round;
 	var sortedPrizes = Model.OrderBy(p => p.EventName).ThenBy(p => p.Round).ThenBy(p => p.Position);
+	var recievedPrizes = sortedPrizes.Where(p => p.Recieved == p.Packs);
+	var unrecievedPrizes = sortedPrizes.Where(p => p.Recieved < p.Packs);
 }
 
 <h2>View Assigned Prizes</h2>
 
-@foreach (var prize in sortedPrizes)
+<h3>Unrecieved Prizes</h3>
+
+@foreach (var prize in unrecievedPrizes)
 {
 	using (Html.BeginForm("", ""))
 	{
-			<input disabled type="text" name="playerID" value="@prize.PlayerID"
 			<input disabled type="text" name="eventName" value="@prize.EventName"/>
-			<input disabled type="text" name ="Position" value="@prize.Position"/>
+			<input disabled type="text" name="eventName" value="@prize.Round" />
+			<input disabled type="text" name="Position" value="@prize.Position"/>
 			<input disabled type="text" name="player" value ="@prize.Player"/>
+			<input disabled type="text" name="playerID" value="@prize.PlayerID" />
 			<input disabled type="text" name="packs" value="@prize.Packs"/>
 			<input disabled type="text" name="recieved" value="@prize.Recieved" /> 
 			<input disabled type="checkbox" name="complete" checked=@prize.Complete />
 			@Html.ActionLink("Recieved Prizes", "AdminMarkRecieved", new { eventName=prize.EventName, round=prize.Round, position=prize.Position, playerID=prize.PlayerID, packs=prize.Packs, recieved=prize.Recieved })
+	}
+}
+
+<h3>Recieved Prizes</h3>
+
+@foreach (var prize in recievedPrizes)
+{
+	using (Html.BeginForm("", ""))
+	{
+		<input disabled type="text" name="playerID" value="@prize.PlayerID" />
+			<input disabled type="text" name="eventName" value="@prize.EventName" />
+			<input disabled type="text" name="Position" value="@prize.Position" />
+			<input disabled type="text" name="player" value="@prize.Player" />
+			<input disabled type="text" name="packs" value="@prize.Packs" />
+			<input disabled type="text" name="recieved" value="@prize.Recieved" />
+			<input disabled type="checkbox" name="complete" checked=@prize.Complete />
+			@Html.ActionLink("Recieved Prizes", "AdminMarkRecieved", new { eventName = prize.EventName, round = prize.Round, position = prize.Position, playerID = prize.PlayerID, packs = prize.Packs, recieved = prize.Recieved })
 	}
 }
