@@ -274,6 +274,8 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\kmagic - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\kmagic-empty - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\kmagic-empty - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\kmagic.pubxml" />
     <None Include="Properties\PublishProfiles\kMagicDevelop - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\kMagicDevelop.pubxml" />

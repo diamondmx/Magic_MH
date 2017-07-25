@@ -26,7 +26,7 @@ namespace Magic.Domain
 			{
 				var playerPrize = obj as dbPlayerPrize;
 
-				if (Player == playerPrize.Player &&
+				if (PlayerID == playerPrize.PlayerID &&
 						EventName == playerPrize.EventName &&
 						Round == playerPrize.Round &&
 						Position == playerPrize.Position &&

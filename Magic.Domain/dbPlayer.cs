@@ -10,7 +10,7 @@ namespace Magic.Domain
 	[Table(Name = "Players")]
 	public class dbPlayer
 	{
-		[Column()]
+		[Column(Name = "ID")]
 		public int ID;
 
 		[Column(IsPrimaryKey = true)]

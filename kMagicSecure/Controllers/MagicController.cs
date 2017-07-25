@@ -169,7 +169,7 @@ namespace kMagicSecure.Controllers
 
 			try
 			{
-				acknowledgedList = ParsePlayerPrizeForm(Request.Form["prizePlayerID"], Request.Form["prizeEvent"], Request.Form["prizeRound"], Request.Form["prizePosition"], Request.Form["prizePacks"], Request.Form["prizeRecieved"], currentPlayer.Name);
+				acknowledgedList = ParsePlayerPrizeForm(Request.Form["playerID"], Request.Form["prizeEvent"], Request.Form["prizeRound"], Request.Form["prizePosition"], Request.Form["prizePacks"], Request.Form["prizeRecieved"], currentPlayer.Name);
 			}
 			catch (Exception ex)
 			{
@@ -203,7 +203,7 @@ namespace kMagicSecure.Controllers
 			{
 				prizeList.Add(new dbPlayerPrize()
 				{
-					PlayerID = playerID[i],
+					PlayerID = playerIDList[i],
 					EventName = eventNameList[i],
 					Round = roundList[i],
 					Position = positionList[i],
