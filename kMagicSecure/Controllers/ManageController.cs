@@ -105,11 +105,13 @@ namespace IdentitySample.Controllers
 
 					var oldPlayer = new dbPlayer
 					{
+						ID = oldPlayerObj.ID,
 						Name = oldPlayerObj.Name,
 						Email = oldPlayerObj.Email
 					};
 					var newPlayer = new dbPlayer
 					{
+						ID = oldPlayerObj.ID,
 						Name = model.NewDisplayName,
 						Email = oldPlayerObj.Email
 					};
