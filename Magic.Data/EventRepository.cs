@@ -56,7 +56,7 @@ namespace Magic.Data
 
 			//LoadPlayers
 			pop.Players = new List<Player>();
-			_playerRepository.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.Player == p.Name)).ToList().ForEach(p => pop.Players.Add(new Player(p.Name, p.Email, p.ID)));
+			_playerRepository.LoadDBPlayers().Where(p => eventPlayers.Any(ep => ep.PlayerID == p.ID)).ToList().ForEach(p => pop.Players.Add(new Player(p.Name, p.Email, p.ID)));
 
 			//LoadEventPlayers
 			eventPlayers.Where(ep => ep.Dropped > 0).ToList().ForEach(ep =>
