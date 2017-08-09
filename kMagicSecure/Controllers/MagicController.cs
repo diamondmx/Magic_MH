@@ -217,17 +217,17 @@ namespace kMagicSecure.Controllers
 		return prizeList;
 		}
 
-		public ActionResult Details(string eventName, int round, string player1, string player2, int? player1wins, int? player2wins, int? draws)
+		public ActionResult Details(string eventName, int round, int player1ID, int player2ID, int? player1wins, int? player2wins, int? draws)
 		{
 			Setup();
-      Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
+			Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
 
-			var match = thisEvent.Matches.FirstOrDefault(m => (m.Round == round) && ((m.Player1Name == player1 && m.Player2Name == player2) || (m.Player2Name == player1 && m.Player1Name == player2)));
+			var match = thisEvent.Matches.FirstOrDefault(m => (m.Round == round) && ((m.Player1ID == player1ID && m.Player2ID == player2ID) || (m.Player2ID == player1ID && m.Player1ID == player2ID)));
 			ViewBag.Match = match;
 
 			if (match == null)
 			{
-				Session["LastError"] = new Exception($"Match {player1} vs {player2} not found in {eventName}:{round}");
+				Session["LastError"] = new Exception($"Match {player1ID} vs {player2ID} not found in {eventName}:{round}");
 				return View("Index", new
 				{
 					eventName = eventName,
@@ -264,6 +264,55 @@ namespace kMagicSecure.Controllers
 
 			return View("MagicMatch");
 		}
+
+
+		//public ActionResult Details(string eventName, int round, int player1, int player2, int? player1wins, int? player2wins, int? draws)
+		//{
+		//	Setup();
+  //    Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
+
+		//	var match = thisEvent.Matches.FirstOrDefault(m => (m.Round == round) && ((m.Player1.ID == player1 && m.Player2.ID == player2) || (m.Player2.ID == player1 && m.Player1.ID == player2)));
+		//	ViewBag.Match = match;
+
+		//	if (match == null)
+		//	{
+		//		Session["LastError"] = new Exception($"Match {player1} vs {player2} not found in {eventName}:{round}");
+		//		return View("Index", new
+		//		{
+		//			eventName = eventName,
+		//			round = round
+		//		});
+		//	}
+
+
+		//	if (player1wins.HasValue && player2wins.HasValue && draws.HasValue)
+		//	{
+		//		if (thisEvent.Locked(round))
+		//		{
+		//			ModelState.AddModelError("CustomError", "This match is Locked");
+		//		}
+		//		else
+		//		{
+		//			match.Player1Wins = player1wins.Value;
+		//			match.Player2Wins = player2wins.Value;
+		//			match.Draws = draws.Value;
+
+		//			_matchManager.Update(match);
+
+		//			return RedirectToAction("Index", new { controller = "Magic", eventName = eventName, round = round });
+		//		}
+		//	}
+
+		//	var p1Dropdown = GetDropdownWithSelected(2, match.Player1Wins);
+		//	var p2Dropdown = GetDropdownWithSelected(2, match.Player2Wins);
+		//	var drawsDropdown = GetDropdownWithSelected(3, match.Draws);
+
+		//	ViewBag.player1wins = p1Dropdown;
+		//	ViewBag.player2wins = p2Dropdown;
+		//	ViewBag.draws = drawsDropdown;
+
+		//	return View("MagicMatch");
+		//}
 
 		[Authorize(Roles = "Admin")]
 		public ActionResult AssignPrizes(string eventName, int round)

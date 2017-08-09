@@ -152,7 +152,7 @@
 				string scoreText = string.Format("{0}-{1}", normalizedMatch.Player1Wins, normalizedMatch.Player2Wins);
 				if (writeAuth == true)
 				{
-					<td class="centered"><a class="matchPopupLink @playerLoggedInClass" data-player="@normalizedMatch.Player1.Name" data-opponent="@normalizedMatch.Player2.Name" data-event="@eventName" data-round="@round">@scoreText</a></td>
+					<td class="centered"><a class="matchPopupLink @playerLoggedInClass" data-player="@normalizedMatch.Player1.ID" data-opponent="@normalizedMatch.Player2.ID" data-event="@eventName" data-round="@round">@scoreText</a></td>
 				}
 				else
 				{

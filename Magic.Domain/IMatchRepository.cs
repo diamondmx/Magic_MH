@@ -7,7 +7,7 @@ namespace Magic.Data
 	{
 		List<Match> LoadDBMatches(string mtgEvent);
     void Insert(Match m);
-		Match Read(string eventName, int round, string p1, string p2);
+		Match Read(string eventName, int round, int p1, int p2);
     void Save(Match m);
 		void Update(Match m);
 		void UpdateAllMatches(IEnumerable<Match> matches);

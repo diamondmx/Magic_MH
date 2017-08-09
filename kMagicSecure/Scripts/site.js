@@ -32,6 +32,5 @@ function setupAllMatchPopups() {
 
 		matchDlg.load(encodeURI(url) + " #matchForm");
 		matchDlg.dialog("open");
-
 	})
 }

@@ -26,15 +26,15 @@ namespace Magic.Data
 
 		public void Update(Match m)
 		{ 
-			_gameLog.Add($"Match updated to : {m.Player1Name} v {m.Player2Name} : {m.Player1Wins}-{m.Player2Wins}-{m.Draws}", $"{m.Event}", m);
+			_gameLog.Add($"Match updated to : {m.Player1.Name}({m.Player1.ID}) v {m.Player2.Name}({m.Player2.ID}) : {m.Player1Wins}-{m.Player2Wins}-{m.Draws}", $"{m.Event}", m);
 
-      _context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player1Wins]={m.Player1Wins}, [Player2Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player1]='{m.Player1Name}' AND [Player2]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
-			_context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player2Wins]={m.Player1Wins}, [Player1Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player2]='{m.Player1Name}' AND [Player1]='{m.Player2Name}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
+      _context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player1Wins]={m.Player1Wins}, [Player2Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player1ID]='{m.Player1.ID}' AND [Player2ID]='{m.Player2.ID}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
+			_context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player2Wins]={m.Player1Wins}, [Player1Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player2ID]='{m.Player1.ID}' AND [Player1ID]='{m.Player2.ID}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
 		}
 
 		public void Insert(Match m)
 		{
-			var sql = $"INSERT INTO [Matches](Event,Round,Player1ID, Player2ID, Player1,Player2,Player1Wins,Player2Wins,Draws) VALUES('{m.Event}',{m.Round},{m.Player1ID}, {m.Player2ID}, '{m.Player1Name}','{m.Player2Name}',{m.Player1Wins},{m.Player2Wins},{m.Draws})";
+			var sql = $"INSERT INTO [Matches](Event,Round,Player1ID, Player2ID, Player1,Player2,Player1Wins,Player2Wins,Draws) VALUES('{m.Event}',{m.Round},{m.Player1ID}, {m.Player2ID}, '{m.Player1.Name}','{m.Player2.Name}',{m.Player1Wins},{m.Player2Wins},{m.Draws})";
 			_context.ExecuteQuery<dbMatch>(sql);
 		}
 
@@ -46,13 +46,13 @@ namespace Magic.Data
 				Insert(m);
 		}
 
-		public bool IsMatch(Match checkedMatch, string player1name, string player2name, string eventname, int round)
+		public bool IsMatch(Match checkedMatch, int player1ID, int player2ID, string eventname, int round)
 		{
 			if (eventname == checkedMatch.Event && round == checkedMatch.Round)
 			{
-				if (player1name == checkedMatch.Player1Name && player2name == checkedMatch.Player2Name)
+				if (player1ID == checkedMatch.Player1.ID && player2ID == checkedMatch.Player2.ID)
 					return true;
-				else if (player1name == checkedMatch.Player2Name && player2name == checkedMatch.Player1Name)
+				else if (player1ID == checkedMatch.Player2.ID && player2ID == checkedMatch.Player1.ID)
 					return true;
 			}
 
@@ -81,13 +81,13 @@ namespace Magic.Data
 			return false;
 		}
 
-		public Match Read(string eventName, int round, string p1, string p2)
+		public Match Read(string eventName, int round, int p1ID, int p2ID)
 		{
 			var allMatches = LoadDBMatches(eventName);
 			var eventMatches = allMatches.Where(m => m.Event == eventName).ToList();
 			var roundMatches = eventMatches.Where(m => m.Round == round).ToList();
 
-			var matchesAsP1 = roundMatches.Where(m => m.Player1Name == p1 && m.Player2Name == p2);
+			var matchesAsP1 = roundMatches.Where(m => m.Player1.ID == p1ID && m.Player2.ID== p2ID);
 			if (matchesAsP1.Any())
 			{
 				var foundMatch = matchesAsP1.First();
@@ -96,7 +96,7 @@ namespace Magic.Data
 			}
 			else
 			{
-				var matchesAsP2 = roundMatches.Where(m => m.Player1Name == p2 && m.Player2Name == p1);
+				var matchesAsP2 = roundMatches.Where(m => m.Player1.ID == p2ID && m.Player2.ID == p1ID);
 				if (matchesAsP2.Any())
 				{
 					var foundMatch = matchesAsP2.First();

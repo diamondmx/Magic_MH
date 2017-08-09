@@ -79,10 +79,10 @@ namespace Magic.Data
 
 			foreach (var match in pop.Matches)
 			{
-				if (String.IsNullOrEmpty((match.Player1Name)))
+				if (String.IsNullOrEmpty((match.Player1.Name)))
 					throw new Exception();
 
-				if (String.IsNullOrEmpty((match.Player2Name)))
+				if (String.IsNullOrEmpty((match.Player2.Name)))
 					throw new Exception();
 			}
 
