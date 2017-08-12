@@ -32,7 +32,7 @@ namespace Magic.Data
 
 		public void Save(dbPlayer oldPlayer, dbPlayer newPlayer)
 		{
-			var sqlUpdate = String.Format("UPDATE Players SET Name='{0}', Email='{1}' WHERE ID={2}	", newPlayer.Name, newPlayer.Email, oldPlayer.ID);
+			var sqlUpdate = String.Format("UPDATE Players SET Name='{0}', Email='{1}' WHERE ID={2}", newPlayer.Name, newPlayer.Email, oldPlayer.ID);
 			_dataContext.ExecuteCommand(sqlUpdate);
 		}
 

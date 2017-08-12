@@ -29,15 +29,23 @@
 				}
 			</p>
         @using (Html.BeginForm("SetPlayerName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
-            @Html.AntiForgeryToken()
+					{
+						@Html.AntiForgeryToken();
 
-            <h4>Set Display Name</h4>
-            <hr />
-            
-            @Html.DisplayTextFor(m => m.DisplayName);
+						if (Model.DisplayName != null)
+						{
+							<h4>Change your player name</h4>
+							<hr />
 
-            @Html.ValidationSummary("", new { @class = "text-danger" })
+							@Html.DisplayTextFor(m => m.DisplayName);
+						}
+						else
+						{
+							<h4>Please bind your account to your player name (enter it exactly as it shows in event lists)</h4>
+							<hr />
+						}
+
+
             <div class="form-group">
                 @Html.LabelFor(m => m.NewDisplayName, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
