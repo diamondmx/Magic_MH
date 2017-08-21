@@ -132,27 +132,36 @@
 	@foreach (Magic.Domain.Player p in players.OrderByDescending(p=>p.Matches.Count).ThenBy(p=>p.Name))
 	{
 		var playerLoggedInClass = p.Email == userName ? "loggedInUser" : "";
-		<tr class="keyplayer @playerLoggedInClass">
-			<td>@string.Format("{0}", p.Name)</td>
+		<tr class="keyplayer @playerLoggedInClass">		
+			<td>
+				<span class="tooltipq">
+						@string.Format("{0}", p.Name)
+						<span class="tooltipqtext">
+							@p.Email
+						</span>
+					</span>
+			</td>
 			@foreach (Magic.Domain.Match m in p.Matches.Where(m => m.Round == round))
 			{
 				var normalizedMatch = m.WithPlayerOneAs(p.ID);
 				var matchResult = "";
 				if (normalizedMatch.Player1Wins == 0 && normalizedMatch.Player2Wins == 0 && normalizedMatch.Draws <= 1)
 				{ matchResult = ""; }
-				else if (normalizedMatch.Player1Wins == normalizedMatch.Player2Wins)
+				else if ((normalizedMatch.Player1Wins == normalizedMatch.Player2Wins) && (normalizedMatch.Player1Wins + normalizedMatch.Player2Wins + normalizedMatch.Draws) >= 3)
 				{ matchResult = "Draw"; }
 				else if (normalizedMatch.Player1Wins > normalizedMatch.Player2Wins)
 				{ matchResult = "Win"; }
 				else if (normalizedMatch.Player2Wins > normalizedMatch.Player1Wins)
 				{ matchResult = "Loss"; }
+				else
+				{ matchResult = "InProg";  }
 				var matchWin = normalizedMatch.Player1Wins > normalizedMatch.Player2Wins ? "Win" : "Loss";
-				<td class="opponentplayer @playerLoggedInClass"><text>@normalizedMatch.Player2.Name</text></td>
+				<td class="opponentplayer @playerLoggedInClass"><span class="tooltipq">@normalizedMatch.Player2.Name<span class="tooltipqtext">@normalizedMatch.Player2.Email</span></span></td>
 
 				string scoreText = string.Format("{0}-{1}", normalizedMatch.Player1Wins, normalizedMatch.Player2Wins);
 				if (writeAuth == true)
 				{
-					<td class="centered"><a class="matchPopupLink @playerLoggedInClass" data-player="@normalizedMatch.Player1.Name" data-opponent="@normalizedMatch.Player2.Name" data-event="@eventName" data-round="@round">@scoreText</a></td>
+					<td class="centered"><a class="matchPopupLink @playerLoggedInClass" data-player="@normalizedMatch.Player1.ID" data-opponent="@normalizedMatch.Player2.ID" data-event="@eventName" data-round="@round">@scoreText</a></td>
 				}
 				else
 				{

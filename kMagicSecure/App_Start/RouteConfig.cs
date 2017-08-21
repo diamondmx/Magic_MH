@@ -135,7 +135,7 @@ namespace kMagicSecure
 
 			routes.MapRoute(
 					name: "Details",
-					url: "Magic/Match/{eventName}/{round}/{player1}/{player2}",
+					url: "Magic/Match/{eventName}/{round}/{player1ID}/{player2ID}",
 					defaults: new { controller = "Magic", action = "Details"}
 			);
 

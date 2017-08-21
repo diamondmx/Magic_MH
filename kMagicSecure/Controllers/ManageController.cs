@@ -75,7 +75,7 @@ namespace IdentitySample.Controllers
 
 			var model = new IndexViewModel
 			{
-				DisplayName = player.Name,
+				DisplayName = player?.Name,
 				HasPassword = HasPassword(),
 				PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
 				TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
@@ -131,16 +131,18 @@ namespace IdentitySample.Controllers
 				try
 				{
 					_telemetryClient.TrackTrace(new TraceTelemetry("Mode: Pairing DisplayName"));
-					var oldPlayerObj = allPlayers.First(p => p.Name == model.DisplayName);
+					var oldPlayerObj = allPlayers.First(p => p.Name == model.NewDisplayName);
 
 					var oldPlayer = new dbPlayer
 					{
+						ID = oldPlayerObj.ID,
 						Name = oldPlayerObj.Name,
 						Email = oldPlayerObj.Email
 					};
 
 					var newPlayer = new dbPlayer
 					{
+						ID = oldPlayerObj.ID,
 						Name = oldPlayer.Name,
 						Email = user.Email
 					};
