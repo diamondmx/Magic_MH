@@ -136,9 +136,12 @@
 			<td>
 				<span class="tooltipq">
 						@string.Format("{0}", p.Name)
-						<span class="tooltipqtext">
-							@p.Email
-						</span>
+						@if (user?.EmailConfirmed == true)
+						{
+							<span class="tooltipqtext">
+								@p.Email
+							</span>
+						}
 					</span>
 			</td>
 			@foreach (Magic.Domain.Match m in p.Matches.Where(m => m.Round == round))
@@ -156,7 +159,17 @@
 				else
 				{ matchResult = "InProg";  }
 				var matchWin = normalizedMatch.Player1Wins > normalizedMatch.Player2Wins ? "Win" : "Loss";
-				<td class="opponentplayer @playerLoggedInClass"><span class="tooltipq">@normalizedMatch.Player2.Name<span class="tooltipqtext">@normalizedMatch.Player2.Email</span></span></td>
+				<td class="opponentplayer @playerLoggedInClass">
+					<span class="tooltipq">
+						@normalizedMatch.Player2.Name 
+						@if (user?.EmailConfirmed == true)
+						{
+							<span class="tooltipqtext">
+								@normalizedMatch.Player2.Email
+							</span>
+						}
+					</span>
+				</td>
 
 				string scoreText = string.Format("{0}-{1}", normalizedMatch.Player1Wins, normalizedMatch.Player2Wins);
 				if (writeAuth == true)
