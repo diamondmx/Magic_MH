@@ -4,7 +4,7 @@
 
 	var eventName = ViewBag.EventName;
 	var round = ViewBag.Round;
-	var sortedPrizes = Model.OrderBy(p => p.EventName).ThenBy(p => p.Round).ThenBy(p => p.Position);
+	var sortedPrizes = Model.OrderBy(p=>p.PlayerID).ThenBy(p => p.EventName).ThenBy(p => p.Round).ThenBy(p => p.Position);
 	var recievedPrizes = sortedPrizes.Where(p => p.Recieved == p.Packs);
 	var unrecievedPrizes = sortedPrizes.Where(p => p.Recieved < p.Packs);
 }
@@ -13,35 +13,78 @@
 
 <h3>Unrecieved Prizes</h3>
 
-@foreach (var prize in unrecievedPrizes)
-{
-	using (Html.BeginForm("", ""))
-	{
-			<input disabled type="text" name="eventName" value="@prize.EventName"/>
-			<input disabled type="text" name="eventName" value="@prize.Round" />
-			<input disabled type="text" name="Position" value="@prize.Position"/>
-			<input disabled type="text" name="player" value ="@prize.Player"/>
-			<input disabled type="text" name="playerID" value="@prize.PlayerID" />
-			<input disabled type="text" name="packs" value="@prize.Packs"/>
-			<input disabled type="text" name="recieved" value="@prize.Recieved" /> 
-			<input disabled type="checkbox" name="complete" checked=@prize.Complete />
-			@Html.ActionLink("Recieved Prizes", "AdminMarkRecieved", new { eventName=prize.EventName, round=prize.Round, position=prize.Position, playerID=prize.PlayerID, packs=prize.Packs, recieved=prize.Recieved })
-	}
-}
+<table>
+	
+		<thead>
+			<tr>
+				<th>EventName</th>
+				<th>Round</th>
+				<th>Position</th>
+				<th>Player</th>
+				<th>PlayerID</th>
+				<th>Packs</th>
+				<th>Recieved</th>
+				<th>Complete</th>
+			</tr>
+		</thead>
+	<tbody>
+		@foreach (var prize in unrecievedPrizes)
+		{
+			<tr>
+				@using (Html.BeginForm("", ""))
+				{
+					var playerName = ViewBag.PlayerList[@prize.PlayerID];
+					<td><input disabled type="text" name="eventName" value="@prize.EventName" /></td>
+					<td><input disabled type="text" name="round" value="@prize.Round" /></td>
+					<td><input disabled type="text" name="Position" value="@prize.Position" /></td>
+					<td><input disabled type="text" name="player" value="@playerName" /></td>
+					<td><input disabled type="text" name="playerID" value="@prize.PlayerID" /></td>
+					<td><input disabled type="text" name="packs" value="@prize.Packs" /></td>
+					<td><input disabled type="text" name="recieved" value="@prize.Recieved" /></td>
+					<td><input disabled type="checkbox" name="complete" checked=@prize.Complete /></td>
+					<td>@Html.ActionLink("Recieved Prizes", "AdminMarkRecieved", new { eventName = prize.EventName, round = prize.Round, position = prize.Position, playerID = prize.PlayerID, packs = prize.Packs, recieved = prize.Recieved })</td>
+				}
+			</tr>
+		} 
+	</tbody>
+	
+
+
+	
+</table>
 
 <h3>Recieved Prizes</h3>
+<table>
+	<thead>
+		<tr>
+			<th>EventName</th>
+			<th>Round</th>
+			<th>Position</th>
+			<th>Player</th>
+			<th>PlayerID</th>
+			<th>Packs</th>
+			<th>Recieved</th>
+			<th>Complete</th>
+		</tr>
+	</thead>
 
-@foreach (var prize in recievedPrizes)
-{
-	using (Html.BeginForm("", ""))
-	{
-		<input disabled type="text" name="playerID" value="@prize.PlayerID" />
-			<input disabled type="text" name="eventName" value="@prize.EventName" />
-			<input disabled type="text" name="Position" value="@prize.Position" />
-			<input disabled type="text" name="player" value="@prize.Player" />
-			<input disabled type="text" name="packs" value="@prize.Packs" />
-			<input disabled type="text" name="recieved" value="@prize.Recieved" />
-			<input disabled type="checkbox" name="complete" checked=@prize.Complete />
-			@Html.ActionLink("Recieved Prizes", "AdminMarkRecieved", new { eventName = prize.EventName, round = prize.Round, position = prize.Position, playerID = prize.PlayerID, packs = prize.Packs, recieved = prize.Recieved })
-	}
-}
+	<tbody>
+		@foreach (var prize in recievedPrizes)
+		{
+			<tr>
+				@using (Html.BeginForm("", ""))
+				{
+				<td><input disabled type="text" name="playerID" value="@prize.PlayerID" /></td>
+				<td><input disabled type="text" name="eventName" value="@prize.EventName" /></td>
+				<td><input disabled type="text" name="Position" value="@prize.Position" /></td>
+				<td><input disabled type="text" name="player" value="@prize.Player" /></td>
+				<td><input disabled type="text" name="packs" value="@prize.Packs" /></td>
+				<td><input disabled type="text" name="recieved" value="@prize.Recieved" /></td>
+				<td><input disabled type="checkbox" name="complete" checked=@prize.Complete /></td>
+				<td>@Html.ActionLink("Recieved Prizes", "AdminMarkRecieved", new { eventName = prize.EventName, round = prize.Round, position = prize.Position, playerID = prize.PlayerID, packs = prize.Packs, recieved = prize.Recieved })</td>
+		}
+			</tr>
+			
+		}
+	</tbody>
+</table>

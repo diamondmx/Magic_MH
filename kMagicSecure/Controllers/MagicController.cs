@@ -265,55 +265,6 @@ namespace kMagicSecure.Controllers
 			return View("MagicMatch");
 		}
 
-
-		//public ActionResult Details(string eventName, int round, int player1, int player2, int? player1wins, int? player2wins, int? draws)
-		//{
-		//	Setup();
-  //    Magic.Domain.Event thisEvent = _eventManager.LoadEvent(eventName);
-
-		//	var match = thisEvent.Matches.FirstOrDefault(m => (m.Round == round) && ((m.Player1.ID == player1 && m.Player2.ID == player2) || (m.Player2.ID == player1 && m.Player1.ID == player2)));
-		//	ViewBag.Match = match;
-
-		//	if (match == null)
-		//	{
-		//		Session["LastError"] = new Exception($"Match {player1} vs {player2} not found in {eventName}:{round}");
-		//		return View("Index", new
-		//		{
-		//			eventName = eventName,
-		//			round = round
-		//		});
-		//	}
-
-
-		//	if (player1wins.HasValue && player2wins.HasValue && draws.HasValue)
-		//	{
-		//		if (thisEvent.Locked(round))
-		//		{
-		//			ModelState.AddModelError("CustomError", "This match is Locked");
-		//		}
-		//		else
-		//		{
-		//			match.Player1Wins = player1wins.Value;
-		//			match.Player2Wins = player2wins.Value;
-		//			match.Draws = draws.Value;
-
-		//			_matchManager.Update(match);
-
-		//			return RedirectToAction("Index", new { controller = "Magic", eventName = eventName, round = round });
-		//		}
-		//	}
-
-		//	var p1Dropdown = GetDropdownWithSelected(2, match.Player1Wins);
-		//	var p2Dropdown = GetDropdownWithSelected(2, match.Player2Wins);
-		//	var drawsDropdown = GetDropdownWithSelected(3, match.Draws);
-
-		//	ViewBag.player1wins = p1Dropdown;
-		//	ViewBag.player2wins = p2Dropdown;
-		//	ViewBag.draws = drawsDropdown;
-
-		//	return View("MagicMatch");
-		//}
-
 		[Authorize(Roles = "Admin")]
 		public ActionResult AssignPrizes(string eventName, int round)
 		{
@@ -369,6 +320,9 @@ namespace kMagicSecure.Controllers
 		public ActionResult ShowPrizes(bool unclaimedOnly = true)
 		{
 			var model = _prizeManager.GetAllPlayerPrizes();
+			var players = _playerManager.GetAllPlayers();
+			ViewBag.PlayerList = players.ToDictionary(p => p.ID, p => p.Name);
+
 			return View("ViewAssignedPrizes", model);
 		}
 
