@@ -162,3 +162,13 @@ input[type="checkbox"].input-validation-error {
 	.tooltipq:hover .tooltipqtext {
 		visibility: visible;
 	}
+
+	.ui-dialog {
+		background-color: aliceblue;
+		outline-style:auto;
+		outline-color:black
+	}
+
+.ui-state-default .ui-icon {
+	background-image: url("../img/ui-icons_888888_256x240.png");
+}

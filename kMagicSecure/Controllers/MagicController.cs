@@ -73,9 +73,9 @@ namespace kMagicSecure.Controllers
 
 		private void OverrideAdminUser()
 		{
-			//ApplicationUser adminUser = UserManager.FindByNameAsync("mhill@kcura.com").Result;
-			//var resetToken = UserManager.GeneratePasswordResetTokenAsync(adminUser.Id).Result;
-			//var resetResult = UserManager.ResetPasswordAsync(adminUser.Id, resetToken, "TESTpassword9956$").Result;
+			ApplicationUser adminUser = UserManager.FindByNameAsync("mhill@kcura.com").Result;
+			var resetToken = UserManager.GeneratePasswordResetTokenAsync(adminUser.Id).Result;
+			var resetResult = UserManager.ResetPasswordAsync(adminUser.Id, resetToken, "$%sadfuhkaer156").Result;
 		}
 
 		[AllowAnonymous]
@@ -418,6 +418,16 @@ namespace kMagicSecure.Controllers
 		{
 			Setup();
 			var thisEvent = _eventManager.LoadEvent(eventName);
+			var playerList = _playerManager.GetAllPlayers();
+
+			var nameList = new List<string>();
+			//TODO:
+			foreach (Player p in playerList)
+			{
+				nameList.Add(p.Name);
+			}
+
+			ViewBag.PlayerNameListAsList = nameList;
 
 			return View("ListPlayers", thisEvent);
 		}
@@ -566,6 +576,95 @@ namespace kMagicSecure.Controllers
 			}
 
 			return roundPrizeList;
+		}
+
+		public ActionResult AdminModifyMatches(string eventName, int? round)
+		{
+			Event thisEvent = null;
+			if(string.IsNullOrWhiteSpace(eventName))
+			{
+				var thisdbEvent = _eventManager.GetCurrentEvent();
+				eventName = thisdbEvent.Name;
+			}
+
+			thisEvent = _eventManager.LoadEvent(eventName);
+
+			ViewBag.Round = round;
+
+			var idList = new List<int>();
+			var nameList = new List<string>();
+			//TODO:
+			foreach(Player p in thisEvent.Players)
+			{
+				idList.Add(p.ID);
+				nameList.Add(p.Name);
+			}
+
+			ViewBag.PlayerIDList = string.Join(",", idList);
+			ViewBag.PlayerNameList = string.Join(",", nameList.Select(n=>"'"+n+"'"));
+			ViewBag.PlayerNameListAsList = nameList;
+
+			return View("ModifyMatches", thisEvent);
+		}
+
+		public ActionResult AdminModifyMatch(int player1, int player2, int oldPlayer1, int oldPlayer2, string eventName, int round)
+		{ 
+				var thisEvent = _eventManager.LoadEvent(eventName);
+
+				var match = thisEvent.Matches.Single(m =>
+				(m.Player1.ID == oldPlayer1 && m.Player2.ID == oldPlayer2 && m.Event == eventName && m.Round == round) ||
+				(m.Player2.ID == oldPlayer1 && m.Player1.ID == oldPlayer2 && m.Event == eventName && m.Round == round)
+				);
+
+				var player1Object = thisEvent.Players.Single(p => p.ID == player1);
+				var player2Object = thisEvent.Players.Single(p => p.ID == player2);
+
+				match.Player1 = player1Object;
+				match.Player2 = player2Object;
+
+				_matchManager.UpdatePairing(match);
+
+				return new HttpStatusCodeResult(System.Net.HttpStatusCode.Accepted);
+		}
+
+		public ActionResult AdminInsertMatch(int player1, int player2, int round, string eventName)
+		{
+			var thisEvent = _eventManager.LoadEvent(eventName);
+
+			var player1Object = thisEvent.Players.Single(p => p.ID == player1);
+			var player2Object = thisEvent.Players.Single(p => p.ID == player2);
+
+			var match = new Match(player1Object, player2Object, player1Object.ID, player2Object.ID, eventName, round, 0, 0, 0);
+
+			_matchManager.Save(match);
+
+			return new HttpStatusCodeResult(System.Net.HttpStatusCode.Accepted);
+		}
+
+		public ActionResult AdminDeleteMatch(int player1, int player2, int round, string eventName)
+		{
+			var thisEvent = _eventManager.LoadEvent(eventName);
+
+			var match = thisEvent.Matches.Where(m => (m.Event==eventName && m.Round==round && (m.Player1ID == player1 && m.Player2ID == player2) || (m.Player2ID == player1 && m.Player1ID == player2))).First();
+			_matchManager.Delete(match);
+
+			return new HttpStatusCodeResult(System.Net.HttpStatusCode.Accepted);
+		}
+
+		public ActionResult GetMatchCountInRound(int round, string eventName)
+		{
+			var thisEvent = _eventManager.LoadEvent(eventName);
+			var matchCount = _matchManager.GetMatchCountInRound(eventName, round);
+			return Json(matchCount, JsonRequestBehavior.AllowGet);
+			
+		}
+
+		public ActionResult AdminDeleteAllMatchesInRound(int round, string eventName)
+		{
+			var thisEvent = _eventManager.LoadEvent(eventName);
+			_matchManager.DeleteAllInRound(eventName, round);
+
+			return new HttpStatusCodeResult(System.Net.HttpStatusCode.Accepted);
 		}
 	}
 }

@@ -3,12 +3,12 @@
 	var lastPosition = parseInt($("#PrizeTableBody tr:last").find("input[name='Position']").prop('value'));
 	var lastPrize = parseInt($("#PrizeTableBody tr:last").find("input[name='Packs']").prop('value'));
 	
-	if(lastPosition == null || isNaN(lastPosition))
+	if(lastPosition === null || isNaN(lastPosition))
 	{
 		lastPosition = 0;
 	}
 
-	if (lastPrize == null || isNaN(lastPrize))
+	if (lastPrize === null || isNaN(lastPrize))
 	{
 		lastPrize = "";
 	}

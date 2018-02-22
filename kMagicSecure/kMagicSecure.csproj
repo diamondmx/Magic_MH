@@ -28,6 +28,7 @@
     <TargetFrameworkProfile />
     <ApplicationInsightsResourceId>/subscriptions/356245f0-e1e7-49aa-bd70-0c0801297283/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AppInsightsLab</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/356245f0-e1e7-49aa-bd70-0c0801297283/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AppInsightsLab</ApplicationInsightsAnnotationResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -252,7 +253,52 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\oldimages\ui-bg_flat_0_888888_40x100.png" />
+    <Content Include="Content\oldimages\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\oldimages\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\oldimages\ui-bg_glass_25_e1f0f5_1x400.png" />
+    <Content Include="Content\oldimages\ui-bg_glass_55_444444_1x400.png" />
+    <Content Include="Content\oldimages\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\oldimages\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\oldimages\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\oldimages\ui-bg_inset-soft_95_fef1ec_1x100.png" />
+    <Content Include="Content\oldimages\ui-icons_222222_256x240.png" />
+    <Content Include="Content\oldimages\ui-icons_309bbf_256x240.png" />
+    <Content Include="Content\oldimages\ui-icons_454545_256x240.png" />
+    <Content Include="Content\oldimages\ui-icons_bf3030_256x240.png" />
+    <Content Include="Content\oldimages\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -264,7 +310,9 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ConnectionStrings.config" />
+    <Content Include="ConnectionStrings.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -280,9 +328,9 @@
     <None Include="Properties\PublishProfiles\kMagicDevelop - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\kMagicDevelop.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -290,11 +338,13 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ModifyMatches.js" />
     <Content Include="Scripts\PlayerStats.js" />
-    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -367,6 +417,7 @@
     <Content Include="Views\Magic\ViewAssignedPrizes.cshtml" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Manage\SetPlayerName.cshtml" />
+    <Content Include="Views\Magic\ModifyMatches.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

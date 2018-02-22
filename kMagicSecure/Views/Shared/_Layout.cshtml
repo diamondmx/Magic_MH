@@ -9,11 +9,12 @@
 </head>
 <body>
 	@{
-		try {
+		try
+		{
 			Exception lastError = (Exception)Session["LastError"];
 			if (lastError != null)
 			{
-			<div class="errorTitle">ERROR: @lastError.Message</div>
+				<div class="errorTitle">ERROR: @lastError.Message</div>
 				Session["LastError"] = null;
 			}
 		}
@@ -34,20 +35,10 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				@Html.ActionLink("Magic", "Index", new { controller = "Magic", action = "Default"}, new { @class = "navbar-brand" })
+				@Html.ActionLink("Magic", "Index", new { controller = "Magic", action = "Default" }, new { @class = "navbar-brand" })
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">AER<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("AER(1)", "Index", new { controller = "Magic", action = "Index", eventName = "AER", round = 1 })</li>
-							<li>@Html.ActionLink("AER(2)", "Index", new { controller = "Magic", action = "Index", eventName = "AER", round = 2 })</li>
-							<li>@Html.ActionLink("AER(3)", "Index", new { controller = "Magic", action = "Index", eventName = "AER", round = 3 })</li>
-							<li>@Html.ActionLink("AER(*)", "Index", new { controller = "Magic", action = "Index", eventName = "AER", round = 0 })</li>
-							<li>@Html.ActionLink("AER(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "AER", round = 4 })</li>
-						</ul>
-					</li>
 					<li class="dropdown">
 						<a href="#" data-toggle="dropdown" class="dropdown-toggle">MM3<b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -88,6 +79,27 @@
 							<li>@Html.ActionLink("XLN(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "XLN", round = 4 })</li>
 						</ul>
 					</li>
+					<li class="dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle">RIX<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>@Html.ActionLink("RIX(1)", "Index", new { controller = "Magic", action = "Index", eventName = "RIX", round = 1 })</li>
+							<li>@Html.ActionLink("RIX(2)", "Index", new { controller = "Magic", action = "Index", eventName = "RIX", round = 2 })</li>
+							<li>@Html.ActionLink("RIX(3)", "Index", new { controller = "Magic", action = "Index", eventName = "RIX", round = 3 })</li>
+							<li>@Html.ActionLink("RIX(*)", "Index", new { controller = "Magic", action = "Index", eventName = "RIX", round = 0 })</li>
+							<li>@Html.ActionLink("RIX(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "RIX", round = 4 })</li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle">UST<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>@Html.ActionLink("UST(1)", "Index", new { controller = "Magic", action = "Index", eventName = "UST", round = 1 })</li>
+							<li>@Html.ActionLink("UST(2)", "Index", new { controller = "Magic", action = "Index", eventName = "UST", round = 2 })</li>
+							<li>@Html.ActionLink("UST(3)", "Index", new { controller = "Magic", action = "Index", eventName = "UST", round = 3 })</li>
+							<li>@Html.ActionLink("UST(*)", "Index", new { controller = "Magic", action = "Index", eventName = "UST", round = 0 })</li>
+							<li>@Html.ActionLink("UST(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "UST", round = 4 })</li>
+						</ul>
+					</li>
+
 				</ul>
 				@Html.Partial("_loginPartial")
 			</div>
@@ -101,8 +113,11 @@
 		</footer>
 	</div>
 
-	@Scripts.Render("~/bundles/jquery")
-	@Scripts.Render("~/bundles/bootstrap")
+	@{
+		//Scripts.Render("~/bundles/jquery")
+	}
+
+	@Scripts.Render("~/bundles/jquerybootstrapandui")
 	@RenderSection("scripts", required: false)
 </body>
 </html>

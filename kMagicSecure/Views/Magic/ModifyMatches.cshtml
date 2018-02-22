@@ -1,0 +1,114 @@
+﻿
+@model Magic.Domain.Event
+@{
+	Magic.Domain.Event thisEvent = Model;
+	ViewBag.Title = "ModifyMatches";
+	var selectedRound = ViewBag.Round ?? 1;
+	string playerIDList = ViewBag.PlayerIDList;
+	string playerNameList = ViewBag.PlayerNameList;
+	List<string> playerNameListAsList = ViewBag.PlayerNameListAsList;
+}
+
+@{
+	<script>
+		GLOBALS = {};
+		GLOBALS.Round = @selectedRound;
+		GLOBALS.EventName = "@thisEvent.name";
+		GLOBALS.PlayerIDList = [ @Html.Raw(playerIDList) ];
+		GLOBALS.PlayerNameList = [ @Html.Raw(playerNameList) ];
+	</script>
+}
+
+<h2>Modify Matches</h2>
+<h2>
+	Round
+	@for (int i = 0; i <= 4; i++)
+	{
+		string roundText = i.ToString();
+		switch (i)
+		{
+			case 0:
+				roundText = "*";
+				break;
+			case 4:
+				roundText = "Top 8";
+				break;
+		}
+
+		if (selectedRound == i)
+		{
+			<text>[@roundText]</text>
+		}
+		else
+		{
+			<text>@Html.ActionLink(roundText, "AdminModifyMatches", new { controller = "Magic", action = "AdminModifyMatches", eventName = thisEvent.name, round = i })</text>
+		}
+	}
+</h2>
+
+<datalist id="PlayerNames">
+	@foreach(string name in playerNameListAsList)
+	{
+		<option value="@name"/>
+	}
+</datalist>
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Player1ID</th>
+			<th>Player1</th>
+			<th>Player2ID</th>
+			<th>Player2</th>
+			<th>Score</th>
+		</tr>
+	</thead>
+	<tbody id="MatchTableBody">
+		@{
+			int playerRow = 0;
+			foreach (var item in thisEvent.Matches.Where(m => m.Round == selectedRound))
+			{
+				<tr>
+					<td>
+						@(Html.TextBox("Player1ID", item.Player1ID, new { @class = "playerID", @id = playerRow + "A", disabled = "disabled" }))
+						@(Html.Hidden("Player1OldID", item.Player1ID, new { @id = playerRow + "C" }))
+					</td>
+					<td>
+						@(Html.TextBox("Player1Name", item.Player1.Name, new { @class = "playerName", @id = playerRow + "A", list = "PlayerNames"}))
+					</td>
+					<td>
+						@(Html.TextBox("Player2ID", item.Player2ID, new { @class = "playerID", @id = playerRow + "B", disabled = "disabled" }))
+						@(Html.Hidden("Player1OldID", item.Player2ID, new { @id = playerRow + "D" }))
+					</td>
+					<td>
+						@(Html.TextBox("Player2Name", item.Player2.Name, new { @class = "playerName", @id = playerRow + "B", list = "PlayerNames"}))
+					</td>
+					<td>
+						@(Html.TextBox("Result", string.Format($"{item.Player1Wins}-{item.Player2Wins}-{item.Draws}")))
+					</td>
+					<td>
+						<button class="ModifyMatchButton" id=@(playerRow) disabled="disabled">Update</button>
+					</td>
+					<td>
+						<button class="DeleteMatchButton" id="@(playerRow)">Delete</button>
+					</td>
+				</tr>
+
+				playerRow++;
+				}
+			}
+		<tr class="ButtonRow">
+		<td><button class="AddMatchButton">Create</button></td>
+		<td><button class="DeleteAllButton">Delete All</button></td>
+		</tr>
+	</tbody>
+</table>
+
+<div id="dialog-confirm" title="Delete all matches in @thisEvent.name (@selectedRound)?">
+		<p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+
+	@section scripts{
+		@Scripts.Render("~/Scripts/ModifyMatches.js")
+	}

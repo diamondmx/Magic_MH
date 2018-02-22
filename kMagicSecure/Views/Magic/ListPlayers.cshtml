@@ -1,11 +1,20 @@
 ﻿@model Magic.Domain.Event
 
 @{
-    ViewBag.Title = "ListPlayers";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "ListPlayers";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	List<string> playerNameListAsList = ViewBag.PlayerNameListAsList;
 }
 
 <h2>ListPlayers</h2>
+
+<datalist id="PlayerNames">
+	@foreach (string name in playerNameListAsList)
+	{
+		<option value="@name" />
+	}
+</datalist>
 
 <p>
     <!--@Html.ActionLink("Create New", "AddPlayer", new { eventName = Model.name, playerName = Guid.NewGuid().ToString().Substring(0,10) })-->
@@ -13,7 +22,7 @@
 		@using (Html.BeginForm("AddPlayer", "Magic", FormMethod.Get))
 		{
 			<text>Name </text> 
-			<input type="text" name="playerName" value="" />
+			<input type="text" name="playerName" value="" list = "PlayerNames"/>
 			<input type="hidden" name="eventName" value="@Model.name" />
 			<input type="submit" value="Save" class="btn btn-default" />
 

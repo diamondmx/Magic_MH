@@ -32,6 +32,11 @@ namespace Magic.Data
 			_context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player2Wins]={m.Player1Wins}, [Player1Wins]={m.Player2Wins}, [Draws]={m.Draws} WHERE [Player2ID]='{m.Player1.ID}' AND [Player1ID]='{m.Player2.ID}' AND [Event]='{m.Event}' AND [Round]={m.Round}");
 		}
 
+		public void UpdatePairing(Match m)
+		{
+			_context.ExecuteQuery<dbMatch>($"UPDATE [Matches] SET [Player1ID]={m.Player1.ID}, [Player2ID]={m.Player2.ID} WHERE [Player1ID]='{m.myDbMatch.Player1ID}' AND [Player2ID]='{m.myDbMatch.Player2ID}' AND [Event]='{m.myDbMatch.Event}' AND [Round]={m.myDbMatch.Round}");
+		}
+
 		public void Insert(Match m)
 		{
 			var sql = $"INSERT INTO [Matches](Event,Round,Player1ID, Player2ID, Player1,Player2,Player1Wins,Player2Wins,Draws) VALUES('{m.Event}',{m.Round},{m.Player1ID}, {m.Player2ID}, '{m.Player1.Name}','{m.Player2.Name}',{m.Player1Wins},{m.Player2Wins},{m.Draws})";
@@ -126,6 +131,29 @@ namespace Magic.Data
 
 			if (m.Player1 == null || m.Player2 == null)
 				throw new Exception("Player in match not found");
+		}
+
+		public void Delete(Match m)
+		{
+			var sql = "DELETE TOP (1) FROM [Matches] WHERE Event = {0} AND Round = {1} AND Player1ID = {2} AND Player2ID = {3}";
+			
+			_context.ExecuteCommand(sql, m.Event, m.Round, m.Player1ID, m.Player2ID);
+		}
+
+		public int GetMatchCountInRound(string eventName, int round)
+		{
+			var sql = "SELECT COUNT(*) FROM [Matches] WHERE Event = {0} AND Round = {1}";
+
+			var count = _context.ExecuteQuery<int>(sql, eventName, round).Single();
+
+			return count;
+		}
+
+		public void DeleteAllInRound(string eventName, int round)
+		{
+			var sql = "DELETE FROM [Matches] WHERE Event = {0} AND Round = {1}";
+
+				_context.ExecuteCommand(sql, eventName, round);
 		}
 	}
 }

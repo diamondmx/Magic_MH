@@ -12,8 +12,13 @@ namespace Magic.Core
 	public interface IMatchManager
 	{
 		void Update(Match m);
+		void UpdatePairing(Match m);
 		void UpdateAllMatches(List<Match> matches, int round);
 		PlayerScoreSummary GetPlayerStatistics(int playerID);
+		void Save(Match m);
+		void Delete(Match m);
+		int GetMatchCountInRound(string eventName, int round);
+		void DeleteAllInRound(string eventName, int round);
 	}
 
 	public class MatchManager : IMatchManager
@@ -32,6 +37,11 @@ namespace Magic.Core
 		public void Update(Match m)
 		{
 			_matchRepository.Update(m);
+		}
+
+		public void UpdatePairing(Match m)
+		{
+			_matchRepository.UpdatePairing(m);
 		}
 
 		public void Save(Match m)
@@ -151,6 +161,21 @@ namespace Magic.Core
 			{
 				return MatchResult.Incomplete; // Match incomplete
 			}
+		}
+
+		public void Delete(Match m)
+		{
+			_matchRepository.Delete(m);
+		}
+
+		public int GetMatchCountInRound(string eventName, int round)
+		{
+			return _matchRepository.GetMatchCountInRound(eventName, round);
+		}
+
+		public void DeleteAllInRound(string eventName, int round)
+		{
+			_matchRepository.DeleteAllInRound(eventName, round);
 		}
 	}
 }

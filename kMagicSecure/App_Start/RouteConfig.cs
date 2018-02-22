@@ -18,6 +18,49 @@ namespace kMagicSecure
 			//	url: "IP/GetSourceData",
 			//	defaults: new { controller = "IP", action = "GetSourceData" });
 
+			
+
+			routes.MapRoute(
+				name: "AdminDeleteAllMatchesInRound",
+				url: "Magic/AdminDeleteAllMatchesInRound/",
+				defaults: new { controller = "Magic", action = "AdminDeleteAllMatchesInRound" }
+				);
+
+			routes.MapRoute(
+				name: "AdminDeleteAllInRound",
+				url: "Magic/AdminDeleteAllInRound/",
+				defaults: new { controller = "Magic", action = "AdminDeleteAllInRound" }
+				);
+
+			routes.MapRoute(
+				name: "GetMatchCountInRound",
+				url: "Magic/GetMatchCountInRound/",
+				defaults: new { controller = "Magic", action = "GetMatchCountInRound" }
+				);
+
+			routes.MapRoute(
+				name: "AdminDeleteMatch",
+				url: "Magic/AdminDeleteMatch/",
+				defaults: new { controller = "Magic", action = "AdminDeleteMatch" }
+				);
+
+			routes.MapRoute(
+				name: "AdminInsertMatch",
+				url: "Magic/AdminInsertMatch/",
+				defaults: new { controller = "Magic", action = "AdminInsertMatch" }
+				);
+
+			routes.MapRoute(
+				name: "AdminModifyMatch",
+				url: "Magic/AdminModifyMatch/",
+				defaults: new { controller = "Magic", action = "AdminModifyMatch" }
+				);
+
+			routes.MapRoute(
+				name: "AdminModifyMatches",
+				url: "Magic/AdminModifyMatches/",
+				defaults: new { controller = "Magic", action = "AdminModifyMatches" });
+
 			routes.MapRoute(
 				name: "AdminMarkRecieved",
 				url: "Magic/AdminMarkRecieved/",

@@ -34,13 +34,14 @@
 			<td>
 				@item.Players.Count
 			</td>
-        <td>
-          @Html.ActionLink("Edit", "EditEvent", new { controller = "Magic", action = "EditEvent", eventName = item.name, newEvent = false}) |
-          @Html.ActionLink("Players", "ListPlayers", new { controller = "Magic", action = "ListPlayers", eventName = item.name }) |
-					@Html.ActionLink("GeneratePairings", "GeneratePairings", new { controller = "Magic", action = "GeneratePairings", eventName = item.name }) |
-					@Html.ActionLink("PrizeSetup", "PrizeSetup", new { controller = "Magic", action = "PrizeSetup", eventName = item.name, round = item.CurrentRound })
-					@Html.ActionLink("AssignPrizes", "AssignPrizes", new { controller = "Magic", action = "AssignPrizes", eventName = item.name, round = item.CurrentRound })
-        </td>
+			<td>
+				@Html.ActionLink("Edit", "EditEvent", new { controller = "Magic", action = "EditEvent", eventName = item.name, newEvent = false }) |
+				@Html.ActionLink("Players", "ListPlayers", new { controller = "Magic", action = "ListPlayers", eventName = item.name }) |
+				@Html.ActionLink("GeneratePairings", "GeneratePairings", new { controller = "Magic", action = "GeneratePairings", eventName = item.name }) |
+				@Html.ActionLink("ModifyMatches", "AdminModifyMatches", new { controller = "Magic", action = "AdminModifyMatches", eventName = item.name, round = 1}) |
+				@Html.ActionLink("PrizeSetup", "PrizeSetup", new { controller = "Magic", action = "PrizeSetup", eventName = item.name, round = item.CurrentRound }) |
+				@Html.ActionLink("AssignPrizes", "AssignPrizes", new { controller = "Magic", action = "AssignPrizes", eventName = item.name, round = item.CurrentRound })
+			</td>
     </tr>
 }
 
