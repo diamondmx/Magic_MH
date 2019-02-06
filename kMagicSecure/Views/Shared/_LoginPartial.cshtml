@@ -4,31 +4,47 @@
 	using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
 	{
 		@Html.AntiForgeryToken()
-		<ul class="nav navbar-nav navbar-right">
+<ul class="nav navbar-nav navbar-right">
+	<li class="dropdown">
+		<a href="#" data-toggle="dropdown" class="dropdown-toggle">Other<b class="caret"></b></a>
+		<ul class="dropdown-menu">
+			<li>@Html.ActionLink("Event Archive", "EventArchiveList", new { controller = "Magic", action = "EventArchiveList" })</li>
+			<li>@Html.ActionLink("PlayerStats", "PlayerStats", new { controller = "Magic", action = "PlayerStats", playerID = 0 })</li>
+		</ul>
+	</li>
+	@if (User.IsInRole("Admin"))
+	{
+		<li class="dropdown">
+			<a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin<b class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li>@Html.ActionLink("ViewEvents", "ViewEvents", new { controller = "Magic", action = "ViewEvents" })</li>
+				<li>@Html.ActionLink("RolesAdmin", "Index", new { controller = "RolesAdmin", action = "Index" })</li>
+				<li>@Html.ActionLink("UsersAdmin", "Index", new { controller = "UsersAdmin", action = "Index" })</li>
+				<li>@Html.ActionLink("ShowPrizes", "ShowPrizes", new { controller = "Magic", action = "ShowPrizes" })</li>
+			</ul>
+		</li>
+		if (ViewBag.Event is Magic.Domain.Event)
+		{
+			var thisEvent = ViewBag.Event as Magic.Domain.Event;
+			int thisRound = ViewBag.Round;
+
 			<li class="dropdown">
-				<a href="#" data-toggle="dropdown" class="dropdown-toggle">Other<b class="caret"></b></a>
+				<a href="#" data-toggle="dropdown" class="dropdown-toggle">Event<b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li>@Html.ActionLink("Event Archive", "EventArchiveList", new { controller = "Magic", action = "EventArchiveList" })</li>
-					<li>@Html.ActionLink("PlayerStats", "PlayerStats", new { controller = "Magic", action = "PlayerStats", playerID = 0 })</li>
+					<li>@Html.ActionLink("EditEvent", "EditEvent", new { controller = "Magic", action = "EditEvent", eventName = thisEvent.name, NewEvent = false })</li>
+					<li>@Html.ActionLink("ListPlayers", "ListPlayers", new { controller = "Magic", action = "ListPlayers", eventName = thisEvent.name })</li>
+					<li>@Html.ActionLink("PrizeSetup", "PrizeSetup", new { controller = "Magic", action = "PrizeSetup", eventName = thisEvent.name, round = thisRound })</li>
+					<li>@Html.ActionLink("ModifyMatches", "ModifyMatches", new { controller = "Magic", action = "ModifyMatches", eventName = thisEvent.name, round = thisRound })</li>
 				</ul>
 			</li>
-			@if (User.IsInRole("Admin"))
-			{
-				<li class="dropdown">
-					<a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin<b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li>@Html.ActionLink("ViewEvents", "ViewEvents", new { controller = "Magic", action = "ViewEvents" })</li>
-						<li>@Html.ActionLink("RolesAdmin", "Index", new { controller = "RolesAdmin", action = "Index" })</li>
-						<li>@Html.ActionLink("UsersAdmin", "Index", new { controller = "UsersAdmin", action = "Index" })</li>
-						<li>@Html.ActionLink("ShowPrizes", "ShowPrizes", new { controller = "Magic", action = "ShowPrizes" })</li>
-					</ul>
-				</li>
-			}
-			<li>
-				@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-			</li>
-			<li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-		</ul>
+		}
+
+	}
+	<li>
+		@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+	</li>
+	<li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+</ul>
 	}
 }
 else

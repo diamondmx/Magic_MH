@@ -63,11 +63,25 @@ namespace kMagicSecure.Controllers
 		{
 			var falsevar = false;
 
-			if(falsevar)
+			if (falsevar)
 			{
 				System.Threading.Tasks.Task.Run(() => OverrideAdminUser());
 			}
-			
+
+			ViewBag.CurrentEvents = new List<dbEvent>();
+			var grn = new dbEvent()
+			{
+				Name = "GRN"
+			};
+			var rna = new dbEvent()
+			{
+				Name = "RNA"
+			};
+
+
+			ViewBag.CurrentEvents.Add(grn);
+			ViewBag.CurrentEvents.Add(rna);
+
 			SetPlayerContext();
 		}
 
