@@ -478,6 +478,9 @@ namespace kMagicSecure.Controllers
 		{
 			Setup();
 			var thisEvent = _eventManager.LoadEvent(eventName);
+			var allPlayers = _playerManager.GetAllPlayers();
+
+			ViewBag.AllPlayers = allPlayers;
 
 			return View("ListPlayers", thisEvent);
 		}
