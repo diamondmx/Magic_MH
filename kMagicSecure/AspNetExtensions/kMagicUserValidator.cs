@@ -16,7 +16,7 @@ namespace kMagicSecure.AspNetExtensions
 		public override async Task<IdentityResult> ValidateAsync(TUser item)
 		{
 			var result = await base.ValidateAsync(item);
-			if (!item.UserName.ToLowerInvariant().Contains("@kcura.com")
+			if (!item.UserName.ToLowerInvariant().Contains("@kcura.com") && !item.UserName.ToLowerInvariant().Contains("@relativity.com"))
 					&& !item.UserName.ToLowerInvariant().Contains("@relativity.com"))
 			{
 				var newErrors = result.Errors.ToList();

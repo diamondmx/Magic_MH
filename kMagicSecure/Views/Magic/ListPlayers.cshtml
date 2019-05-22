@@ -7,6 +7,13 @@
 	List<string> playerNameListAsList = ViewBag.PlayerNameListAsList;
 }
 
+<datalist id="players">
+	@foreach (Magic.Domain.Player player in ViewBag.AllPlayers)
+	{
+		<option value="@player.Name" />
+	}
+</datalist>
+
 <h2>ListPlayers</h2>
 
 <datalist id="PlayerNames">
@@ -17,8 +24,6 @@
 </datalist>
 
 <p>
-    <!--@Html.ActionLink("Create New", "AddPlayer", new { eventName = Model.name, playerName = Guid.NewGuid().ToString().Substring(0,10) })-->
-
 		@using (Html.BeginForm("AddPlayer", "Magic", FormMethod.Get))
 		{
 			<text>Name </text> 
@@ -33,6 +38,8 @@
         <th>Player Name</th>
 				<th>Actions</th>
     </tr>
+
+
 
 @foreach (var item in Model.Players)
 {

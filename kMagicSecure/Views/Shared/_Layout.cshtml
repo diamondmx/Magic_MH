@@ -39,36 +39,40 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">MM3<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("MM3(1)", "Index", new { controller = "Magic", action = "Index", eventName = "MM3", round = 1 })</li>
-							<li>@Html.ActionLink("MM3(2)", "Index", new { controller = "Magic", action = "Index", eventName = "MM3", round = 2 })</li>
-							<li>@Html.ActionLink("MM3(3)", "Index", new { controller = "Magic", action = "Index", eventName = "MM3", round = 3 })</li>
-							<li>@Html.ActionLink("MM3(*)", "Index", new { controller = "Magic", action = "Index", eventName = "MM3", round = 0 })</li>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">AKH<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("AKH(1)", "Index", new { controller = "Magic", action = "Index", eventName = "AKH", round = 1 })</li>
-							<li>@Html.ActionLink("AKH(2)", "Index", new { controller = "Magic", action = "Index", eventName = "AKH", round = 2 })</li>
+					@try
+					{
+						foreach (Magic.Domain.dbEvent e in ViewBag.CurrentEvents)
+						{
+							<li class="dropdown">
+								<a href="#" data-toggle="dropdown" class="dropdown-toggle">@e.Name<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li>@Html.ActionLink(e.Name + "(1)", "Index", new { controller = "Magic", action = "Index", eventName = e.Name, round = 1 })</li>
+									<li>@Html.ActionLink(e.Name + "(2)", "Index", new { controller = "Magic", action = "Index", eventName = e.Name, round = 2 })</li>
+									<li>@Html.ActionLink(e.Name + "(3)", "Index", new { controller = "Magic", action = "Index", eventName = e.Name, round = 3 })</li>
+									<li>@Html.ActionLink(e.Name + "(*)", "Index", new { controller = "Magic", action = "Index", eventName = e.Name, round = 0 })</li>
+									<li>@Html.ActionLink(e.Name + "(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = e.Name, round = 4 })</li>
+								</ul>
+							</li>
+						}
+					}
+					catch
+					{
+						var e = new Magic.Domain.dbEvent()
+						{
+							Name = "RNA"
+						};
+						<li class="dropdown">
+							<a href="#" data-toggle="dropdown" class="dropdown-toggle">@e.Name<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li>@Html.ActionLink(e.Name + "(1)", "Index", new { controller = "Magic", action = "Index", eventName = e.Name, round = 1 })</li>
+								<li>@Html.ActionLink(e.Name + "(2)", "Index", new { controller = "Magic", action = "Index", eventName = e.Name, round = 2 })</li>
+								<li>@Html.ActionLink(e.Name + "(3)", "Index", new { controller = "Magic", action = "Index", eventName = e.Name, round = 3 })</li>
+								<li>@Html.ActionLink(e.Name + "(*)", "Index", new { controller = "Magic", action = "Index", eventName = e.Name, round = 0 })</li>
+								<li>@Html.ActionLink(e.Name + "(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = e.Name, round = 4 })</li>
+							</ul>
+						</li>
+					}
 
-							<li>@Html.ActionLink("AKH(3)", "Index", new { controller = "Magic", action = "Index", eventName = "AKH", round = 3 })</li>
-							<li>@Html.ActionLink("AKH(*)", "Index", new { controller = "Magic", action = "Index", eventName = "AKH", round = 0 })</li>
-							<li>@Html.ActionLink("AKH(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "AKH", round = 4 })</li>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle">HOU<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>@Html.ActionLink("HOU(1)", "Index", new { controller = "Magic", action = "Index", eventName = "HOU", round = 1 })</li>
-							<li>@Html.ActionLink("HOU(2)", "Index", new { controller = "Magic", action = "Index", eventName = "HOU", round = 2 })</li>
-							<li>@Html.ActionLink("HOU(3)", "Index", new { controller = "Magic", action = "Index", eventName = "HOU", round = 3 })</li>
-							<li>@Html.ActionLink("HOU(*)", "Index", new { controller = "Magic", action = "Index", eventName = "HOU", round = 0 })</li>
-							<li>@Html.ActionLink("HOU(Top 8)", "Index", new { controller = "Magic", action = "Index", eventName = "HOU", round = 4 })</li>
-						</ul>
-					</li>
 					<li class="dropdown">
 						<a href="#" data-toggle="dropdown" class="dropdown-toggle">XLN<b class="caret"></b></a>
 						<ul class="dropdown-menu">

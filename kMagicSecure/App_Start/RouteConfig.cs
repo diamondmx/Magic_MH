@@ -62,6 +62,13 @@ namespace kMagicSecure
 				defaults: new { controller = "Magic", action = "AdminModifyMatches" });
 
 			routes.MapRoute(
+				name: "ModifyMatches",
+				url: "Magic/ModifyMatches",
+				defaults: new { controller = "Magic", action = "ModifyMatches", }
+				);
+
+
+			routes.MapRoute(
 				name: "AdminMarkRecieved",
 				url: "Magic/AdminMarkRecieved/",
 				defaults: new { controller = "Magic", action = "AdminMarkRecieved" });
