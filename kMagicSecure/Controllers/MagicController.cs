@@ -434,14 +434,7 @@ namespace kMagicSecure.Controllers
 			var thisEvent = _eventManager.LoadEvent(eventName);
 			var playerList = _playerManager.GetAllPlayers();
 
-			ViewBag.AllPlayers = allPlayers;
-			//TODO:
-			foreach (Player p in playerList)
-			{
-				nameList.Add(p.Name);
-			}
-
-			ViewBag.PlayerNameListAsList = nameList;
+			ViewBag.AllPlayers = playerList;
 
 			return View("ListPlayers", thisEvent);
 		}
