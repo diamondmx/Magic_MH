@@ -18,3 +18,7 @@ kMagicSecure/ConnectionStrings.config
 BOO Draft/boo2 pictures/
 *.pubxml
 *.user
+/.vs/kMagicSecure/v16/Server/sqlite3/db.lock
+/.vs/kMagicSecure/v16/Server/sqlite3/storage.ide
+/.vs/kMagicSecure/v16/Server/sqlite3/storage.ide-shm
+/.vs/kMagicSecure/v16/Server/sqlite3/storage.ide-wal
