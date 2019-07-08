@@ -229,5 +229,11 @@ namespace Magic.Data
 
 			return result;
 		}
+
+		public void DropPlayerFromEvent(int playerID, string eventName, bool drop)
+		{
+			var dropPlayerFromEventSQL = "UPDATE EventPlayers SET Dropped = {0} WHERE PlayerID = {1} AND EventName = {2}";
+			_dataContext.ExecuteCommand(dropPlayerFromEventSQL, drop, playerID, eventName);
+		}
 	}
 }

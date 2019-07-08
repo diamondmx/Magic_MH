@@ -34,7 +34,7 @@
 					<li>@Html.ActionLink("EditEvent", "EditEvent", new { controller = "Magic", action = "EditEvent", eventName = thisEvent.name, NewEvent = false })</li>
 					<li>@Html.ActionLink("ListPlayers", "ListPlayers", new { controller = "Magic", action = "ListPlayers", eventName = thisEvent.name })</li>
 					<li>@Html.ActionLink("PrizeSetup", "PrizeSetup", new { controller = "Magic", action = "PrizeSetup", eventName = thisEvent.name, round = thisRound })</li>
-					<li>@Html.ActionLink("ModifyMatches", "ModifyMatches", new { controller = "Magic", action = "ModifyMatches", eventName = thisEvent.name, round = thisRound })</li>
+					<li>@Html.ActionLink("ModifyMatches", "AdminModifyMatches", new { controller = "Magic", action = "AdminModifyMatches", eventName = thisEvent.name, round = thisRound })</li>
 				</ul>
 			</li>
 		}

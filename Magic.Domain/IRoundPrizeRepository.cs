@@ -11,5 +11,6 @@ namespace Magic.Data
 	{
 		List<dbRoundPrize> LoadDBRoundPrizes(string eventName);
 		void SaveDBRoundPrizes(List<dbRoundPrize> input);
+		void CopyPrizes(string eventName, int roundCopyFrom, int roundCopyTo);
 	}
 }

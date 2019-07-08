@@ -152,9 +152,9 @@ namespace Magic.Domain
 			return ogwp;
 		}
 
-		public bool HasDropped(int currentRound)
+		public bool HasDropped()
 		{
-			if (DroppedInRound > 0 && currentRound > DroppedInRound)
+			if (DroppedInRound > 0)
 				return true;
 
 			return false;

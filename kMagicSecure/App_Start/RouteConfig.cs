@@ -18,7 +18,19 @@ namespace kMagicSecure
 			//	url: "IP/GetSourceData",
 			//	defaults: new { controller = "IP", action = "GetSourceData" });
 
-			
+			routes.MapRoute(
+				name: "AdminDropPlayer",
+				url: "Magic/Drop/",
+				defaults: new { controller = "Magic", action = "AdminDropPlayer" }
+				);
+
+
+			routes.MapRoute(
+				name: "AdminCopyPrizes",
+				url: "Magic/CopyPrizes/",
+				defaults: new { controller = "Magic", action = "AdminCopyPrizes" }
+				);
+
 
 			routes.MapRoute(
 				name: "AdminDeleteAllMatchesInRound",

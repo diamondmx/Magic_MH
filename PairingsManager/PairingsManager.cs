@@ -27,7 +27,7 @@ namespace Magic.Core
 			var currentRound = mainEvent.CurrentRound;
 			var rounds = mainEvent.rounds;
 			var eventName = mainEvent.name;
-			int activePlayers = inputPlayers.Count(p => !p.HasDropped(currentRound));
+			int activePlayers = inputPlayers.Count(p => !p.HasDropped());
 
 
 			bool finished = false;
@@ -113,7 +113,7 @@ namespace Magic.Core
 				if (p == player)
 					continue;
 
-				if (p.HasDropped(currentRound))
+				if (p.HasDropped())
 					continue;
 
 				if (Math.Abs(p.Score(0) - player.Score(0)) > scoreRangeRelaxation)
@@ -158,7 +158,7 @@ namespace Magic.Core
 				if (selectedPlayer == player)
 					continue;
 
-				if (selectedPlayer.HasDropped(currentRound))
+				if (selectedPlayer.HasDropped())
 					continue;
 
 				if (selectedPlayer.Opponents(round: currentRound).Count >= rounds)
@@ -189,7 +189,7 @@ namespace Magic.Core
 				if (selectedPlayers.Contains(player))
 					continue;
 
-				if (player.HasDropped(currentRound))
+				if (player.HasDropped())
 					continue;
 
 				if (player.Opponents(currentRound).Count >= matches)

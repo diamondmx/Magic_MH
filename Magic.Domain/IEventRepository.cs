@@ -18,5 +18,6 @@ namespace Magic.Data
 		void AddPlayer(Event thisEvent, Player newPlayer);
 		dbEvent GetCurrentEvent();
 		List<dbEvent> LoadAllDBEvents();
-  }
+		void DropPlayerFromEvent(int playerID, string eventName, bool drop);
+	}
 }

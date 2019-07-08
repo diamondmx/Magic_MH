@@ -17,6 +17,13 @@ namespace Magic.Data
 			_dataContext = dataContext;
 		}
 
+		public void CopyPrizes(string eventName, int roundCopyFrom, int roundCopyTo)
+		{
+			var sourcePrizes = LoadDBRoundPrizes(eventName);
+			var resultPrizes = sourcePrizes.Where(p => p.Round == roundCopyFrom).Select(p => new dbRoundPrize { EventName = p.EventName, Round = roundCopyTo, Position = p.Position, Packs = p.Packs, Other = p.Other }).ToList();
+			SaveDBRoundPrizes(resultPrizes);
+		}
+
 		public List<dbRoundPrize> LoadDBRoundPrizes(string eventName)
 		{
 			return _dataContext.GetTable<dbRoundPrize>().Where(ep => ep.EventName == eventName).ToList();

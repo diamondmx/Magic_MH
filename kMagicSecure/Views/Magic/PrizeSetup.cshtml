@@ -71,6 +71,7 @@
 	</table>
 	<button id="addRow" type="button">+</button>
 	<button id="removeRow" type="button">-</button>
+	@Html.ActionLink("CopyFromR1", "CopyPrizesFrom", new {eventName = ViewBag.EventName, copyFromRound=1, copyToRound=ViewBag.Round } )
 	<input type="submit" value="Submit">
 
 }

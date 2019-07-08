@@ -16,6 +16,7 @@ namespace Magic.Core
 		IEnumerable<dbPlayerPrize> GetUncollectedPlayerPrizes(int playerID);
 		void AssignPrizes(List<dbPlayerPrize> prizeAssignments);
 		IEnumerable<dbPlayerPrize> GetAllPlayerPrizes();
+		void CopyPrizes(string eventName, int roundCopyFrom, int roundCopyTo);
 	}
 
 	public class PrizeManager : IPrizeManager
@@ -90,6 +91,11 @@ namespace Magic.Core
 		public void AssignPrizes(List<dbPlayerPrize> prizeAssignments)
 		{
 			_playerPrizeRepo.AssignPrizes(prizeAssignments);
+		}
+
+		public void CopyPrizes(string eventName, int roundCopyFrom, int roundCopyTo)
+		{
+			_roundPrizeRepo.CopyPrizes(eventName, roundCopyFrom, roundCopyTo);
 		}
 	}
 }

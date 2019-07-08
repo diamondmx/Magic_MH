@@ -673,5 +673,19 @@ namespace kMagicSecure.Controllers
 
 			return new HttpStatusCodeResult(System.Net.HttpStatusCode.Accepted);
 		}
+
+		public ActionResult AdminDropPlayer(int playerID, string eventName, bool drop)
+		{
+			_eventManager.DropPlayerFromEvent(playerID, eventName, drop);
+
+			return ListPlayers(eventName);
+		}
+
+		public ActionResult AdminCopyPrizes(string eventName, int roundCopyFrom, int roundCopyTo)
+		{
+			_prizeManager.CopyPrizes(eventName, roundCopyFrom, roundCopyTo);
+
+			return PrizeSetup(eventName, roundCopyTo);
+		}
 	}
 }

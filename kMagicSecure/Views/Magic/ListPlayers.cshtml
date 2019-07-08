@@ -4,7 +4,7 @@
 	ViewBag.Title = "ListPlayers";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 
-	List<string> playerNameListAsList = ViewBag.PlayerNameListAsList;
+	List<Magic.Domain.Player> playerNameListAsList = ViewBag.AllPlayers;
 }
 
 <datalist id="players">
@@ -17,9 +17,9 @@
 <h2>ListPlayers</h2>
 
 <datalist id="PlayerNames">
-	@foreach (string name in playerNameListAsList)
+	@foreach (Magic.Domain.Player player in playerNameListAsList)
 	{
-		<option value="@name" />
+		<option value="@player.Name" />
 	}
 </datalist>
 
@@ -36,6 +36,7 @@
 <table class="table">
     <tr>
         <th>Player Name</th>
+				<th>Dropped?</th>
 				<th>Actions</th>
     </tr>
 
@@ -45,9 +46,9 @@
 {
     <tr>
         <td><text>@item.Name</text></td>
-			<td>@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-					@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-					@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })</td>
+			<td>@(item.HasDropped() ? "Yes": "No") </td>
+			<td>@Html.ActionLink("Drop", "Drop", new { playerID=item.ID, eventName = Model.name, drop=(!item.HasDropped()) })
+					
     </tr>
 }
 </table>

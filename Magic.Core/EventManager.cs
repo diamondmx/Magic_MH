@@ -14,7 +14,8 @@ namespace Magic.Core
 		void AddPlayer(Event thisEvent, Player newPlayer);
 		dbEvent GetCurrentEvent();
 		List<dbPlayerPrize> GetPrizeAssignments(Event thisEvent, int round);
-  }
+		void DropPlayerFromEvent(int playerID, string eventName, bool drop);
+	}
 
 	public class EventManager : IEventManager
 	{
@@ -89,5 +90,10 @@ namespace Magic.Core
 			
 			return prizeAssignments;
 		}
-  }
+
+		public void DropPlayerFromEvent(int playerID, string eventName, bool drop)
+		{
+			_eventRepository.DropPlayerFromEvent(playerID, eventName, drop);
+		}
+	}
 }
