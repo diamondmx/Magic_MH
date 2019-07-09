@@ -235,5 +235,16 @@ namespace Magic.Data
 			var dropPlayerFromEventSQL = "UPDATE EventPlayers SET Dropped = {0} WHERE PlayerID = {1} AND EventName = {2}";
 			_dataContext.ExecuteCommand(dropPlayerFromEventSQL, drop, playerID, eventName);
 		}
+
+		public IEnumerable<string> GetRecentEventNames(int numberOfRecentEvents)
+		{
+			if(numberOfRecentEvents < 1||numberOfRecentEvents>8)
+			{
+				numberOfRecentEvents = 1;
+			}
+
+			var getRecentEventsSQL = $"SELECT TOP {numberOfRecentEvents} Name FROM Events ORDER BY StartDate DESC";
+			return _dataContext.ExecuteQuery<string>(getRecentEventsSQL);
+		}
 	}
 }

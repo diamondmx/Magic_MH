@@ -19,5 +19,6 @@ namespace Magic.Data
 		dbEvent GetCurrentEvent();
 		List<dbEvent> LoadAllDBEvents();
 		void DropPlayerFromEvent(int playerID, string eventName, bool drop);
+		IEnumerable<string> GetRecentEventNames(int numberOfRecentEvents);
 	}
 }

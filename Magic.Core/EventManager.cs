@@ -15,6 +15,7 @@ namespace Magic.Core
 		dbEvent GetCurrentEvent();
 		List<dbPlayerPrize> GetPrizeAssignments(Event thisEvent, int round);
 		void DropPlayerFromEvent(int playerID, string eventName, bool drop);
+		IEnumerable<string> GetRecentEventNames(int numberOfRecentEvents);
 	}
 
 	public class EventManager : IEventManager
@@ -94,6 +95,11 @@ namespace Magic.Core
 		public void DropPlayerFromEvent(int playerID, string eventName, bool drop)
 		{
 			_eventRepository.DropPlayerFromEvent(playerID, eventName, drop);
+		}
+
+		public IEnumerable<string> GetRecentEventNames(int numberOfRecentEvents)
+		{
+			return _eventRepository.GetRecentEventNames(numberOfRecentEvents);
 		}
 	}
 }

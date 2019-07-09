@@ -68,21 +68,36 @@ namespace kMagicSecure.Controllers
 				System.Threading.Tasks.Task.Run(() => OverrideAdminUser());
 			}
 
-			ViewBag.CurrentEvents = new List<dbEvent>();
-			var grn = new dbEvent()
-			{
-				Name = "GRN"
-			};
-			var rna = new dbEvent()
-			{
-				Name = "RNA"
-			};
+			//ViewBag.CurrentEvents = new List<dbEvent>();
+			//var war = new dbEvent()
+			//{
+			//	Name = "WAR"
+			//};
+			//var rna = new dbEvent()
+			//{
+			//	Name = "RNA"
+			//};
+			//var grn = new dbEvent()
+			//{
+			//	Name = "GRN"
+			//};
 
 
-			ViewBag.CurrentEvents.Add(grn);
-			ViewBag.CurrentEvents.Add(rna);
+			//ViewBag.CurrentEvents.Add(rna);
+			//ViewBag.CurrentEvents.Add(grn);
+			//ViewBag.CurrentEvents.Add(war);
 
+			var currentEvents = GetCurrentEventNames().ToList();
+			var currentEventObjects = currentEvents.Select(ce => new dbEvent() { Name = ce });
+
+			ViewBag.CurrentEvents = currentEventObjects;
 			SetPlayerContext();
+		}
+
+		public IEnumerable<string> GetCurrentEventNames()
+		{
+			int numberOfRecentEvents = 4;
+			return _eventManager.GetRecentEventNames(numberOfRecentEvents);
 		}
 
 		private void OverrideAdminUser()
